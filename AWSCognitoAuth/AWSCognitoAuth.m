@@ -225,7 +225,7 @@ static NSString * AWSCognitoAuthAsfDeviceId = @"asf.device.id";
     NSString *url = [NSString stringWithFormat:@"%@/oauth2/authorize?response_type=code&client_id=%@&state=%@&redirect_uri=%@&scope=%@&code_challenge=%@&code_challenge_method=S256%@",self.authConfiguration.webDomain, self.authConfiguration.appClientId, self.state,[self urlEncode:self.authConfiguration.signInRedirectUri], [self urlEncode:[self normalizeScopes]], self.proofKeyHash, suffix];
     self.svc = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:url] entersReaderIfAvailable:NO];
     self.svc.delegate = self;
-    self.svc.modalPresentationStyle = UIModalPresentationPopover;
+    self.svc.modalPresentationStyle = UIModalPresentationOverFullScreen;
     dispatch_async(dispatch_get_main_queue(), ^{
         __block UIViewController * sourceVC = vc;
         if(!sourceVC){
@@ -366,7 +366,7 @@ static NSString * AWSCognitoAuthAsfDeviceId = @"asf.device.id";
     NSString *url = [NSString stringWithFormat:@"%@/logout?client_id=%@&logout_uri=%@",self.authConfiguration.webDomain, self.authConfiguration.appClientId, [self urlEncode:self.authConfiguration.signOutRedirectUri]];
     self.svc = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:url] entersReaderIfAvailable:NO];
     self.svc.delegate = self;
-    self.svc.modalPresentationStyle = UIModalPresentationPopover;
+    self.svc.modalPresentationStyle = UIModalPresentationOverFullScreen;
     dispatch_async(dispatch_get_main_queue(), ^{
         [self setPopoverSource:self.svc source:vc];
         [vc presentViewController:self.svc animated:NO completion:nil];
