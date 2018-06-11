@@ -38,6 +38,9 @@ NSString *const AWSCognitoAuthErrorDomain = @"com.amazon.cognito.AWSCognitoAuthE
 @property (nonatomic, strong) NSOperationQueue * getSessionQueue;
 @property (nonatomic, strong) NSOperationQueue * signOutQueue;
 
+@property (atomic, assign) BOOL isExchangingAuthorizationCode;
+@property (atomic, assign) BOOL isPreviousSignIn;
+
 @end
 
 @implementation AWSCognitoAuth
@@ -202,6 +205,8 @@ static NSString * AWSCognitoAuthAsfDeviceId = @"asf.device.id";
     self.proofKeyHash = nil;
     self.pvc = nil;
     self.responseData = nil;
+    self.isExchangingAuthorizationCode = NO;
+    self.isPreviousSignIn = NO;
 }
 
 /**
@@ -261,7 +266,8 @@ static NSString * AWSCognitoAuthAsfDeviceId = @"asf.device.id";
     self.proofKey = [self generateRandom:32];
     self.proofKeyHash = [self calculateSHA256Hash:self.proofKey];
     self.pvc = vc;
-    
+    self.isExchangingAuthorizationCode = NO;
+    self.isPreviousSignIn = NO;
     
     //check to see if we have valid tokens
     NSString * username = [self currentUsername];
@@ -315,7 +321,7 @@ static NSString * AWSCognitoAuthAsfDeviceId = @"asf.device.id";
         [self.getSessionQueue cancelAllOperations];
     }
     if(self.getSessionBlock){
-        self.getSessionBlock(userSession, error);
+        self.getSessionBlock(userSession, self.isPreviousSignIn, error);
     }
     
     [self cleanupSignIn];
@@ -450,6 +456,11 @@ static NSString * AWSCognitoAuthAsfDeviceId = @"asf.device.id";
  */
 - (void)safariViewController:(SFSafariViewController *)controller didCompleteInitialLoad:(BOOL)didLoadSuccessfully {
     if(!didLoadSuccessfully){
+        if (self.isExchangingAuthorizationCode) {
+            self.isPreviousSignIn = YES;
+            return;
+        }
+
         NSError *error = [self getError:@"Loading page failed" code:AWSCognitoAuthClientErrorLoadingPageFailed];
         if(self.getSessionBlock){
             [self completeGetSession:nil error:error];
@@ -536,6 +547,9 @@ static NSString * AWSCognitoAuthAsfDeviceId = @"asf.device.id";
                     [connection scheduleInRunLoop:[NSRunLoop mainRunLoop]
                                           forMode:NSDefaultRunLoopMode];
                     [connection start];
+
+                    self.isExchangingAuthorizationCode = YES;
+
                     return YES;
                 }
             }
