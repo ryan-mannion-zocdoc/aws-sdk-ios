@@ -38,6 +38,9 @@ NSString *const AWSCognitoAuthErrorDomain = @"com.amazon.cognito.AWSCognitoAuthE
 @property (nonatomic, strong) NSOperationQueue * getSessionQueue;
 @property (nonatomic, strong) NSOperationQueue * signOutQueue;
 
+@property (atomic, assign) BOOL isExchangingAuthorizationCode;
+@property (atomic, assign) BOOL isPreviousSignIn;
+
 @end
 
 @implementation AWSCognitoAuth
@@ -202,6 +205,8 @@ static NSString * AWSCognitoAuthAsfDeviceId = @"asf.device.id";
     self.proofKeyHash = nil;
     self.pvc = nil;
     self.responseData = nil;
+    self.isExchangingAuthorizationCode = NO;
+    self.isPreviousSignIn = NO;
 }
 
 /**
@@ -225,7 +230,7 @@ static NSString * AWSCognitoAuthAsfDeviceId = @"asf.device.id";
     NSString *url = [NSString stringWithFormat:@"%@/oauth2/authorize?response_type=code&client_id=%@&state=%@&redirect_uri=%@&scope=%@&code_challenge=%@&code_challenge_method=S256%@",self.authConfiguration.webDomain, self.authConfiguration.appClientId, self.state,[self urlEncode:self.authConfiguration.signInRedirectUri], [self urlEncode:[self normalizeScopes]], self.proofKeyHash, suffix];
     self.svc = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:url] entersReaderIfAvailable:NO];
     self.svc.delegate = self;
-    self.svc.modalPresentationStyle = UIModalPresentationPopover;
+    self.svc.modalPresentationStyle = UIModalPresentationOverFullScreen;
     dispatch_async(dispatch_get_main_queue(), ^{
         __block UIViewController * sourceVC = vc;
         if(!sourceVC){
@@ -261,7 +266,8 @@ static NSString * AWSCognitoAuthAsfDeviceId = @"asf.device.id";
     self.proofKey = [self generateRandom:32];
     self.proofKeyHash = [self calculateSHA256Hash:self.proofKey];
     self.pvc = vc;
-    
+    self.isExchangingAuthorizationCode = NO;
+    self.isPreviousSignIn = NO;
     
     //check to see if we have valid tokens
     NSString * username = [self currentUsername];
@@ -315,7 +321,7 @@ static NSString * AWSCognitoAuthAsfDeviceId = @"asf.device.id";
         [self.getSessionQueue cancelAllOperations];
     }
     if(self.getSessionBlock){
-        self.getSessionBlock(userSession, error);
+        self.getSessionBlock(userSession, self.isPreviousSignIn, error);
     }
     
     [self cleanupSignIn];
@@ -366,7 +372,7 @@ static NSString * AWSCognitoAuthAsfDeviceId = @"asf.device.id";
     NSString *url = [NSString stringWithFormat:@"%@/logout?client_id=%@&logout_uri=%@",self.authConfiguration.webDomain, self.authConfiguration.appClientId, [self urlEncode:self.authConfiguration.signOutRedirectUri]];
     self.svc = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:url] entersReaderIfAvailable:NO];
     self.svc.delegate = self;
-    self.svc.modalPresentationStyle = UIModalPresentationPopover;
+    self.svc.modalPresentationStyle = UIModalPresentationOverFullScreen;
     dispatch_async(dispatch_get_main_queue(), ^{
         [self setPopoverSource:self.svc source:vc];
         [vc presentViewController:self.svc animated:NO completion:nil];
@@ -450,6 +456,11 @@ static NSString * AWSCognitoAuthAsfDeviceId = @"asf.device.id";
  */
 - (void)safariViewController:(SFSafariViewController *)controller didCompleteInitialLoad:(BOOL)didLoadSuccessfully {
     if(!didLoadSuccessfully){
+        if (self.isExchangingAuthorizationCode) {
+            self.isPreviousSignIn = YES;
+            return;
+        }
+
         NSError *error = [self getError:@"Loading page failed" code:AWSCognitoAuthClientErrorLoadingPageFailed];
         if(self.getSessionBlock){
             [self completeGetSession:nil error:error];
@@ -536,6 +547,9 @@ static NSString * AWSCognitoAuthAsfDeviceId = @"asf.device.id";
                     [connection scheduleInRunLoop:[NSRunLoop mainRunLoop]
                                           forMode:NSDefaultRunLoopMode];
                     [connection start];
+
+                    self.isExchangingAuthorizationCode = YES;
+
                     return YES;
                 }
             }
