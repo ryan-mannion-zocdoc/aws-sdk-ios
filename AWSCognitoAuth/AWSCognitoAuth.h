@@ -54,7 +54,7 @@ typedef NS_ENUM(NSInteger, AWSCognitoAuthClientErrorType) {
     AWSCognitoAuthClientErrorExpiredRefreshToken = -7000
 };
 
-typedef void (^AWSCognitoAuthGetSessionBlock)(AWSCognitoAuthUserSession * _Nullable session, BOOL wasPreviousSignIn, NSError * _Nullable error);
+typedef void (^AWSCognitoAuthGetSessionBlock)(AWSCognitoAuthUserSession * _Nullable session, NSError * _Nullable error);
 typedef void (^AWSCognitoAuthSignOutBlock)(NSError * _Nullable error);
 
 

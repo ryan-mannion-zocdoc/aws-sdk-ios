@@ -490,10 +490,6 @@ withPresentingViewController:(UIViewController *)presentingViewController {
     if(error){
         [self setInternalGetSessionErrorAndCancelSignInOperations:error];
     }
-<<<<<<< HEAD
-    if(self.getSessionBlock){
-        self.getSessionBlock(userSession, self.isPreviousSignIn, error);
-=======
     self.isProcessingSignIn = NO;
 
     if (self.sfAuthenticationSessionAvailable) {
@@ -502,7 +498,6 @@ withPresentingViewController:(UIViewController *)presentingViewController {
         [self dismissSafariVC: ^{
             [self cleanUpAndCallGetSessionBlock:userSession error:error];
         }];
->>>>>>> upstream/main
     }
 }
 
@@ -671,12 +666,8 @@ withPresentingViewController:(UIViewController *)presentingViewController {
                       url:(NSURL *)url {
     self.svc = [[SFSafariViewController alloc] initWithURL:url entersReaderIfAvailable:NO];
     self.svc.delegate = self;
-<<<<<<< HEAD
     self.svc.modalPresentationStyle = UIModalPresentationOverFullScreen;
-=======
-    self.svc.modalPresentationStyle = UIModalPresentationPopover;
     self.isProcessingSignOut = YES;
->>>>>>> upstream/main
     dispatch_async(dispatch_get_main_queue(), ^{
         [self setPopoverSource:self.svc source:vc];
         [vc presentViewController:self.svc animated:NO completion:nil];
