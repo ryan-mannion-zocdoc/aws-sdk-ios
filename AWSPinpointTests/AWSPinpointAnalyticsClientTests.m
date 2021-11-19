@@ -24,12 +24,12 @@ NSString *const AWSPinpointAnalyticsClientErrorDomain = @"com.amazonaws.AWSPinpo
 @interface AWSPinpointAnalyticsClientTests : XCTestCase
 @property (nonatomic, strong) AWSPinpoint *pinpoint;
 @property (nonatomic, strong) NSUserDefaults *userDefaults;
-
+@property  NSString *pinpointAppId;
 @end
 
 
 @interface AWSPinpointConfiguration()
-@property (nonnull, strong) NSUserDefaults *userDefaults;
+@property (nonatomic, strong) NSUserDefaults *userDefaults;
 @end
 
 @implementation AWSPinpointAnalyticsClientTests
@@ -38,15 +38,12 @@ NSString *const AWSPinpointAnalyticsClientErrorDomain = @"com.amazonaws.AWSPinpo
     [super setUp];
     [[NSUserDefaults standardUserDefaults] removeSuiteNamed:@"AWSPinpointAnalyticsClientTests"];
     self.userDefaults = [[NSUserDefaults alloc] initWithSuiteName:@"AWSPinpointAnalyticsClientTests"];
-
-    [AWSTestUtility setupCognitoCredentialsProvider];
     
-    NSString *filePath = [[NSBundle bundleForClass:[self class]] pathForResource:@"credentials"
-                                                                          ofType:@"json"];
-    NSDictionary *credentialsJson = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:filePath]
-                                                                    options:NSJSONReadingMutableContainers
-                                                                      error:nil];
-    AWSPinpointConfiguration *configuration = [[AWSPinpointConfiguration alloc] initWithAppId:credentialsJson[@"pinpointAppId"] launchOptions:@{}];
+    [AWSTestUtility setupSessionCredentialsProvider];
+    self.pinpointAppId = [AWSTestUtility getIntegrationTestConfigurationValueForPackageId:@"pinpoint"
+                                                                                configKey:@"app_id"];
+
+    AWSPinpointConfiguration *configuration = [[AWSPinpointConfiguration alloc] initWithAppId:self.pinpointAppId launchOptions:@{}];
     configuration.userDefaults = self.userDefaults;
     
     self.pinpoint = [AWSPinpoint pinpointWithConfiguration:configuration];
@@ -249,12 +246,13 @@ NSString *const AWSPinpointAnalyticsClientErrorDomain = @"com.amazonaws.AWSPinpo
         XCTAssertNil(task.error);
         XCTAssertNotNil(task.result);
         
-        AWSPinpointEvent *resultEvent = [task.result firstObject];
-        XCTAssertNotNil(resultEvent);
-        XCTAssertTrue([resultEvent.eventType isEqualToString:event.eventType]);
-        XCTAssertEqual(resultEvent.eventTimestamp, event.eventTimestamp);
-        XCTAssertEqual([[resultEvent.allMetrics objectForKey:@"Mettr1"] intValue], @(1).intValue);
-        XCTAssertTrue([[resultEvent.allAttributes objectForKey:@"Attr1"] isEqualToString:@"Attr1"]);
+        AWSPinpointEvent * returnedEvent= [task.result objectAtIndex:0];
+        
+        XCTAssertTrue([returnedEvent.eventType isEqualToString:event.eventType]);
+        XCTAssertEqual(returnedEvent.eventTimestamp, event.eventTimestamp);
+        XCTAssertEqual([[returnedEvent.allMetrics objectForKey:@"Mettr1"] intValue], @(1).intValue);
+        XCTAssertTrue([[returnedEvent.allAttributes objectForKey:@"Attr1"] isEqualToString:@"Attr1"]);
+        
         return nil;
     }] waitUntilFinished];
     

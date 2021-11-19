@@ -20,6 +20,8 @@
 
 static NSString *const AWSInfoIoTManager = @"IoTManager";
 
+static NSString *const AWSIoTEndpoint = @"Endpoint";
+
 @interface AWSIoT()
 
 - (instancetype)initWithConfiguration:(AWSServiceConfiguration *)configuration;
@@ -34,6 +36,10 @@ static NSString *const AWSInfoIoTManager = @"IoTManager";
 
 @implementation AWSIoTCreateCertificateResponse
 
++ (BOOL) supportsSecureCoding {
+    return YES;
+}
+
 @end
 
 @implementation AWSIoTManager
@@ -46,7 +52,18 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     dispatch_once(&onceToken, ^{
         AWSServiceConfiguration *serviceConfiguration = nil;
         AWSServiceInfo *serviceInfo = [[AWSInfo defaultAWSInfo] defaultServiceInfo:AWSInfoIoTManager];
-        if (serviceInfo) {
+
+        AWSEndpoint *endpoint = nil;
+        NSString *endpointURLString = [serviceInfo.infoDictionary objectForKey:AWSIoTEndpoint];
+        if (endpointURLString) {
+            endpoint = [[AWSEndpoint alloc] initWithURLString:endpointURLString];
+        }
+
+        if (serviceInfo && endpoint) {
+            serviceConfiguration = [[AWSServiceConfiguration alloc] initWithRegion:serviceInfo.region
+                                                                          endpoint:endpoint
+                                                               credentialsProvider:serviceInfo.cognitoCredentialsProvider];
+        } else if (serviceInfo) {
             serviceConfiguration = [[AWSServiceConfiguration alloc] initWithRegion:serviceInfo.region
                                                                credentialsProvider:serviceInfo.cognitoCredentialsProvider];
         }
@@ -219,6 +236,20 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     
     [AWSIoTManager readPk12:pkcs12Data passPhrase:passPhrase certRef:&certRef privateKeyRef:&privateKey publicKeyRef:&publicKey];
     
+    if (!certRef || !privateKey || !publicKey) {
+        if (certRef) {
+            CFRelease(certRef);
+        }
+        if (privateKey) {
+            CFRelease(privateKey);
+        }
+        if (publicKey) {
+            CFRelease(publicKey);
+        }
+        AWSDDLogError(@"Unable to extract PKCS12 data. Ensure the passPhrase is correct.");
+        return NO;
+    }
+
     NSString *publicTag = [AWSIoTKeychain.publicKeyTag stringByAppendingString:certificateId];
     NSString *privateTag = [AWSIoTKeychain.privateKeyTag stringByAppendingString:certificateId];
 

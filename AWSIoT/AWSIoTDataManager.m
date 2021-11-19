@@ -118,6 +118,7 @@ static NSString *const AWSInfoIoTDataManager = @"IoTDataManager";
 @property (nonatomic, strong) AWSIoTMQTTClient *mqttClient;
 @property  BOOL userDidIssueDisconnect;
 @property  BOOL userDidIssueConnect;
+@property (nonatomic, strong) NSMutableDictionary<NSString *, NSString *> *userMetaDataDict;
 @end
 
 @implementation AWSIoTMQTTLastWillAndTestament
@@ -322,6 +323,10 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         if(_mqttClient == nil){
             AWSDDLogError(@"**** mqttClient is nil. **** ");
         }
+
+        _mqttClient.userMetaData = [self baseUserMetaDataString:mqttConfig.username];
+        _mqttClient.password = mqttConfig.password.length ? mqttConfig.password : @"";
+        _userMetaDataDict = [[NSMutableDictionary alloc] init];
         _mqttClient.associatedObject = self;
         _userDidIssueDisconnect = NO;
         _userDidIssueConnect = NO;
@@ -329,14 +334,104 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     return self;
 }
 
+- (nonnull NSString*)baseUserMetaDataString:(nullable NSString*)username {
+    NSString *usernameComponent = username.length ? username : @"";
+    return [NSString stringWithFormat:@"%@?SDK=iOS&Version=%@", usernameComponent, AWSIoTSDKVersion];
+}
+
 - (void)enableMetricsCollection:(BOOL)enabled {
     [self.mqttClient setIsMetricsEnabled:enabled];
+}
+
+- (void)addUserMetaData:(NSDictionary<NSString *, NSString *> *)userMetaDataMap {
+    // validate the length of username field
+    NSMutableString *userMetaDataString = [NSMutableString stringWithString:self.mqttClient.userMetaData];
+
+    // Append each of the user-specified key-value pair to the connection username
+    if (userMetaDataMap) {
+        for (id key in userMetaDataMap) {
+            if (!([key isEqualToString:@"SDK"] || [key isEqualToString:@"Version"])) {
+                [userMetaDataString appendFormat:@"&%@=%@", key, [userMetaDataMap objectForKey:key]];
+            } else {
+                AWSDDLogWarn(@"Keynames 'SDK' and 'Version' are reserved and will be skipped");
+            }
+        }
+    }
+
+    NSUInteger baseLength = [userMetaDataString length];
+    if (baseLength > 255) {
+        AWSDDLogWarn(@"Total number of characters in username fields cannot exceed (%lu)", (255 - baseLength));
+        self.mqttClient.userMetaData = [userMetaDataString substringToIndex:255];
+    } else {
+        self.mqttClient.userMetaData = [NSString stringWithString:userMetaDataString];
+    }
+}
+
+- (void)updateUserMetaData:(NSDictionary<NSString *, NSString *> *)userMetaDataMap {
+
+    // update the user metadata dict
+    for (id key in userMetaDataMap) {
+        [_userMetaDataDict setObject:[userMetaDataMap objectForKey:key] forKey: key];
+    }
+
+    // validate the length of username field
+    NSMutableString *userMetaDataString = [[self baseUserMetaDataString:self.mqttConfiguration.username] mutableCopy];
+    
+    NSUInteger baseLength = [userMetaDataString length];
+
+    // Append each of the user-specified key-value pair to the connection username
+    if (_userMetaDataDict) {
+        for (id key in _userMetaDataDict) {
+            if (!([key isEqualToString:@"SDK"] || [key isEqualToString:@"Version"])) {
+                NSString *metaDataValue = [_userMetaDataDict objectForKey:key];
+                [userMetaDataString appendFormat:@"&%@", key];
+                if (!([metaDataValue isEqualToString:@""] || metaDataValue == nil)){
+                    [userMetaDataString appendFormat:@"=%@", metaDataValue];
+                }
+            } else {
+                AWSDDLogWarn(@"Keynames 'SDK' and 'Version' are reserved and will be skipped");
+            }
+        }
+    }
+
+    NSUInteger metaDataLength = [userMetaDataString length];
+    if (metaDataLength > 255) {
+        AWSDDLogWarn(@"Total number of characters in username fields cannot exceed (%lu)", (255 - baseLength));
+        self.mqttClient.userMetaData = [userMetaDataString substringToIndex:255];
+    } else {
+        self.mqttClient.userMetaData = [NSString stringWithString:userMetaDataString];
+    }
+}
+
+- (BOOL)connectUsingALPNWithClientId:(NSString *)clientId
+                        cleanSession:(BOOL)cleanSession
+                       certificateId:(NSString *)certificateId
+                      statusCallback:(void (^)(AWSIoTMQTTStatus status))callback
+{
+    return [self connectWithClientId:clientId
+                        cleanSession:cleanSession
+                       certificateId:certificateId
+                      statusCallback:callback
+                                port:443];
+}
+
+- (BOOL)connectWithClientId:(NSString*)clientId
+               cleanSession:(BOOL)cleanSession
+              certificateId:(NSString *)certificateId
+             statusCallback:(void (^)(AWSIoTMQTTStatus status))callback
+{
+      return [self connectWithClientId:clientId
+                                cleanSession:cleanSession
+                               certificateId:certificateId
+                              statusCallback:callback
+                                  port:8883];
 }
 
 - (BOOL)connectWithClientId:(NSString*)clientId
                cleanSession:(BOOL)cleanSession
                 certificateId:(NSString *)certificateId
              statusCallback:(void (^)(AWSIoTMQTTStatus status))callback
+                       port:(UInt32)port
 {
     AWSDDLogDebug(@"<<%@>>In connectWithClientID", [NSThread currentThread]);
     AWSDDLogInfo(@"hostName: %@", self.IoTData.configuration.endpoint.hostName);
@@ -367,14 +462,14 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     
     return [self.mqttClient connectWithClientId:clientId
                                      toHost:self.IoTData.configuration.endpoint.hostName
-                                       port:8883
+                                       port:port
                                cleanSession:cleanSession
                               certificateId:certificateId
                                   keepAlive:self.mqttConfiguration.keepAliveTimeInterval
                                   willTopic:self.mqttConfiguration.lastWillAndTestament.topic
                                     willMsg:[self.mqttConfiguration.lastWillAndTestament.message dataUsingEncoding:NSUTF8StringEncoding]
                                     willQoS:self.mqttConfiguration.lastWillAndTestament.qos
-                             willRetainFlag:NO
+                             willRetainFlag:self.mqttConfiguration.lastWillAndTestament.willRetain
                              statusCallback:callback];
 }
 
@@ -411,7 +506,52 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
                                       willTopic:self.mqttConfiguration.lastWillAndTestament.topic
                                         willMsg:[self.mqttConfiguration.lastWillAndTestament.message dataUsingEncoding:NSUTF8StringEncoding]
                                         willQoS:self.mqttConfiguration.lastWillAndTestament.qos
-                                 willRetainFlag:NO
+                                 willRetainFlag:self.mqttConfiguration.lastWillAndTestament.willRetain
+                                 statusCallback:callback];
+}
+
+- (BOOL)connectUsingWebSocketWithClientId:(NSString *)clientId
+                             cleanSession:(BOOL)cleanSession
+                     customAuthorizerName:(NSString *)customAuthorizerName
+                             tokenKeyName:(NSString *)tokenKeyName
+                               tokenValue:(NSString *)tokenValue
+                           tokenSignature:(NSString *)tokenSignature
+                           statusCallback:(void (^)(AWSIoTMQTTStatus status))callback
+{
+    //Validate that clientId has been passed in.
+    if (clientId == nil || [clientId  isEqualToString: @""]) {
+        return false;
+    }
+    AWSDDLogInfo(@"IOTDataManager: Connecting to IoT using websocket with Custom Auth, client id: %@", clientId);
+    
+    if (_userDidIssueConnect) {
+        //User has already connected. Can't connect multiple times, return No.
+        return NO;
+    }
+    
+    _userDidIssueConnect = YES;
+    _userDidIssueDisconnect = NO;
+    
+    //set the parameters on the mqttClient from configuration
+    [self.mqttClient setBaseReconnectTime:self.mqttConfiguration.baseReconnectTimeInterval];
+    [self.mqttClient setMinimumConnectionTime:self.mqttConfiguration.minimumConnectionTimeInterval];
+    [self.mqttClient setMaximumReconnectTime:self.mqttConfiguration.maximumReconnectTimeInterval];
+    [self.mqttClient setAutoResubscribe:self.mqttConfiguration.autoResubscribe];
+    [self.mqttClient setPublishRetryThrottle:self.mqttConfiguration.publishRetryThrottle];
+    [self.mqttClient setAutoResubscribe:self.mqttConfiguration.autoResubscribe];
+
+    return [self.mqttClient connectWithClientId:clientId
+                                   cleanSession:cleanSession
+                                  configuration:self.IoTData.configuration
+                           customAuthorizerName:customAuthorizerName
+                                   tokenKeyName:tokenKeyName
+                                     tokenValue:tokenValue
+                                 tokenSignature:tokenSignature
+                                      keepAlive:self.mqttConfiguration.keepAliveTimeInterval
+                                      willTopic:self.mqttConfiguration.lastWillAndTestament.topic
+                                        willMsg:[self.mqttConfiguration.lastWillAndTestament.message dataUsingEncoding:NSUTF8StringEncoding]
+                                        willQoS:self.mqttConfiguration.lastWillAndTestament.qos
+                                 willRetainFlag:self.mqttConfiguration.lastWillAndTestament.willRetain
                                  statusCallback:callback];
 }
 
@@ -432,7 +572,7 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
 - (BOOL)publishString:(NSString *)string
               onTopic:(NSString *)topic
                   QoS:(AWSIoTMQTTQoS)qos
-          ackCallback:(nonnull AWSIoTMQTTAckBlock)ackCallback {
+          ackCallback:(AWSIoTMQTTAckBlock)ackCallback {
     if (string == nil) {
         return NO;
     }
@@ -475,29 +615,22 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
 
 - (BOOL)publishData:(NSData *)data
             onTopic:(NSString *)topic
-                QoS:(AWSIoTMQTTQoS)qos
-        ackCallback:(nonnull AWSIoTMQTTAckBlock)ackCallback {
-    if (data == nil) {
-        return NO;
-    }
-    if (topic == nil || [topic isEqualToString:@""]) {
-        return NO;
-    }
-    if ( !_userDidIssueConnect || _userDidIssueDisconnect ) {
-        //Have to be connected to make this call. Return NO to indicate failure
-        return NO;
-    }
-    
-    [self.mqttClient publishData:data
-                             qos:(UInt8)qos
-                         onTopic:topic
-                     ackCallback:ackCallback];
-    return YES;
+                QoS:(AWSIoTMQTTQoS)qos {
+    return [self publishData:data onTopic:topic QoS:qos ackCallback:nil];
 }
 
 - (BOOL)publishData:(NSData *)data
             onTopic:(NSString *)topic
-                QoS:(AWSIoTMQTTQoS)qos {
+                QoS:(AWSIoTMQTTQoS)qos
+        ackCallback:(nullable AWSIoTMQTTAckBlock)ackCallback {
+    return [self publishData:data onTopic:topic QoS:qos retain:NO ackCallback:ackCallback];
+}
+
+- (BOOL)publishData:(NSData *)data
+            onTopic:(NSString *)topic
+                QoS:(AWSIoTMQTTQoS)qos
+             retain:(BOOL)retain
+        ackCallback:(nullable AWSIoTMQTTAckBlock)ackCallback {
     if (data == nil) {
         return NO;
     }
@@ -508,8 +641,9 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         //Have to be connected to make this call. Return NO to indicate failure
         return NO;
     }
-    
-    [self.mqttClient publishData:data qos:(UInt8)qos onTopic:topic];
+
+    [self.mqttClient publishData:data qos:(UInt8)qos onTopic:topic retain:retain ackCallback:ackCallback];
+
     return YES;
 }
 
@@ -580,6 +714,42 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     [self.mqttClient subscribeToTopic:topic
                                   qos:qos
                      extendedCallback:callback
+                          ackCallback:ackCallback];
+    return YES;
+}
+
+- (BOOL)subscribeToTopic:(NSString *)topic
+                     QoS:(AWSIoTMQTTQoS)qos
+            fullCallback:(AWSIoTMQTTFullMessageBlock)callback
+{
+    if (topic == nil || [topic isEqualToString:@""]) {
+        return NO;
+    }
+    if ( !_userDidIssueConnect || _userDidIssueDisconnect ) {
+        //Have to be connected to make this call. Return NO to indicate failure
+        return NO;
+    }
+
+    [self.mqttClient subscribeToTopic:topic qos:qos fullCallback:callback];
+    return YES;
+}
+
+// We currently support QoS = 1 for ackCallback; we still allow user to pass QoS parameter (without assuming QoS = 1) for ackCallback since when QoS = 2 is supported, we won't have to do any method signature changes.
+- (BOOL)subscribeToTopic:(NSString *)topic
+                     QoS:(AWSIoTMQTTQoS)qos
+            fullCallback:(AWSIoTMQTTFullMessageBlock)callback
+             ackCallback:(AWSIoTMQTTAckBlock)ackCallback {
+    if (topic == nil || [topic isEqualToString:@""]) {
+        return NO;
+    }
+    if ( !_userDidIssueConnect || _userDidIssueDisconnect ) {
+        //Have to be connected to make this call. Return NO to indicate failure
+        return NO;
+    }
+
+    [self.mqttClient subscribeToTopic:topic
+                                  qos:qos
+                     fullCallback:callback
                           ackCallback:ackCallback];
     return YES;
 }

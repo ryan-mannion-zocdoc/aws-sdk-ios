@@ -25,19 +25,7 @@
 
 + (void)setUp {
     [super setUp];
-    [AWSTestUtility setupCognitoCredentialsProvider];
-}
-
-- (void)setUp
-{
-    [super setUp];
-    // Put setup code here; it will be run once, before the first test case.
-}
-
-- (void)tearDown
-{
-    // Put teardown code here; it will be run once, after the last test case.
-    [super tearDown];
+    [AWSTestUtility setupSessionCredentialsProvider];
 }
 
 -(void)testClockSkewSQS {
@@ -54,13 +42,6 @@
         if (task.error) {
             XCTFail(@"Error: [%@]", task.error);
         }
-
-        if (task.result) {
-            AWSSQSListQueuesResult *listQueuesResult = task.result;
-            AWSDDLogDebug(@"[%@]", listQueuesResult);
-            XCTAssertNotNil(listQueuesResult.queueUrls);
-        }
-
         return nil;
     }] waitUntilFinished];
 
@@ -93,10 +74,11 @@
     attributesRequest.queueUrl = @""; //queueURL is empty
     
     [[[sqs getQueueAttributes:attributesRequest] continueWithBlock:^id(AWSTask *task) {
-        XCTAssertNotNil(task.error, @"expected InvalidAddress Error but got nil");
-        XCTAssertEqual(task.error.code, 0);
-        XCTAssertTrue([@"InvalidAddress" isEqualToString:task.error.userInfo[@"Code"]]);
-        XCTAssertTrue([@"The address  is not valid for this endpoint." isEqualToString:task.error.userInfo[@"Message"]]);
+        XCTAssertNotNil(task.error, @"expected AWSSQSErrorQueueDoesNotExist Error but got nil");
+        XCTAssertEqualObjects(task.error.domain, AWSSQSErrorDomain);
+        XCTAssertEqual(task.error.code, AWSSQSErrorQueueDoesNotExist);
+        XCTAssertTrue([@"AWS.SimpleQueueService.NonExistentQueue" isEqualToString:task.error.userInfo[@"Code"]]);
+        XCTAssertTrue([@"The specified queue does not exist for this wsdl version." isEqualToString:task.error.userInfo[@"Message"]]);
         return nil;
     }] waitUntilFinished];
 }

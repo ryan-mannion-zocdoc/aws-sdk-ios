@@ -14,7 +14,7 @@
 //
 
 #import "AWSPinpointConfiguration.h"
-#import "AWSService.h"
+#import <AWSCore/AWSService.h>
 #import "AWSPinpointService.h"
 
 int const MAX_STORAGE_SIZE = 1024 * 1024 * 5; // 5 MB
@@ -35,10 +35,13 @@ static NSString* const UNKNOWN = @"Unknown";
         NSString *bundleVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
         NSString *bundleIdentifier = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleIdentifier"];
         NSString *bundleDisplayName = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleDisplayName"];
-        _appVersion = shortVersionString == nil ? UNKNOWN : shortVersionString;
-        _appBuild = bundleVersion == nil ? UNKNOWN : bundleVersion;
-        _appPackageName = bundleIdentifier == nil ? UNKNOWN : bundleIdentifier;
-        _appName = bundleDisplayName == nil ? UNKNOWN : bundleDisplayName;
+        _appVersion = shortVersionString ?: UNKNOWN;
+        _appBuild = bundleVersion ?: UNKNOWN;
+        _appPackageName = bundleIdentifier ?: UNKNOWN;
+        _appName = bundleDisplayName ?: UNKNOWN;
+        
+        AWSDDLogVerbose(@"App Version: [%@]; App Build: [%@]; App Package Name: [%@]; App Name: [%@]",
+                        _appVersion, _appBuild, _appPackageName, _appName);
     }
     return self;
 }

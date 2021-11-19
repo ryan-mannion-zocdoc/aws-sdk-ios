@@ -13,19 +13,15 @@
 // permissions and limitations under the License.
 //
 
+#import <CommonCrypto/CommonDigest.h>
 #import "AWSAbstractKinesisRecorder.h"
 #import "AWSKinesis.h"
-#import "AWSBolts.h"
-#import "AWSCocoaLumberjack.h"
-#import "AWSCategory.h"
-#import "AWSFMDB.h"
-#import "AWSSynchronizedMutableDictionary.h"
 
 // Kinesis Abstract Client
 NSUInteger const AWSKinesisAbstractClientByteLimitDefault = 5 * 1024 * 1024; // 5MB
 NSTimeInterval const AWSKinesisAbstractClientAgeLimitDefault = 0.0; // Keeps the data indefinitely unless it hits the size limit.
 NSString *const AWSKinesisAbstractClientUserAgent = @"recorder";
-NSUInteger const AWSKinesisAbstractClientBatchRecordByteLimitDefault = 512 * 1024 * 1024;
+NSUInteger const AWSKinesisAbstractClientBatchRecordByteLimitDefault = 512 * 1024; // 512KB
 NSString *const AWSKinesisAbstractClientRecorderDatabasePathPrefix = @"com/amazonaws/AWSKinesisRecorder";
 
 @protocol AWSKinesisRecorderHelper <NSObject>
@@ -34,9 +30,9 @@ NSString *const AWSKinesisAbstractClientRecorderDatabasePathPrefix = @"com/amazo
 
 - (AWSTask *)submitRecordsForStream:(NSString *)streamName
                             records:(NSArray *)temporaryRecords
-                      partitionKeys:(NSArray *)partitionKeys
-                   putPartitionKeys:(NSMutableArray *)putPartitionKeys
-                 retryPartitionKeys:(NSMutableArray *)retryPartitionKeys
+                             rowIds:(NSArray *)rowIds
+                          putRowIds:(NSMutableArray *)putRowIds
+                        retryRowIds:(NSMutableArray *)retryRowIds
                                stop:(BOOL *)stop;
 
 - (NSError *)dataTooLargeError;
@@ -91,10 +87,10 @@ NSString *const AWSKinesisAbstractClientRecorderDatabasePathPrefix = @"com/amazo
 
         // Creates a database for the identifier if it doesn't exist.
         AWSDDLogDebug(@"Database path: [%@]", _databasePath);
-        _databaseQueue = [AWSFMDatabaseQueue databaseQueueWithPath:_databasePath];
+        _databaseQueue = [AWSFMDatabaseQueue serialDatabaseQueueWithPath:_databasePath];
         [_databaseQueue inDatabase:^(AWSFMDatabase *db) {
             if (![db executeStatements:@"PRAGMA auto_vacuum = FULL"]) {
-                AWSDDLogError(@"Failed to enable 'aut_vacuum' to 'FULL'. %@", db.lastError);
+                AWSDDLogError(@"Failed to enable 'auto_vacuum' to 'FULL'. %@", db.lastError);
             }
 
             if (![db executeUpdate:
@@ -205,8 +201,8 @@ NSString *const AWSKinesisAbstractClientRecorderDatabasePathPrefix = @"com/amazo
                 [databaseQueue inDatabase:^(AWSFMDatabase *db) {
                     BOOL result = [db executeUpdate:
                                    @"DELETE FROM record "
-                                   @"WHERE partition_key IN ( "
-                                   @"SELECT partition_key "
+                                   @"WHERE rowid IN ( "
+                                   @"SELECT rowid "
                                    @"FROM record "
                                    @"ORDER BY timestamp ASC "
                                    @"LIMIT 1 "
@@ -238,10 +234,10 @@ NSString *const AWSKinesisAbstractClientRecorderDatabasePathPrefix = @"com/amazo
 
         do {
             [databaseQueue inTransaction:^(AWSFMDatabase *db, BOOL *rollback) {
-                NSMutableArray *partitionKeys = nil;
+                NSMutableArray *rowIds = nil;
 
                 AWSFMResultSet *rs = [db executeQuery:
-                                      @"SELECT partition_key, data, retry_count, stream_name "
+                                      @"SELECT rowid, partition_key, data, retry_count, stream_name "
                                       @"FROM record "
                                       @"WHERE stream_name = (SELECT stream_name FROM record ORDER BY timestamp ASC LIMIT 1) "
                                       @"ORDER BY timestamp ASC "
@@ -255,7 +251,7 @@ NSString *const AWSKinesisAbstractClientRecorderDatabasePathPrefix = @"com/amazo
 
                 NSUInteger batchDataSize = 0;
                 NSMutableArray *temporaryRecords = [NSMutableArray new];
-                partitionKeys = [NSMutableArray new];
+                rowIds = [NSMutableArray new];
                 while ([rs next]) {
                     [temporaryRecords addObject:@{
                                                   @"partition_key": [rs stringForColumn:@"partition_key"],
@@ -263,7 +259,7 @@ NSString *const AWSKinesisAbstractClientRecorderDatabasePathPrefix = @"com/amazo
                                                   @"stream_name": [rs stringForColumn:@"stream_name"],
                                                   }];
 
-                    [partitionKeys addObject:[rs stringForColumn:@"partition_key"]];
+                    [rowIds addObject:[rs stringForColumn:@"rowid"]];
                     batchDataSize += [[rs dataForColumn:@"data"] length];
 
                     if (batchDataSize > self.batchRecordsByteLimit) { // if the batch size exceeds `batchRecordsByteLimit`, stop there.
@@ -274,17 +270,17 @@ NSString *const AWSKinesisAbstractClientRecorderDatabasePathPrefix = @"com/amazo
                 batchSize = [temporaryRecords count];
 
                 if (batchSize > 0) {
-                    __block NSMutableArray *putPartitionKeys = [NSMutableArray new];
-                    __block NSMutableArray *retryPartitionKeys = [NSMutableArray new];
+                    __block NSMutableArray *putRowIds = [NSMutableArray new];
+                    __block NSMutableArray *retryRowIds = [NSMutableArray new];
 
                     NSString *streamName = temporaryRecords[0][@"stream_name"];
 
                     AWSTask *submitTask = \
                         [self.recorderHelper submitRecordsForStream:streamName
                                                             records:temporaryRecords
-                                                      partitionKeys:partitionKeys
-                                                   putPartitionKeys:putPartitionKeys
-                                                 retryPartitionKeys:retryPartitionKeys
+                                                             rowIds:rowIds
+                                                          putRowIds:putRowIds
+                                                        retryRowIds:retryRowIds
                                                                stop:&stop];
 
                     [submitTask waitUntilFinished];
@@ -293,10 +289,10 @@ NSString *const AWSKinesisAbstractClientRecorderDatabasePathPrefix = @"com/amazo
                         error = submitTask.error;
                     }
 
-                    for (NSString *partitionKey in putPartitionKeys) {
-                        BOOL result = [db executeUpdate:@"DELETE FROM record WHERE partition_key = :partition_key"
+                    for (NSString *rowId in putRowIds) {
+                        BOOL result = [db executeUpdate:@"DELETE FROM record WHERE rowid = :rowid"
                                 withParameterDictionary:@{
-                                                          @"partition_key" : partitionKey
+                                                          @"rowid" : rowId
                                                           }];
                         if (!result) {
                             AWSDDLogError(@"SQLite error. [%@]", db.lastError);
@@ -304,10 +300,10 @@ NSString *const AWSKinesisAbstractClientRecorderDatabasePathPrefix = @"com/amazo
                         }
                     }
 
-                    for (NSString *partitionKey in retryPartitionKeys) {
-                        BOOL result = [db executeUpdate:@"UPDATE record SET retry_count = retry_count + 1 WHERE partition_key = :partition_key"
+                    for (NSString *rowId in retryRowIds) {
+                        BOOL result = [db executeUpdate:@"UPDATE record SET retry_count = retry_count + 1 WHERE rowid = :rowid"
                                 withParameterDictionary:@{
-                                                          @"partition_key" : partitionKey
+                                                          @"rowid" : rowId
                                                           }];
                         if (!result) {
                             AWSDDLogError(@"SQLite error. [%@]", db.lastError);
@@ -371,6 +367,26 @@ NSString *const AWSKinesisAbstractClientRecorderDatabasePathPrefix = @"com/amazo
     } else {
         _batchRecordsByteLimit = batchRecordsByteLimit;
     }
+}
+
+/// Calculates a path-safe database database name for `key`.
+///
+/// Note that the internal implementation of this method uses MD5 to calculate a
+/// hash of the key. MD5 is not suited for cryptographically-sensitive operations,
+/// but this method is using it simply to get a database name that is associated
+/// with the specified `key`, and doesn't contain special characters, etc. The use
+/// of MD5 is carried over from previous implementations for
+/// backwards-compatibility, and does not represent a security risk.
++ (NSString *) databasePathForKey:(NSString *)key {
+    NSData *dataString = [key dataUsingEncoding:NSUTF16LittleEndianStringEncoding];
+    unsigned char digestArray[CC_MD5_DIGEST_LENGTH];
+    CC_MD5([dataString bytes], (CC_LONG)[dataString length], digestArray);
+
+    NSMutableString *md5String = [NSMutableString stringWithCapacity:CC_MD5_DIGEST_LENGTH * 2];
+    for (int i = 0; i < CC_MD5_DIGEST_LENGTH; i++) {
+        [md5String appendFormat:@"%02x", digestArray[i]];
+    }
+    return md5String;
 }
 
 @end

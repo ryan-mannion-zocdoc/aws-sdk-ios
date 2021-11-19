@@ -34,11 +34,12 @@ static NSString *const AWSPinpointSessionKey = @"com.amazonaws.AWSPinpointSessio
 
 @interface AWSPinpointSessionClientTests : XCTestCase
 @property (nonatomic, strong) NSUserDefaults *userDefaults;
+@property (nonatomic, strong) NSString *appId;
 @end
 
 
 @interface AWSPinpointConfiguration()
-@property (nonnull, strong) NSUserDefaults *userDefaults;
+@property (nonatomic, strong) NSUserDefaults *userDefaults;
 @end
 
 @implementation AWSPinpointSessionClientTests
@@ -47,7 +48,10 @@ static NSString *const AWSPinpointSessionKey = @"com.amazonaws.AWSPinpointSessio
     [super setUp];
     [[NSUserDefaults standardUserDefaults] removeSuiteNamed:@"AWSPinpointSessionClientTests"];
     self.userDefaults = [[NSUserDefaults alloc] initWithSuiteName:@"AWSPinpointSessionClientTests"];
-    [AWSTestUtility setupCognitoCredentialsProvider];
+    
+    [AWSTestUtility setupSessionCredentialsProvider];
+    self.appId = [AWSTestUtility getIntegrationTestConfigurationValueForPackageId:@"pinpoint"
+                                                                        configKey:@"app_id"];
 }
 
 - (void)tearDown {
@@ -61,7 +65,9 @@ static NSString *const AWSPinpointSessionKey = @"com.amazonaws.AWSPinpointSessio
     [self.userDefaults synchronize];
     
     NSData *data = [self.userDefaults dataForKey:AWSPinpointSessionKey];
-    AWSPinpointSession *session = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    AWSPinpointSession *session = [AWSNSCodingUtilities versionSafeUnarchivedObjectOfClass:[AWSPinpointSession class]
+                                                                                  fromData:data
+                                                                                     error:nil];
 
     NSLog(@"Session Object Should be Empty: %@",session.description);
     
@@ -435,7 +441,7 @@ static NSString *const AWSPinpointSessionKey = @"com.amazonaws.AWSPinpointSessio
     
     __block XCTestExpectation *expectation = [self expectationWithDescription:@"Test finished running."];
     
-    AWSPinpointConfiguration *config = [[AWSPinpointConfiguration alloc] initWithAppId:@"testSessionTimeout"
+    AWSPinpointConfiguration *config = [[AWSPinpointConfiguration alloc] initWithAppId:self.appId
                                                                          launchOptions:nil
                                                                         maxStorageSize:5*1024*1024
                                                                         sessionTimeout:5000];
@@ -502,7 +508,7 @@ static NSString *const AWSPinpointSessionKey = @"com.amazonaws.AWSPinpointSessio
     
     __block XCTestExpectation *expectation = [self expectationWithDescription:@"Test finished running."];
     
-    AWSPinpointConfiguration *config = [[AWSPinpointConfiguration alloc] initWithAppId:@"testSessionTimeoutNoCompletion"
+    AWSPinpointConfiguration *config = [[AWSPinpointConfiguration alloc] initWithAppId:self.appId
                                                                          launchOptions:nil
                                                                         maxStorageSize:5*1024*1024
                                                                         sessionTimeout:5000];
@@ -568,7 +574,7 @@ static NSString *const AWSPinpointSessionKey = @"com.amazonaws.AWSPinpointSessio
     
     __block XCTestExpectation *expectation = [self expectationWithDescription:@"Test finished running."];
     
-    AWSPinpointConfiguration *config = [[AWSPinpointConfiguration alloc] initWithAppId:@"testSessionImmediateTimeout"
+    AWSPinpointConfiguration *config = [[AWSPinpointConfiguration alloc] initWithAppId:self.appId
                                                                          launchOptions:nil
                                                                         maxStorageSize:5*1024*1024
                                                                         sessionTimeout:0];
@@ -634,7 +640,7 @@ static NSString *const AWSPinpointSessionKey = @"com.amazonaws.AWSPinpointSessio
     
     __block XCTestExpectation *expectation = [self expectationWithDescription:@"Test finished running."];
     
-    AWSPinpointConfiguration *config = [[AWSPinpointConfiguration alloc] initWithAppId:@"testSessionImmediateTimeoutNoCompletion"
+    AWSPinpointConfiguration *config = [[AWSPinpointConfiguration alloc] initWithAppId:self.appId
                                                                          launchOptions:nil
                                                                         maxStorageSize:5*1024*1024
                                                                         sessionTimeout:0];

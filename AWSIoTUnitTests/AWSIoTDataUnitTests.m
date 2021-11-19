@@ -164,6 +164,30 @@ static id mockNetworking = nil;
 
 }
 
+-(void)testRegisterIoTDataManagerWithConfigurationUserNamePasswordWithMQTTConfiguration {
+    NSString *key = @"testRegisterIoTDataManagerWithMQTTConfigurationUserNamePassword";
+    AWSCognitoCredentialsProvider *credentialsProvider =
+    [[AWSCognitoCredentialsProvider alloc] initWithRegionType:AWSRegionUSWest2
+                                               identityPoolId:@"TESTCognitoPoolID"];
+    AWSServiceConfiguration *configuration =
+    [[AWSServiceConfiguration alloc] initWithRegion:AWSRegionUSWest2
+                                           endpoint:[[AWSEndpoint alloc] initWithURLString:@"TESTENDPOINT.iot.amazonaws.com"]
+                                credentialsProvider:credentialsProvider];
+    
+    AWSIoTMQTTConfiguration *mqttConfig = [[AWSIoTMQTTConfiguration alloc] init];
+    mqttConfig.username = @"testUserName";
+    mqttConfig.password = @"testPassword";
+    
+    [AWSIoTDataManager registerIoTDataManagerWithConfiguration:configuration
+                                         withMQTTConfiguration:mqttConfig
+                                                        forKey:key];
+    AWSIoTDataManager *dm = [AWSIoTDataManager IoTDataManagerForKey:@"testRegisterIoTDataManagerWithMQTTConfigurationUserNamePassword"];
+    XCTAssertNotNil(dm);
+    XCTAssertEqual(dm.configuration.regionType, AWSRegionUSWest2);
+    XCTAssertEqual(dm.mqttConfiguration.username, @"testUserName");
+    XCTAssertEqual(dm.mqttConfiguration.password, @"testPassword");
+}
+
 - (void)testDeleteThingShadow {
     NSString *key = @"testDeleteThingShadow";
     AWSServiceConfiguration *configuration = [[AWSServiceConfiguration alloc] initWithRegion:AWSRegionUSEast1 credentialsProvider:nil];
@@ -369,6 +393,60 @@ static id mockNetworking = nil;
     
     XCTAssertTrue(true);
     
+    [AWSIoTData removeIoTDataForKey:key];
+}
+
+- (void)testIOTWebSocketConnectionUsingCustomAuth {
+    NSString *key = @"testIOTWebSocketConnectionUsingCustomAuth";
+    AWSServiceConfiguration *configuration = [[AWSServiceConfiguration alloc] initWithRegion:AWSRegionUSEast1
+                                                                         credentialsProvider:nil];
+    [AWSIoTDataManager registerIoTDataManagerWithConfiguration:configuration
+                                                        forKey:key];
+
+    AWSIoTDataManager *awsClient = [AWSIoTDataManager IoTDataManagerForKey:key];
+    XCTAssertNotNil(awsClient);
+
+    NSString *clientId = @"testClientId";
+
+    BOOL connectionResult = [awsClient connectUsingWebSocketWithClientId:clientId
+                                                            cleanSession:YES
+                                                    customAuthorizerName:@"iot-custom-authorizer"
+                                                            tokenKeyName:@"token-key-name"
+                                                              tokenValue:@"token-value"
+                                                          tokenSignature:@"token-signature"
+                                                          statusCallback:^(AWSIoTMQTTStatus status) {
+
+                                                          }];
+
+    XCTAssertTrue(connectionResult);
+
+    NSString *message = @"test message";
+    NSString *topic = @"test/iot/topic";
+    BOOL returnValue = NO;
+
+    returnValue = [awsClient publishString:message
+                                   onTopic:topic
+                                       QoS:AWSIoTMQTTQoSMessageDeliveryAttemptedAtMostOnce];
+    XCTAssertTrue(returnValue);
+
+    returnValue = [awsClient publishData:[message dataUsingEncoding:NSUTF8StringEncoding]
+                                 onTopic:topic
+                                     QoS:AWSIoTMQTTQoSMessageDeliveryAttemptedAtMostOnce];
+    XCTAssertTrue(returnValue);
+
+    returnValue = [awsClient subscribeToTopic:topic
+                                          QoS:AWSIoTMQTTQoSMessageDeliveryAttemptedAtMostOnce
+                              messageCallback:^(NSData *data) {
+
+                              }];
+    XCTAssertTrue(returnValue);
+
+    [awsClient unsubscribeTopic:topic];
+    XCTAssertTrue(true);
+
+    [awsClient disconnect];
+    XCTAssertTrue(true);
+
     [AWSIoTData removeIoTDataForKey:key];
 }
 

@@ -19,16 +19,41 @@
 #import "AWSIoTData.h"
 #import "AWSIoTMQTTClient.h"
 
+typedef void (^TestBlock)(void);
+
 @interface AWSIoTDataTests : XCTestCase
 
 - (NSString *)generateRandomStringOfLength: (NSUInteger)length;
 
 @end
 
+@interface AWSIoTDataManager()
+
+@property (nonatomic, strong) AWSIoTMQTTClient *mqttClient;
+
+@end
+
+// Timeout for any expectation involving network calls
+NSTimeInterval networkExpectationTimeout = 30.0;
+
 NSString *testShadowStringValid =@"{\"state\": { \"desired\": { \"value\":12345 }, \"reported\": { \"value\":6789 } } }";
 NSString *testShadowStringValidNoDelta =@"{\"state\": { \"desired\": { \"value\":6789 }, \"reported\": { \"value\":6789 } } }";
 NSString *testShadowStringInvalid =@"{\"state\": { \"desired\": { \"value\":12345 }, \"reported\": { \"value\":6789 } }";
 NSString *publishMessageTestString=@"this-is-test-message-data";
+
+AWSIoTData *iotData;
+
+AWSRegionType region;
+NSString *endpointString;
+
+/**
+ NOTE: This test suite creates certificates from scratch if it doesn't find any in the keychain. If it does, though, it
+ assumes they've already been attached to the IoT Policy named in `policyName`, which could cause test failures if this
+ is run after an update of the IoT test stack.
+
+ The CI/CD platform launches a new simulator instance each time, but for safety, we recommend cleaning the simulator
+ before running these tests locally.
+ */
 
 @implementation AWSIoTDataTests
 
@@ -37,7 +62,21 @@ NSString *publishMessageTestString=@"this-is-test-message-data";
     [AWSDDLog sharedInstance].logLevel = AWSDDLogLevelInfo;
     [AWSDDLog addLogger:[AWSDDTTYLogger sharedInstance]];
 
-    [AWSTestUtility setupCognitoCredentialsProvider];
+    [AWSTestUtility setupCognitoCredentialsProviderForDefaultRegion];
+    region = [AWSTestUtility getRegionFromTestConfiguration];
+
+    endpointString = [AWSTestUtility getIoTEndPoint:@"iot_endpoint_address"];
+    AWSEndpoint *endpoint = [[AWSEndpoint alloc] initWithURLString:endpointString];
+   
+    AWSServiceManager *defaultServiceManager = [AWSServiceManager defaultServiceManager];
+    AWSServiceConfiguration *defaultServiceConfiguration = [defaultServiceManager defaultServiceConfiguration];
+    id<AWSCredentialsProvider> defaultCredentialsProvider = [defaultServiceConfiguration credentialsProvider];
+    AWSServiceConfiguration *iotServiceConfig = [[AWSServiceConfiguration alloc] initWithRegion:region
+                                                                                       endpoint:endpoint
+                                                                            credentialsProvider:defaultCredentialsProvider];
+
+    [AWSIoTData registerIoTDataWithConfiguration:iotServiceConfig forKey:@"AWSIoTDataTests"];
+    iotData = [AWSIoTData IoTDataForKey:@"AWSIoTDataTests"];
 }
 
 - (void)setUp {
@@ -50,131 +89,126 @@ NSString *publishMessageTestString=@"this-is-test-message-data";
 
 
 - (void)testUpdateThingInvalidData {
-    AWSIoTData *iotData = [AWSIoTData defaultIoTData];
-    
     AWSIoTDataUpdateThingShadowRequest *updateThingRequest = [AWSIoTDataUpdateThingShadowRequest new];
     updateThingRequest.thingName = @"testThing1";
     updateThingRequest.payload = testShadowStringInvalid;
-    
-    [[[iotData updateThingShadow:updateThingRequest] continueWithBlock:^id(AWSTask *task) {
-        
-        XCTAssertNotNil(task.error, @"expected validation error, but got nil");
+
+    XCTestExpectation *callbackInvoked = [self expectationWithDescription:@"Got validation error"];
+    [[iotData updateThingShadow:updateThingRequest] continueWithBlock:^id(AWSTask *task) {
+        XCTAssertEqual(task.error.domain, AWSIoTDataErrorDomain);
+        XCTAssertEqual(task.error.code, AWSIoTDataErrorInvalidRequest);
+        [callbackInvoked fulfill];
         return nil;
-    }] waitUntilFinished];
+    }];
+    [self waitForExpectationsWithTimeout:networkExpectationTimeout handler:nil];
 }
 
 - (void)testUpdateThingValidData {
-    AWSIoTData *iotData = [AWSIoTData defaultIoTData];
-    
     AWSIoTDataUpdateThingShadowRequest *updateThingRequest = [AWSIoTDataUpdateThingShadowRequest new];
     updateThingRequest.thingName = @"testThing1";
     updateThingRequest.payload = testShadowStringValid;
-    
-    [[[iotData updateThingShadow:updateThingRequest] continueWithBlock:^id(AWSTask *task) {
-        
+
+    XCTestExpectation *callbackInvoked = [self expectationWithDescription:@"Got validation error"];
+    [[iotData updateThingShadow:updateThingRequest] continueWithBlock:^id(AWSTask *task) {
         XCTAssertNil(task.error, @"expected success, but got error");
         XCTAssertNotNil(task.result, @"expected a result, didn't get one");
+        [callbackInvoked fulfill];
         return nil;
-    }] waitUntilFinished];
+    }];
+    [self waitForExpectationsWithTimeout:networkExpectationTimeout handler:nil];
 }
 
 - (void)testGetThingNotPresent {
-    AWSIoTData *iotData = [AWSIoTData defaultIoTData];
-    
     AWSIoTDataGetThingShadowRequest *getThingShadowRequest = [AWSIoTDataGetThingShadowRequest new];
     getThingShadowRequest.thingName = @"testThing2";
-    
-    [[[iotData getThingShadow:getThingShadowRequest] continueWithBlock:^id(AWSTask *task) {
-        
-        XCTAssertNotNil(task.error, @"expected Validation Error, but got nil");
+
+    XCTestExpectation *callbackInvoked = [self expectationWithDescription:@"Got validation error"];
+    [[iotData getThingShadow:getThingShadowRequest] continueWithBlock:^id(AWSTask *task) {
+        XCTAssertEqual(task.error.domain, AWSIoTDataErrorDomain);
+        XCTAssertEqual(task.error.code, AWSIoTDataErrorResourceNotFound);
+        [callbackInvoked fulfill];
         return nil;
-    }] waitUntilFinished];
+    }];
+    [self waitForExpectationsWithTimeout:networkExpectationTimeout handler:nil];
 }
 
 - (void)testGetThingPresent {
-    
-    AWSIoTData *iotData = [AWSIoTData defaultIoTData];
-    
     AWSIoTDataUpdateThingShadowRequest *updateThingRequest = [AWSIoTDataUpdateThingShadowRequest new];
     updateThingRequest.thingName = @"testThing5";
     updateThingRequest.payload = testShadowStringValid;
-    
+
+    XCTestExpectation *updateThingShadowCallbackInvoked = [self expectationWithDescription:@"updateThingShadow callback invoked"];
+    XCTestExpectation *getThingShadowCallbackInvoked = [self expectationWithDescription:@"getThingShadow callback invoked"];
+
     [[[iotData updateThingShadow:updateThingRequest] continueWithBlock:^id(AWSTask *task) {
-        
         XCTAssertNil(task.error, @"expected success, but got error");
         XCTAssertNotNil(task.result, @"expected a result, didn't get one");
+        [updateThingShadowCallbackInvoked fulfill];
+
         if (task.error == nil) {
             AWSIoTDataGetThingShadowRequest *getThingShadowRequest = [AWSIoTDataGetThingShadowRequest new];
             getThingShadowRequest.thingName = @"testThing5";
-            
             return [iotData getThingShadow:getThingShadowRequest];
         }
         return nil;
-        
+
     }] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
-        if (task.error != nil) {
-            XCTAssertNil(task.error, @"expected success, but got error");
-            //
-            // Verify that the payload is as expected
-            //
-            XCTAssertNotNil(task.result, @"expected a result, didn't get one");
-            if (task.result != nil) {
-                AWSIoTDataGetThingShadowResponse *response = task.result;
-                NSString *payload = [[NSString alloc] initWithData:response.payload encoding:NSUTF8StringEncoding];
-                AWSDDLogInfo(@"received payload: %@", payload);
-            }
-        }
+        XCTAssertNil(task.error, @"expected success, but got error");
+        XCTAssertNotNil(task.result, @"expected a result, didn't get one");
+        [getThingShadowCallbackInvoked fulfill];
         return nil;
     }];
+
+    [self waitForExpectationsWithTimeout:networkExpectationTimeout handler:nil];
 }
 
 - (void)testDeleteThingNotPresent {
-    AWSIoTData *iotData = [AWSIoTData defaultIoTData];
-    
     AWSIoTDataDeleteThingShadowRequest *deleteThingShadowRequest = [AWSIoTDataDeleteThingShadowRequest new];
     deleteThingShadowRequest.thingName = @"testThing3";
-    
-    [[[iotData deleteThingShadow:deleteThingShadowRequest] continueWithBlock:^id(AWSTask *task) {
-        
-        XCTAssertNotNil(task.error, @"expected Validation Error, but got nil");
+
+    XCTestExpectation *callbackInvoked = [self expectationWithDescription:@"Got validation error"];
+    [[iotData deleteThingShadow:deleteThingShadowRequest] continueWithBlock:^id(AWSTask *task) {
+        XCTAssertEqual(task.error.domain, AWSIoTDataErrorDomain);
+        XCTAssertEqual(task.error.code, AWSIoTDataErrorResourceNotFound);
+        [callbackInvoked fulfill];
         return nil;
-    }] waitUntilFinished];
+    }];
+    [self waitForExpectationsWithTimeout:networkExpectationTimeout handler:nil];
 }
 
 - (void)testDeleteThingPresent {
-    AWSIoTData *iotData = [AWSIoTData defaultIoTData];
-
     AWSIoTDataUpdateThingShadowRequest *updateThingRequest = [AWSIoTDataUpdateThingShadowRequest new];
     updateThingRequest.thingName = @"testThing4";
     updateThingRequest.payload = testShadowStringValid;
-    
+
+    XCTestExpectation *updateThingShadowCallbackInvoked = [self expectationWithDescription:@"updateThingShadow callback invoked"];
+    XCTestExpectation *deleteThingShadowCallbackInvoked = [self expectationWithDescription:@"deleteThingShadow callback invoked"];
+
     [[[iotData updateThingShadow:updateThingRequest] continueWithBlock:^id(AWSTask *task) {
-        
         XCTAssertNil(task.error, @"expected success, but got error");
         XCTAssertNotNil(task.result, @"expected a result, didn't get one");
+        [updateThingShadowCallbackInvoked fulfill];
         if (task.error == nil) {
             AWSIoTDataDeleteThingShadowRequest *deleteThingShadowRequest = [AWSIoTDataDeleteThingShadowRequest new];
             deleteThingShadowRequest.thingName = @"testThing4";
-            
             return [iotData deleteThingShadow:deleteThingShadowRequest];
         }
         return nil;
     }] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
-        if (task.error == nil) {
-            XCTAssertNil(task.error, @"expected success, but got error");
-            XCTAssertNotNil(task.result, @"expected a result, didn't get one");
-        }
+        XCTAssertNil(task.error, @"expected success, but got error");
+        XCTAssertNotNil(task.result, @"expected a result, didn't get one");
+        [deleteThingShadowCallbackInvoked fulfill];
         return nil;
     }];
+
+    [self waitForExpectationsWithTimeout:networkExpectationTimeout handler:nil];
 }
 
 - (void)testPublish {
-    AWSIoTData *iotData = [AWSIoTData defaultIoTData];
-    
     AWSIoTDataPublishRequest *publishRequest = [AWSIoTDataPublishRequest new];
     publishRequest.topic = @"aTestTopic";
     publishRequest.payload = @"{\"payloadData\":\"6789\"}";
-    
+
     [[[iotData publish:publishRequest] continueWithBlock:^id(AWSTask *task) {
         XCTAssertNil(task.error, @"expected no validation error, but got one");
         return nil;
@@ -184,7 +218,8 @@ NSString *publishMessageTestString=@"this-is-test-message-data";
     publishRequest.payload = @"{\"payloadData\":\"abcd\"}";
 
     [[[iotData publish:publishRequest] continueWithBlock:^id(AWSTask *task) {
-        XCTAssertNotNil(task.error, @"expected validation error, but got nil");
+        XCTAssertEqual(task.error.domain, AWSIoTDataErrorDomain);
+        XCTAssertEqual(task.error.code, AWSIoTDataErrorResourceNotFound);
         return nil;
     }] waitUntilFinished];
 
@@ -192,13 +227,13 @@ NSString *publishMessageTestString=@"this-is-test-message-data";
     publishRequest.payload = nil;
 
     [[[iotData publish:publishRequest] continueWithBlock:^id(AWSTask *task) {
-        XCTAssertNotNil(task.error, @"expected validation error, but got nil");
+        XCTAssertEqual(task.error.domain, AWSIoTDataErrorDomain);
+        XCTAssertEqual(task.error.code, AWSIoTDataErrorResourceNotFound);
         return nil;
     }] waitUntilFinished];
 }
 
 - (NSString *)generateRandomStringOfLength: (NSUInteger)length {
-    
     NSMutableString *rc = [NSMutableString stringWithCapacity: length];
     NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_=+()%!@#$%^&*/\\:;,.'{}~";
     for (NSUInteger i=0; i<length; i++) {
@@ -208,190 +243,160 @@ NSString *publishMessageTestString=@"this-is-test-message-data";
 }
 
 - (void) testWebsocketConnectStateTransition {
-
-    __block AWSIoTMQTTStatus currentStatus = AWSIoTMQTTStatusUnknown;
-    __block NSUInteger timesTriggered = 0;
+    XCTestExpectation *statusIsConnecting = [self expectationWithDescription:@"status is 'connecting'"];
+    XCTestExpectation *statusIsConnected = [self expectationWithDescription:@"status is 'connected'"];
+    XCTestExpectation *statusIsDisconnected = [self expectationWithDescription:@"status is 'Disconnected'"];
 
     void (^updateConnectionStatus)(AWSIoTMQTTStatus) = ^(AWSIoTMQTTStatus status) {
-        ++timesTriggered;
-        currentStatus = status;
         AWSDDLogInfo(@"status = %ld", (long)status);
-        //timesTriggered is incremented before the following checks, so it's value should be at least 1.
 
-        if (1 == timesTriggered) XCTAssertEqual(currentStatus, AWSIoTMQTTStatusConnecting);
-        else if (2 == timesTriggered) XCTAssertEqual(currentStatus, AWSIoTMQTTStatusConnected);
-        else if (3 == timesTriggered) XCTAssertEqual(currentStatus, AWSIoTMQTTStatusDisconnected);
-        else XCTFail(@"Too many status transition callback triggered! The last callback triggered with Status: %ld", (long)status);
+        switch (status) {
+            case AWSIoTMQTTStatusConnecting: {
+                [statusIsConnecting fulfill];
+                break;
+            }
+            case AWSIoTMQTTStatusConnected: {
+                [statusIsConnected fulfill];
+                break;
+            }
+            case AWSIoTMQTTStatusDisconnected: {
+                [statusIsDisconnected fulfill];
+                break;
+            }
+            default: {
+                XCTFail(@"Unexpected status in callback: %ld", (long) status);
+            }
+        }
     };
 
-    AWSServiceConfiguration *serviceConfig = [AWSServiceManager defaultServiceManager].defaultServiceConfiguration;
-    AWSIoTMQTTLastWillAndTestament *lwt = [AWSIoTMQTTLastWillAndTestament new];
-    lwt.topic = @"will-topic";
-    lwt.message = @"ive-died";
-    lwt.qos = AWSIoTMQTTQoSMessageDeliveryAttemptedAtMostOnce;
     NSString *const key = @"testWebsocketConnectionState";
-    AWSIoTMQTTConfiguration *mqttConfig =
-        [[AWSIoTMQTTConfiguration alloc] initWithKeepAliveTimeInterval:75.0
-                                             baseReconnectTimeInterval:1.0
-                                         minimumConnectionTimeInterval:20.0
-                                          maximumReconnectTimeInterval:128.0
-                                                               runLoop:[NSRunLoop currentRunLoop]
-                                                           runLoopMode:NSDefaultRunLoopMode
-                                                       autoResubscribe:YES
-                                                  lastWillAndTestament:lwt];
-    [AWSIoTDataManager registerIoTDataManagerWithConfiguration:serviceConfig
-                                         withMQTTConfiguration:mqttConfig
-                                                        forKey:key];
+    [AWSIoTDataTests registerIoTDataManagerForKey:key];
+
     AWSIoTDataManager *iotDataManager = [AWSIoTDataManager IoTDataManagerForKey:key];
-    [iotDataManager connectUsingWebSocketWithClientId:@"test-connect-state-transition"
+    [iotDataManager connectUsingWebSocketWithClientId:key
                                          cleanSession:true
                                        statusCallback:updateConnectionStatus];
 
-    // Wait for 5 seconds to allow the connect to happen
-
-    NSDate *runUntil = [NSDate dateWithTimeIntervalSinceNow: 5.0 ];
-    AWSDDLogInfo(@"waiting 5 seconds to connect...");
-    [[NSRunLoop currentRunLoop] runUntilDate:runUntil];
-
-    //Status should be connected by now.
-    XCTAssertEqual(currentStatus, AWSIoTMQTTStatusConnected);
-
-    //There should have been 2 state transition from Unknown -> connecting -> connected
-    XCTAssertEqual(timesTriggered, 2);
+    [self waitForExpectations:@[statusIsConnecting, statusIsConnected]
+                      timeout:networkExpectationTimeout
+                 enforceOrder:YES];
 
     [iotDataManager disconnect];
 
-    // wait for 3 seconds to allow disconnect to complete.
-    runUntil = [NSDate dateWithTimeIntervalSinceNow: 3.0 ];
-    AWSDDLogInfo(@"waiting 3 seconds to disconnect...");
-    [[NSRunLoop currentRunLoop] runUntilDate:runUntil];
-
-    //Status should be disconnected by now
-    XCTAssertEqual(currentStatus, AWSIoTMQTTStatusDisconnected);
-
-    //There should have been 3 state transitions total.
-    XCTAssertEqual(timesTriggered, 3);
-
+    [self waitForExpectations:@[statusIsDisconnected]
+                      timeout:networkExpectationTimeout];
 }
 
+/*
 - (void)testWebSocketMQTTPubSub {
+    __block BOOL connected = false;
+    __block NSString *receivedString = @"";
+    __block NSUInteger topic2Count = 0;
 
-    __block BOOL connected=false;
-    __block NSString *receivedString=@"";
-    __block NSUInteger topic2Count=0;
-    
+    XCTestExpectation *statusIsConnected = [self expectationWithDescription:@"status is 'connected'"];
+    statusIsConnected.assertForOverFulfill = false;
     void (^updateConnectionStatus)(AWSIoTMQTTStatus status) = ^(AWSIoTMQTTStatus status) {
-        connected = true;
+        if (status == AWSIoTMQTTStatusConnected) {
+            connected = YES;
+            [statusIsConnected fulfill];
+        }
     };
-    void (^topic2Callback)(NSData *) = ^(NSData *data) {
-        topic2Count++;
-    };
+
     void (^topic1Callback)(NSData *) = ^(NSData *data) {
         NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         receivedString = string;
     };
 
-    AWSServiceConfiguration *serviceConfig = [AWSServiceManager defaultServiceManager].defaultServiceConfiguration;
-    AWSIoTMQTTLastWillAndTestament *lwt = [AWSIoTMQTTLastWillAndTestament new];
-    lwt.topic = @"will-topic";
-    lwt.message = @"ive-died";
-    lwt.qos = AWSIoTMQTTQoSMessageDeliveryAttemptedAtMostOnce;
+    void (^topic2Callback)(NSData *) = ^(NSData *data) {
+        topic2Count++;
+    };
+
     NSString *const key = @"testWebSocketMQTTPubSub";
-    AWSIoTMQTTConfiguration *mqttConfig =
-    [[AWSIoTMQTTConfiguration alloc] initWithKeepAliveTimeInterval:75.0
-                                         baseReconnectTimeInterval:1.0
-                                     minimumConnectionTimeInterval:20.0
-                                      maximumReconnectTimeInterval:128.0
-                                                           runLoop:[NSRunLoop currentRunLoop]
-                                                       runLoopMode:NSDefaultRunLoopMode
-                                                   autoResubscribe:YES
-                                              lastWillAndTestament:lwt];
-    [AWSIoTDataManager registerIoTDataManagerWithConfiguration:serviceConfig
-                                         withMQTTConfiguration:mqttConfig
-                                                        forKey:key];
+    [AWSIoTDataTests registerIoTDataManagerForKey:key];
+
     AWSIoTDataManager *iotDataManager = [AWSIoTDataManager IoTDataManagerForKey:key];
     [iotDataManager connectUsingWebSocketWithClientId:@"integration-test-1"
                                          cleanSession:true
                                        statusCallback:updateConnectionStatus];
 
-    //
-    // Wait for 5 seconds to allow the connect to happen
-    //
-    
-    NSDate *runUntil = [NSDate dateWithTimeIntervalSinceNow: 5.0 ];
-    
-    AWSDDLogInfo(@"waiting 5 seconds to connect...");
-    [[NSRunLoop currentRunLoop] runUntilDate:runUntil];
-    XCTAssertEqual( connected, true );
-    
+    [self waitForExpectations:@[statusIsConnected]
+                      timeout:networkExpectationTimeout];
+
     //
     // Continue only if we've successfully connected
     //
-    if (connected != true)
+    if (!connected) {
         return;
-    
+    }
+
     //
     // Wait for 1.5 seconds before subscribing.
     //
-    runUntil = [NSDate dateWithTimeIntervalSinceNow: 1.5 ];
+    NSDate *runUntil = [NSDate dateWithTimeIntervalSinceNow: 1.5 ];
     [[NSRunLoop currentRunLoop] runUntilDate:runUntil];
-    
+
     //
     // Now that we're connected, test that MQTT publish and subscribe are working.
     //
     BOOL returnValue = [iotDataManager subscribeToTopic:@"testTopic1"
                                                     QoS:AWSIoTMQTTQoSMessageDeliveryAttemptedAtLeastOnce
                                         messageCallback:topic1Callback];
-    XCTAssertTrue(returnValue);
+    XCTAssertTrue(returnValue, @"Subscribed to test topic 1");
+
     returnValue = [iotDataManager subscribeToTopic:@"testTopic2"
                                                QoS:AWSIoTMQTTQoSMessageDeliveryAttemptedAtLeastOnce
                                    messageCallback:topic2Callback];
-    XCTAssertTrue(returnValue);
+    XCTAssertTrue(returnValue, @"Subscribed to test topic 2");
+
     //
     // Wait for 1.5 seconds before publishing.
     //
     runUntil = [NSDate dateWithTimeIntervalSinceNow: 1.5 ];
     [[NSRunLoop currentRunLoop] runUntilDate:runUntil];
-    
+
     returnValue = [iotDataManager publishString:publishMessageTestString
                                         onTopic:@"testTopic1"
                                             QoS:AWSIoTMQTTQoSMessageDeliveryAttemptedAtLeastOnce];
-    XCTAssertTrue(returnValue);
+    XCTAssertTrue(returnValue, @"Published on test topic 1");
 
     //
-    // Wait for 2 seconds to allow the message to travel from publisher to subscriber
+    // Wait for 5 second to allow the message to travel from publisher to subscriber
     //
-    runUntil = [NSDate dateWithTimeIntervalSinceNow: 2.0 ];
-    
-    AWSDDLogInfo(@"waiting 2 seconds for data...");
+    runUntil = [NSDate dateWithTimeIntervalSinceNow: 5];
+    AWSDDLogInfo(@"waiting 5 seconds for data...");
     [[NSRunLoop currentRunLoop] runUntilDate:runUntil];
-    
+
     XCTAssertEqualObjects(receivedString, publishMessageTestString);
-    
+
     //
     // Now allocate a max-sized publish message (128KB) and fill it with random data.  Note
     // that we use a size just under 128KB to accommodate the WebSocket framing.
     //
-    NSString *randomMaxSizeString = [self generateRandomStringOfLength:(NSUInteger)(128 * 1024)-16 ];
+    NSString *randomMaxSizeString = [self generateRandomStringOfLength:(NSUInteger)(128 * 1024)-16];
 
     returnValue = [iotDataManager publishString:randomMaxSizeString
                                         onTopic:@"testTopic1"
                                             QoS:AWSIoTMQTTQoSMessageDeliveryAttemptedAtMostOnce];
     XCTAssertTrue(returnValue);
-    
+
     //
     // Wait for 5 second to allow the message to travel from publisher to subscriber
     //
     runUntil = [NSDate dateWithTimeIntervalSinceNow: 5];
-    
-    AWSDDLogInfo(@"waiting .5 seconds for data...");
+    AWSDDLogInfo(@"waiting 5 seconds for data...");
     [[NSRunLoop currentRunLoop] runUntilDate:runUntil];
-    
+
+    if (![receivedString isEqualToString:randomMaxSizeString]) {
+        NSRange range = NSMakeRange(0, 10);
+        NSLog(@"receivedString (%li): %@", receivedString.length, [receivedString substringWithRange:range]);
+        NSLog(@"randomMaxSizeString (%li): %@", randomMaxSizeString.length, [randomMaxSizeString substringWithRange:range]);
+    }
+
     //
     // Verify that the max size string was received intact by the subscriber
     //
     XCTAssertEqualObjects(receivedString, randomMaxSizeString);
-    
+
     int j;
 
     //
@@ -402,19 +407,19 @@ NSString *publishMessageTestString=@"this-is-test-message-data";
         returnValue = [iotDataManager publishString:publishMessageTestString
                                             onTopic:@"testTopic2"
                                                 QoS:AWSIoTMQTTQoSMessageDeliveryAttemptedAtMostOnce];
-        XCTAssertTrue(returnValue);
-        runUntil = [NSDate dateWithTimeIntervalSinceNow: 0.1 ];
+        XCTAssertTrue(returnValue, @"Published message %d to testTopic2", j);
+        runUntil = [NSDate dateWithTimeIntervalSinceNow: 0.1];
         [[NSRunLoop currentRunLoop] runUntilDate:runUntil];
     }
+
     //
     // Allow 1 second for the receiver to catch up before evaluating the count...
     //
     runUntil = [NSDate dateWithTimeIntervalSinceNow: 1.0 ];
     [[NSRunLoop currentRunLoop] runUntilDate:runUntil];
 
-    
     NSUInteger receivedDifference = 100 - topic2Count;
-    
+
     XCTAssertLessThanOrEqual( receivedDifference, 5 );  // allow up to 5 messages missed
 
     topic2Count=0;
@@ -430,26 +435,26 @@ NSString *publishMessageTestString=@"this-is-test-message-data";
         runUntil = [NSDate dateWithTimeIntervalSinceNow: 0.2 ];
         [[NSRunLoop currentRunLoop] runUntilDate:runUntil];
     }
-    
+
     //
     // Allow 1 second for the receiver to catch up before evaluating the count...
     //
     runUntil = [NSDate dateWithTimeIntervalSinceNow: 1.0 ];
     [[NSRunLoop currentRunLoop] runUntilDate:runUntil];
-    
+
     receivedDifference = 50 - topic2Count;
-    
+
     XCTAssertEqual(receivedDifference, 0); // this was qos 1 so there should be no misses.
 
     [iotDataManager unsubscribeTopic:@"testTopic1"];
     [iotDataManager unsubscribeTopic:@"testTopic2"];
-    
+
     //
     // Allow 1 second for the unsubscribes to be processed...
     //
     runUntil = [NSDate dateWithTimeIntervalSinceNow: 1.0 ];
     [[NSRunLoop currentRunLoop] runUntilDate:runUntil];
-    
+
     //
     // Disconnect the client and give it 3 seconds to settle
     //
@@ -457,25 +462,432 @@ NSString *publishMessageTestString=@"this-is-test-message-data";
     runUntil = [NSDate dateWithTimeIntervalSinceNow: 3.0 ];
     [[NSRunLoop currentRunLoop] runUntilDate:runUntil];
 }
+*/
 
--(void) testReconnectProgression {
+- (void)testWebSocketMQTTPubSubWithShortAndLongMessages {
+    __block BOOL connected = false;
+    __block NSMutableArray<NSString *>* topic1Strings = @[].mutableCopy;
 
+    NSString *topic1 = @"testTopic1";
+    NSUInteger maxMessageSize = (128 * 1024) - 16;
 
+    XCTestExpectation *connectedExpectation = [self expectationWithDescription:@"status is 'connected'"];
+    XCTestExpectation *disconnectedExpectation = [self expectationWithDescription:@"status is 'disconnected'"];
+    XCTestExpectation *subscribedExpectation = [self expectationWithDescription:@"subscribed to topics"];
+    XCTestExpectation *collectedTopic1MessagesExpectation = [self expectationWithDescription:@"collecting topic 1 messages"];
+
+    connectedExpectation.assertForOverFulfill = NO;
+    void (^updateConnectionStatus)(AWSIoTMQTTStatus status) = ^(AWSIoTMQTTStatus status) {
+        if (status == AWSIoTMQTTStatusConnected) {
+            connected = YES;
+            [connectedExpectation fulfill];
+        } else if (status == AWSIoTMQTTStatusDisconnected) {
+            connected = NO;
+            [disconnectedExpectation fulfill];
+        }
+    };
+
+    NSString *const key = @"testWebSocketMQTTPubSub";
+    [AWSIoTDataTests registerIoTDataManagerForKey:key];
+
+    AWSIoTDataManager *iotDataManager = [AWSIoTDataManager IoTDataManagerForKey:key];
+    [iotDataManager connectUsingWebSocketWithClientId:@"integration-test-1"
+                                         cleanSession:true
+                                       statusCallback:updateConnectionStatus];
+
+    // Wait until connected
+    [self waitForExpectations:@[connectedExpectation]
+                      timeout:networkExpectationTimeout];
+
+    //
+    // Continue only if we've successfully connected
+    //
+
+    XCTAssertTrue(connected);
+    if (!connected) {
+        return;
+    }
+
+    void (^topic1Callback)(NSData *) = ^(NSData *data) {
+        NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        [topic1Strings addObject:string];
+        if (topic1Strings.count == 2) {
+            [collectedTopic1MessagesExpectation fulfill];
+        }
+    };
+
+    //
+    // Subscribe after connected.
+    //
+
+    BOOL returnValue = [iotDataManager subscribeToTopic:topic1
+                                                    QoS:AWSIoTMQTTQoSMessageDeliveryAttemptedAtLeastOnce
+                                        messageCallback:topic1Callback
+                                            ackCallback: ^{
+        [subscribedExpectation fulfill];
+    }];
+    XCTAssertTrue(returnValue, @"Subscribed to test topic 1");
+
+    // Wait until subscribed
+    [self waitForExpectations:@[subscribedExpectation]
+                      timeout:networkExpectationTimeout];
+
+    //
+    // Publish on topic 1 after subscribed.
+    //
+    NSString *shortMessageIn = publishMessageTestString;
+    returnValue = [iotDataManager publishString:shortMessageIn
+                                        onTopic:topic1
+                                            QoS:AWSIoTMQTTQoSMessageDeliveryAttemptedAtLeastOnce];
+    XCTAssertTrue(returnValue, @"Published on test topic 1");
+
+    //
+    // Now allocate a max-sized publish message (128KB) and fill it with random data.
+    // Note that we use a size just under 128KB to accommodate the WebSocket framing.
+    //
+
+    NSString *longMessageIn = [self generateRandomStringOfLength:maxMessageSize];
+
+    NSRange range = NSMakeRange(0, 10);
+    NSLog(@"longMessageIn (%li): '%@'",
+          longMessageIn.length,
+          [longMessageIn substringWithRange:range]);
+
+    returnValue = [iotDataManager publishString:longMessageIn
+                                        onTopic:topic1
+                                            QoS:AWSIoTMQTTQoSMessageDeliveryAttemptedAtMostOnce];
+    XCTAssertTrue(returnValue);
+
+    // Wait until all messages are published on topic 1
+    [self waitForExpectations:@[collectedTopic1MessagesExpectation]
+                      timeout:networkExpectationTimeout];
+
+    XCTAssertEqual(topic1Strings.count, 2);
+
+    NSString *shortMessageOut = topic1Strings[0];
+    NSString *longMessageOut = topic1Strings[1];
+
+    XCTAssertEqualObjects(shortMessageOut, shortMessageIn);
+    XCTAssertEqualObjects(longMessageOut, longMessageIn);
+
+    NSRange prefix = NSMakeRange(0, 10);
+    NSRange suffix = NSMakeRange(shortMessageIn.length - 10, 10);
+    NSLog(@" short in (%li): '%@' -> '%@'", shortMessageIn.length,
+          [shortMessageIn substringWithRange:prefix],
+          [shortMessageIn substringWithRange:suffix]);
+
+    suffix = NSMakeRange(shortMessageOut.length - 10, 10);
+    NSLog(@"short out (%li): '%@' -> '%@'", shortMessageOut.length,
+          [shortMessageOut substringWithRange:prefix],
+          [shortMessageOut substringWithRange:suffix]);
+
+    suffix = NSMakeRange(longMessageIn.length - 10, 10);
+    NSLog(@" long in (%li): '%@' -> '%@'", longMessageIn.length,
+    [longMessageIn substringWithRange:prefix],
+    [longMessageIn substringWithRange:suffix]);
+
+    suffix = NSMakeRange(longMessageOut.length - 10, 10);
+    NSLog(@"long out (%li): '%@' -> '%@'", longMessageOut.length,
+          [longMessageOut substringWithRange:prefix],
+          [longMessageOut substringWithRange:suffix]);
+
+    [iotDataManager unsubscribeTopic:topic1];
+
+    //
+    // Disconnect the client
+    //
+    [iotDataManager disconnect];
+
+    [self waitForExpectations:@[disconnectedExpectation]
+                      timeout:networkExpectationTimeout];
+
+    XCTAssertFalse(connected);
+}
+
+- (void)testWebSocketMQTTPubSubWithManyMostOnceMessages {
+    __block BOOL connected = false;
+    __block NSMutableArray<NSString *>* topic2Strings = @[].mutableCopy;
+
+    NSString *topic2 = @"testTopic2";
+
+    XCTestExpectation *connectedExpectation = [self expectationWithDescription:@"status is 'connected'"];
+    XCTestExpectation *disconnectedExpectation = [self expectationWithDescription:@"status is 'disconnected'"];
+    XCTestExpectation *subscribedExpectation = [self expectationWithDescription:@"subscribed to topics"];
+    XCTestExpectation *delayForTopic2MostOnceMessagesExpectation = [self expectationWithDescription:@"delay for topic 2 most once messages"];
+
+    dispatch_queue_t serialQueue = dispatch_queue_create("com.amazon.aws.iot.test-queue", DISPATCH_QUEUE_SERIAL);
+
+    connectedExpectation.assertForOverFulfill = NO;
+    void (^updateConnectionStatus)(AWSIoTMQTTStatus status) = ^(AWSIoTMQTTStatus status) {
+        if (status == AWSIoTMQTTStatusConnected) {
+            connected = YES;
+            [connectedExpectation fulfill];
+        } else if (status == AWSIoTMQTTStatusDisconnected) {
+            connected = NO;
+            [disconnectedExpectation fulfill];
+        }
+    };
+
+    NSString *const key = @"testWebSocketMQTTPubSub";
+    [AWSIoTDataTests registerIoTDataManagerForKey:key];
+
+    AWSIoTDataManager *iotDataManager = [AWSIoTDataManager IoTDataManagerForKey:key];
+    [iotDataManager connectUsingWebSocketWithClientId:@"integration-test-1"
+                                         cleanSession:true
+                                       statusCallback:updateConnectionStatus];
+
+    // Wait until connected
+    [self waitForExpectations:@[connectedExpectation]
+                      timeout:networkExpectationTimeout];
+
+    //
+    // Continue only if we've successfully connected
+    //
+
+    XCTAssertTrue(connected);
+    if (!connected) {
+        return;
+    }
+
+    void (^topic2Callback)(NSData *) = ^(NSData *data) {
+        NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        dispatch_sync(serialQueue, ^{
+            [topic2Strings addObject:string];
+        });
+    };
+
+    //
+    // Subscribe after connected.
+    //
+
+    BOOL returnValue = [iotDataManager subscribeToTopic:topic2
+                                                    QoS:AWSIoTMQTTQoSMessageDeliveryAttemptedAtLeastOnce
+                                        messageCallback:topic2Callback
+                                            ackCallback: ^{
+        [subscribedExpectation fulfill];
+    }];
+    XCTAssertTrue(returnValue, @"Subscribed to test topic 2");
+
+    // Wait until subscribed
+    [self waitForExpectations:@[subscribedExpectation]
+                      timeout:networkExpectationTimeout];
+
+    //
+    // Publish at 10Hz for 10 seconds; the receiver will count messages
+    // and we'll verify that we received most of them.
+    //
+    NSUInteger count = 100;
+    NSTimeInterval delay = 0.1;
+    useconds_t microseconds = delay * 1000000;
+    NSTimeInterval timeout = count * delay * 1.25;
+
+    __block NSUInteger total = 0;
+    __block TestBlock asyncTask;
+    __block TestBlock done;
+
+    asyncTask = ^ {
+        BOOL returnValue = [iotDataManager publishString:publishMessageTestString
+                                                 onTopic:topic2
+                                                     QoS:AWSIoTMQTTQoSMessageDeliveryAttemptedAtMostOnce];
+        XCTAssertTrue(returnValue);
+        dispatch_sync(serialQueue, ^{
+            total++;
+        });
+    };
+
+    done = ^ {
+        //
+        // Allow 2 seconds for the receiver to catch up before evaluating the count...
+        //
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_global_queue(0, 0), ^{
+            [delayForTopic2MostOnceMessagesExpectation fulfill];
+        });
+    };
+
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    dispatch_apply(count, queue, ^(size_t index) {
+        NSLog(@"Running async task: %lu", index);
+        asyncTask();
+        usleep(microseconds);
+        BOOL isDone = index == count - 1;
+        if (isDone) {
+            done();
+        }
+    });
+
+    //
+    // Allow 1 second for the receiver to catch up before evaluating the count...
+    //
+    [self waitForExpectations:@[delayForTopic2MostOnceMessagesExpectation]
+                      timeout:timeout];
+
+    NSLog(@"Published %lu messages", topic2Strings.count);
+    XCTAssertEqual(count, total);
+    XCTAssertGreaterThanOrEqual(topic2Strings.count, count - 5);  // allow up to 5 messages missed
+
+    [iotDataManager unsubscribeTopic:topic2];
+
+    //
+    // Disconnect the client
+    //
+    [iotDataManager disconnect];
+
+    [self waitForExpectations:@[disconnectedExpectation]
+                      timeout:networkExpectationTimeout];
+
+    XCTAssertFalse(connected);
+}
+
+- (void)testWebSocketMQTTPubSubWithManyLeastOnceMessages {
+    __block BOOL connected = false;
+    __block NSMutableArray<NSString *>* topic2Strings = @[].mutableCopy;
+
+    NSString *topic2 = @"testTopic2";
+
+    XCTestExpectation *connectedExpectation = [self expectationWithDescription:@"status is 'connected'"];
+    XCTestExpectation *disconnectedExpectation = [self expectationWithDescription:@"status is 'disconnected'"];
+    XCTestExpectation *subscribedExpectation = [self expectationWithDescription:@"subscribed to topics"];
+    XCTestExpectation *delayForTopic2LeastOnceMessagesExpectation = [self expectationWithDescription:@"delay for topic 2 least once messages"];
+
+    dispatch_queue_t serialQueue = dispatch_queue_create("com.amazon.aws.iot.test-queue", DISPATCH_QUEUE_SERIAL);
+
+    connectedExpectation.assertForOverFulfill = NO;
+    void (^updateConnectionStatus)(AWSIoTMQTTStatus status) = ^(AWSIoTMQTTStatus status) {
+        if (status == AWSIoTMQTTStatusConnected) {
+            connected = YES;
+            [connectedExpectation fulfill];
+        } else if (status == AWSIoTMQTTStatusDisconnected) {
+            connected = NO;
+            [disconnectedExpectation fulfill];
+        }
+    };
+
+    NSString *const key = @"testWebSocketMQTTPubSub";
+    [AWSIoTDataTests registerIoTDataManagerForKey:key];
+
+    AWSIoTDataManager *iotDataManager = [AWSIoTDataManager IoTDataManagerForKey:key];
+    [iotDataManager connectUsingWebSocketWithClientId:@"integration-test-1"
+                                         cleanSession:true
+                                       statusCallback:updateConnectionStatus];
+
+    // Wait until connected
+    [self waitForExpectations:@[connectedExpectation]
+                      timeout:networkExpectationTimeout];
+
+    //
+    // Continue only if we've successfully connected
+    //
+
+    XCTAssertTrue(connected);
+    if (!connected) {
+        return;
+    }
+
+    void (^topic2Callback)(NSData *) = ^(NSData *data) {
+        NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        [topic2Strings addObject:string];
+    };
+
+    //
+    // Subscribe after connected.
+    //
+
+    BOOL returnValue = [iotDataManager subscribeToTopic:topic2
+                                                    QoS:AWSIoTMQTTQoSMessageDeliveryAttemptedAtLeastOnce
+                                        messageCallback:topic2Callback
+                                            ackCallback: ^{
+        [subscribedExpectation fulfill];
+    }];
+    XCTAssertTrue(returnValue, @"Subscribed to test topic 2");
+
+    // Wait until subscribed
+    [self waitForExpectations:@[subscribedExpectation]
+                      timeout:networkExpectationTimeout];
+
+    //
+    // Publish at 5Hz for 10 seconds (qos 1); the receiver will count messages
+    // and we'll verify that we received all of them.
+    //
+    NSUInteger count = 50;
+    NSTimeInterval delay = 0.2;
+    useconds_t microseconds = delay * 1000000;
+    NSTimeInterval timeout = count * delay * 1.5;
+
+    __block NSUInteger i = 0;
+    __block NSUInteger total = 0;
+    __block TestBlock asyncWork;
+    __block TestBlock step;
+
+    asyncWork = ^ {
+        BOOL returnValue = [iotDataManager publishString:publishMessageTestString
+                                                 onTopic:topic2
+                                                     QoS:AWSIoTMQTTQoSMessageDeliveryAttemptedAtLeastOnce];
+        XCTAssertTrue(returnValue);
+        dispatch_sync(serialQueue, ^{
+            total++;
+        });
+
+        assert(step != nil);
+        step();
+    };
+
+    step = ^ {
+        if (i < count) {
+            dispatch_sync(serialQueue, ^{
+                usleep(microseconds);
+                i++;
+            });
+            NSLog(@"Running async task: %lu", i);
+            asyncWork();
+        } else {
+            //
+            // Allow 1 second for the receiver to catch up before evaluating the count...
+            //
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_global_queue(0, 0), ^{
+                [delayForTopic2LeastOnceMessagesExpectation fulfill];
+            });
+        }
+    };
+
+    step();
+
+    [self waitForExpectations:@[delayForTopic2LeastOnceMessagesExpectation]
+                      timeout:timeout];
+
+    NSLog(@"Published %lu messages", topic2Strings.count);
+    XCTAssertEqual(total, count);
+    XCTAssertGreaterThanOrEqual(topic2Strings.count, count); // this was qos 1 so there should be no misses.
+
+    [iotDataManager unsubscribeTopic:topic2];
+
+    //
+    // Disconnect the client
+    //
+    [iotDataManager disconnect];
+
+    [self waitForExpectations:@[disconnectedExpectation]
+                      timeout:networkExpectationTimeout];
+
+    XCTAssertFalse(connected);
+}
+
+- (void) testReconnectProgression {
     __block NSUInteger connectionAttempts = 0;
     __block NSDate *connectingTime = [NSDate date];
     __block NSTimeInterval maxExpected = 8.0;
     __block NSTimeInterval currentExpected = 1.0;
 
-
     AWSServiceConfiguration *serviceConfig = [AWSServiceManager defaultServiceManager].defaultServiceConfiguration;
     AWSIoTMQTTLastWillAndTestament *lwt = [AWSIoTMQTTLastWillAndTestament new];
     lwt.topic = @"will-topic";
+
     //
     // Use a misconfigured connect message to force an immediate disconnection; here
     // we specify a will topic with the will QoS set to 2 (invalid).
     //
     lwt.qos = 2;
     NSString *const key = @"testReconnectProgression";
+
     //
     // Set custom base and max reconnection times so this test doesn't take too long.
     //
@@ -507,9 +919,9 @@ NSString *publishMessageTestString=@"this-is-test-message-data";
                 // Check that the reconnection interval is correct +/- 4 seconds
                 //
                 XCTAssertEqualWithAccuracy(deltaTime, currentExpected, 4.0);
-                NSLog(@"Expected Time: [%f] seconds, Delta Time [%f]",currentExpected, deltaTime);
+                NSLog(@"Expected Time: [%f] seconds, Delta Time [%f]", currentExpected, deltaTime);
                 currentExpected *= 2;
-                
+
                 if (currentExpected > maxExpected) {
                     currentExpected = maxExpected;
                 }
@@ -524,7 +936,7 @@ NSString *publishMessageTestString=@"this-is-test-message-data";
     //
     NSDate *runUntil = [NSDate dateWithTimeIntervalSinceNow: 45.0 ];
     [[NSRunLoop currentRunLoop] runUntilDate:runUntil];
-    
+
     //
     // Disconnect the client and give it 3 seconds to settle
     //
@@ -534,14 +946,13 @@ NSString *publishMessageTestString=@"this-is-test-message-data";
 }
 
 - (void)testWebSocketShadowOperations {
-    
     NSString *const key = @"testWebSocketShadowOperations";
-    AWSServiceConfiguration *serviceConfig = [AWSServiceManager defaultServiceManager].defaultServiceConfiguration;
-    [AWSIoTDataManager registerIoTDataManagerWithConfiguration:serviceConfig forKey:key];
+    [AWSIoTDataTests registerIoTDataManagerForKey:key];
+
     __block AWSIoTDataManager *iotDataManager = [AWSIoTDataManager IoTDataManagerForKey:key];
     __block BOOL connected = NO;
     NSDate *runUntil;
-    
+
     [iotDataManager connectUsingWebSocketWithClientId:@"integration-test-3"
                                          cleanSession:true
                                        statusCallback:^(AWSIoTMQTTStatus status) {
@@ -549,7 +960,7 @@ NSString *publishMessageTestString=@"this-is-test-message-data";
             connected = YES;
        }
     }];
-    
+
     UInt32 connectWaitSeconds = 0;
     //
     // Wait up to 10 seconds for the connection to complete.
@@ -559,7 +970,7 @@ NSString *publishMessageTestString=@"this-is-test-message-data";
         [[NSRunLoop currentRunLoop] runUntilDate:runUntil];
     }
     XCTAssertTrue(connected);
-    
+
     __block UInt32 numberAccepted = 0;
     __block UInt32 numberRejected = 0;
     __block UInt32 numberDeltas   = 0;
@@ -578,13 +989,13 @@ NSString *publishMessageTestString=@"this-is-test-message-data";
     __block NSString *acceptedClientToken;
     __block NSString *rejectedClientToken;
     __block NSUInteger versionNumber;
-    
+
     __block UInt32 expectedAccepted = 0;
     __block UInt32 expectedRejected = 0;
     __block UInt32 expectedDeltas   = 0;
     __block UInt32 expectedTimeouts = 0;
     __block UInt32 expectedDocuments = 0;
-    
+
     void (^eventCallback)(NSString *shadowName, AWSIoTShadowOperationType operation, AWSIoTShadowOperationStatusType status, NSString *clientToken, NSData *payload) = ^(NSString *shadowName, AWSIoTShadowOperationType operation, AWSIoTShadowOperationStatusType status, NSString *clientToken, NSData *payload) {
         XCTAssertEqual(shadowName, @"testThing99");
         XCTAssertTrue( status == AWSIoTShadowOperationStatusTypeAccepted
@@ -638,21 +1049,21 @@ NSString *publishMessageTestString=@"this-is-test-message-data";
     //
     runUntil = [NSDate dateWithTimeIntervalSinceNow: 2.0 ];
     [[NSRunLoop currentRunLoop] runUntilDate:runUntil];
-    
+
     //
     // Register a shadow to test with.
     //
     AWSDDLogInfo(@" Test registerWithShadow ");
     BOOL status = [iotDataManager registerWithShadow:@"testThing99" options:nil eventCallback: eventCallback];
     XCTAssertEqual(status, YES);
-    
+
     //
     // Wait a couple of seconds to let the service handle the subscriptions
     // before doing the update.
     //
     runUntil = [NSDate dateWithTimeIntervalSinceNow: 2.5 ];
     [[NSRunLoop currentRunLoop] runUntilDate:runUntil];
-    
+
     //
     // Delete the shadow in case it still exists from a previous test; verify only
     // that either an accepted or a rejected is received since we're not sure whether
@@ -662,7 +1073,7 @@ NSString *publishMessageTestString=@"this-is-test-message-data";
     AWSDDLogInfo(@" Test deleteShadow ");
     BOOL operationStatus = [iotDataManager deleteShadow:@"testThing99"];
     XCTAssertTrue(operationStatus);
-    
+
     //
     // Wait a bit to let the service process the request and return the result.
     //
@@ -672,7 +1083,7 @@ NSString *publishMessageTestString=@"this-is-test-message-data";
     XCTAssertTrue( numberAccepted == 1 || numberRejected == 1 );
     XCTAssertTrue( [acceptedClientToken isEqualToString:@"integration-test-3-1"]
                   || [rejectedClientToken isEqualToString:@"integration-test-3-1"] );
-    
+
     //
     // Update the shadow with invalid data.
     //
@@ -681,7 +1092,7 @@ NSString *publishMessageTestString=@"this-is-test-message-data";
     operationStatus = [iotDataManager updateShadow:@"testThing99" jsonString:testShadowStringInvalid];
     // operationStatus should be false because testShadowStringInvalid cannot be serialized successfully
     XCTAssertFalse(operationStatus);
-    
+
     //
     // Wait a bit to let the service process the request and return the result.
     //
@@ -692,7 +1103,7 @@ NSString *publishMessageTestString=@"this-is-test-message-data";
     XCTAssertEqual(numberDeltas,   expectedDeltas);
     XCTAssertEqual(numberTimeouts, expectedTimeouts);
     XCTAssertTrue(acceptedClientToken == nil && rejectedClientToken == nil);
-    
+
     //
     // Update the shadow with valid data.
     //
@@ -703,7 +1114,7 @@ NSString *publishMessageTestString=@"this-is-test-message-data";
     expectedAccepted++;
     expectedDeltas++;
     expectedDocuments++;
-    
+
     //
     // Wait a bit to let the service process the request and return the result.
     //
@@ -718,7 +1129,7 @@ NSString *publishMessageTestString=@"this-is-test-message-data";
     XCTAssertEqual( [[[[[documentsJsonDictionary objectForKey:@"current"]
                         objectForKey:@"state"] objectForKey:@"reported"] objectForKey:@"value"] integerValue], 6789);
     XCTAssertEqual(numberDocuments, expectedDocuments);
-    
+
     //
     // Update the shadow with valid data.
     //
@@ -728,7 +1139,7 @@ NSString *publishMessageTestString=@"this-is-test-message-data";
     XCTAssertTrue(operationStatus);
     expectedAccepted++;
     expectedDocuments++;
-    
+
     //
     // Wait a bit to let the service process the request and return the result.
     //
@@ -755,7 +1166,7 @@ NSString *publishMessageTestString=@"this-is-test-message-data";
     operationStatus = [iotDataManager getShadow:@"testThing99"];
     XCTAssertTrue(operationStatus);
     expectedAccepted++;
-    
+
     //
     // Wait a bit to let the service process the request and return the result.
     //
@@ -779,7 +1190,7 @@ NSString *publishMessageTestString=@"this-is-test-message-data";
     expectedAccepted++;
     expectedDeltas++;
     expectedDocuments++;
-    
+
     //
     // Wait a bit to let the service process the request and return the result.
     //
@@ -806,7 +1217,7 @@ NSString *publishMessageTestString=@"this-is-test-message-data";
     operationStatus = [iotDataManager getShadow:@"testThing99"];
     XCTAssertTrue(operationStatus);
     expectedAccepted++;
-    
+
     //
     // Wait a bit to let the service process the request and return the result.
     //
@@ -828,7 +1239,7 @@ NSString *publishMessageTestString=@"this-is-test-message-data";
     operationStatus = [iotDataManager deleteShadow:@"testThing99"];
     XCTAssertTrue(operationStatus);
     expectedAccepted++;
-    
+
     //
     // Wait a bit to let the service process the request and return the result.
     //
@@ -848,7 +1259,7 @@ NSString *publishMessageTestString=@"this-is-test-message-data";
     operationStatus = [iotDataManager getShadow:@"testThing99"];
     XCTAssertTrue(operationStatus);
     expectedRejected++;
-    
+
     //
     // Wait a bit to let the service process the request and return the result.
     //
@@ -859,7 +1270,7 @@ NSString *publishMessageTestString=@"this-is-test-message-data";
     XCTAssertEqual(numberDeltas,   expectedDeltas);
     XCTAssertEqual(numberTimeouts, expectedTimeouts);
     XCTAssertTrue( [rejectedClientToken isEqualToString:@"integration-test-3-8"] && acceptedClientToken == nil );
-    
+
     //
     // Unregister the shadow; this deletes it from the application and it will need to be
     // re-registered if it's to be used again.
@@ -871,7 +1282,7 @@ NSString *publishMessageTestString=@"this-is-test-message-data";
     //
     runUntil = [NSDate dateWithTimeIntervalSinceNow: 2.5 ];
     [[NSRunLoop currentRunLoop] runUntilDate:runUntil];
-    
+
     NSDictionary *optionsDictionary = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[NSNumber numberWithInt:YES],nil] forKeys:[NSArray arrayWithObjects:@"enableIgnoreDeltas", nil]];
 
     AWSDDLogInfo(@" Test registerWithShadow again");
@@ -881,7 +1292,7 @@ NSString *publishMessageTestString=@"this-is-test-message-data";
     //
     runUntil = [NSDate dateWithTimeIntervalSinceNow: 2.5 ];
     [[NSRunLoop currentRunLoop] runUntilDate:runUntil];
-    
+
     //
     // Wait a bit to let the service process the subscriptions
     //
@@ -901,7 +1312,7 @@ NSString *publishMessageTestString=@"this-is-test-message-data";
     operationStatus = [iotDataManager updateShadow:@"testThing99" jsonString:testShadowStringValid clientToken:@"custom-client-token-1"];
     XCTAssertTrue(operationStatus);
     expectedAccepted++;
-    
+
     //
     // Wait a bit to let the service process the request and return the result.
     //
@@ -923,7 +1334,7 @@ NSString *publishMessageTestString=@"this-is-test-message-data";
     operationStatus = [iotDataManager getShadow:@"testThing99" clientToken:@"custom-client-token-2"];
     XCTAssertTrue(operationStatus);
     expectedAccepted++;
-    
+
     //
     // Wait a bit to let the service process the request and return the result.
     //
@@ -945,7 +1356,7 @@ NSString *publishMessageTestString=@"this-is-test-message-data";
     operationStatus = [iotDataManager deleteShadow:@"testThing99" clientToken:@"custom-client-token-3"];
     XCTAssertTrue(operationStatus);
     expectedAccepted++;
-    
+
     //
     // Wait a bit to let the service process the request and return the result.
     //
@@ -956,7 +1367,7 @@ NSString *publishMessageTestString=@"this-is-test-message-data";
     XCTAssertEqual(numberDeltas,   expectedDeltas);
     XCTAssertEqual(numberTimeouts, expectedTimeouts);
     XCTAssertTrue( [acceptedClientToken isEqualToString:@"custom-client-token-3"] && rejectedClientToken == nil );
-    
+
     //
     // Now try to get the shadow, this should be rejected since it no longer exists.
     //
@@ -965,7 +1376,7 @@ NSString *publishMessageTestString=@"this-is-test-message-data";
     operationStatus = [iotDataManager getShadow:@"testThing99" clientToken:@"custom-client-token-4"];
     XCTAssertTrue(operationStatus);
     expectedRejected++;
-    
+
     //
     // Wait a bit to let the service process the request and return the result.
     //
@@ -976,6 +1387,82 @@ NSString *publishMessageTestString=@"this-is-test-message-data";
     XCTAssertEqual(numberDeltas,   expectedDeltas);
     XCTAssertEqual(numberTimeouts, expectedTimeouts);
     XCTAssertTrue( [rejectedClientToken isEqualToString:@"custom-client-token-4"] && acceptedClientToken == nil );
+}
+
+- (void)testUsernameMetaData {
+    NSString *const key = @"testUsernameMetaData";
+    AWSServiceConfiguration *serviceConfig = [AWSServiceManager defaultServiceManager].defaultServiceConfiguration;
+    [AWSIoTDataManager registerIoTDataManagerWithConfiguration:serviceConfig forKey:key];
+    __block AWSIoTDataManager *iotDataManager = [AWSIoTDataManager IoTDataManagerForKey:key];
+
+    // Check default state of metadata
+    [[[iotDataManager mqttClient] userMetaData] isEqualToString:[NSString stringWithFormat:@"?SDK=iOS&Version=%@", AWSIoTSDKVersion]];
+
+    // Check state after adding additional fields
+    NSDictionary<NSString *,NSString *> * metaData = @{@"foo": @"bar", @"clazz": @"2"};
+    [iotDataManager updateUserMetaData: metaData];
+    NSString *defaultUserMetaData = [NSString stringWithFormat:@"?SDK=iOS&Version=%@", AWSIoTSDKVersion];
+    NSString *actualUserMetaData = [[iotDataManager mqttClient] userMetaData];
+    XCTAssertTrue([actualUserMetaData hasPrefix:defaultUserMetaData]);
+    XCTAssertTrue([actualUserMetaData containsString:@"foo=bar"]);
+    XCTAssertTrue([actualUserMetaData containsString:@"clazz=2"]);
+
+    // Check state after adding additional fields twice
+    NSDictionary<NSString *,NSString *> * metaData2 = @{@"foo": @"bar2", @"foo3": @"bar3", @"foo4": @""};
+    [iotDataManager updateUserMetaData: metaData2];
+    NSString *actualUserMetaData2 = [[iotDataManager mqttClient] userMetaData];
+    XCTAssertTrue([actualUserMetaData2 containsString:@"foo=bar2"]);
+    XCTAssertTrue([actualUserMetaData2 containsString:@"foo3=bar3"]);
+    XCTAssertTrue([actualUserMetaData2 containsString:@"&foo4"]);
+    XCTAssertTrue([actualUserMetaData2 hasPrefix:defaultUserMetaData]);
+}
+
+- (void)testUsernameMetaDataLength {
+    NSString *const key = @"testUsernameMetaData";
+    AWSServiceConfiguration *serviceConfig = [AWSServiceManager defaultServiceManager].defaultServiceConfiguration;
+    [AWSIoTDataManager registerIoTDataManagerWithConfiguration:serviceConfig forKey:key];
+    __block AWSIoTDataManager *iotDataManager = [AWSIoTDataManager IoTDataManagerForKey:key];
+
+    // Check truncation logic
+    NSDictionary<NSString *,NSString *> * metaData = @{@"foo": @"bar2", @"foo3": @"bar3", @"foo4": @"", @"unusuallyLongKeynameExpectedToCauseTruncation":@"unusuallyLongValueExpectedToCauseTruncation",
+                                                        @"unusuallyLongKeynameExpectedToCauseTruncation2":@"unusuallyLongValueExpectedToCauseTruncation2", @"unusuallyLongKeynameExpectedToCauseTruncation3":@"unusuallyLongValueExpectedToCauseTruncation3"};
+    [iotDataManager updateUserMetaData: metaData];
+    NSString *defaultUserMetaData = [NSString stringWithFormat:@"?SDK=iOS&Version=%@", AWSIoTSDKVersion];
+    NSString *actualUserMetaData = [[iotDataManager mqttClient] userMetaData];
+    XCTAssertTrue([actualUserMetaData hasPrefix: defaultUserMetaData]);
+    XCTAssertTrue([actualUserMetaData length] == 255);
+}
+
+#pragma mark: - Utilities
+
++ (void) registerIoTDataManagerForKey:(NSString *)key {
+    AWSEndpoint *endpoint = [[AWSEndpoint alloc] initWithURLString:endpointString];
+
+    id<AWSCredentialsProvider> defaultCredentialsProvider = [[[AWSServiceManager defaultServiceManager] defaultServiceConfiguration] credentialsProvider];
+    AWSServiceConfiguration *serviceConfig = [[AWSServiceConfiguration alloc] initWithRegion:region
+                                                                                    endpoint:endpoint
+                                                                         credentialsProvider:defaultCredentialsProvider];
+
+    AWSIoTMQTTLastWillAndTestament *lwt = [AWSIoTMQTTLastWillAndTestament new];
+    lwt.topic = @"will-topic";
+    lwt.message = @"ive-died";
+    lwt.qos = AWSIoTMQTTQoSMessageDeliveryAttemptedAtMostOnce;
+
+    AWSIoTMQTTConfiguration *mqttConfig =
+        [[AWSIoTMQTTConfiguration alloc] initWithKeepAliveTimeInterval:75.0
+                                             baseReconnectTimeInterval:1.0
+                                         minimumConnectionTimeInterval:20.0
+                                          maximumReconnectTimeInterval:128.0
+                                                               runLoop:[NSRunLoop currentRunLoop]
+                                                           runLoopMode:NSDefaultRunLoopMode
+                                                       autoResubscribe:YES
+                                                  lastWillAndTestament:lwt];
+
+    [AWSIoTDataManager registerIoTDataManagerWithConfiguration:serviceConfig
+                                         withMQTTConfiguration:mqttConfig
+                                                        forKey:key];
+
+
 }
 
 @end
