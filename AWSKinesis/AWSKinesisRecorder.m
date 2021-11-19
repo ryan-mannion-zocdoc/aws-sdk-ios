@@ -15,7 +15,6 @@
 
 #import "AWSKinesisRecorder.h"
 #import "AWSKinesis.h"
-#import "AWSSynchronizedMutableDictionary.h"
 
 // Constants
 NSString *const AWSKinesisRecorderErrorDomain = @"com.amazonaws.AWSKinesisRecorderErrorDomain";
@@ -46,6 +45,8 @@ NSString *const AWSKinesisRecorderCacheName = @"com.amazonaws.AWSKinesisRecorder
 - (instancetype)initWithConfiguration:(AWSServiceConfiguration *)configuration
                            identifier:(NSString *)identifier
                             cacheName:(NSString *)cacheName;
+
++ (NSString *) databasePathForKey:(NSString *)key;
 
 @end
 
@@ -94,8 +95,9 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         _serviceClients = [AWSSynchronizedMutableDictionary new];
     });
 
+    NSString *identifier = [AWSAbstractKinesisRecorder databasePathForKey:key];
     AWSKinesisRecorder *kinesisRecorder = [[AWSKinesisRecorder alloc] initWithConfiguration:configuration
-                                                                                 identifier:[key aws_md5StringLittleEndian]
+                                                                                 identifier:identifier
                                                                                   cacheName:[NSString stringWithFormat:@"%@.%@", AWSKinesisRecorderCacheName, key]];
     [_serviceClients setObject:kinesisRecorder
                         forKey:key];
@@ -156,9 +158,9 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
 
 - (AWSTask *)submitRecordsForStream:(NSString *)streamName
                             records:(NSArray *)temporaryRecords
-                      partitionKeys:(NSArray *)partitionKeys
-                   putPartitionKeys:(NSMutableArray *)putPartitionKeys
-                 retryPartitionKeys:(NSMutableArray *)retryPartitionKeys
+                             rowIds:(NSArray *)rowIds
+                          putRowIds:(NSMutableArray *)putRowIds
+                        retryRowIds:(NSMutableArray *)retryRowIds
                                stop:(BOOL *)stop {
     NSMutableArray *records = [NSMutableArray new];
 
@@ -196,9 +198,9 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
                 // we should retry. So, don't delete the row from the database.
                 if (![resultEntry.errorCode isEqualToString:@"ProvisionedThroughputExceededException"]
                     && ![resultEntry.errorCode isEqualToString:@"InternalFailure"]) {
-                    [putPartitionKeys addObject:partitionKeys[i]];
+                    [putRowIds addObject:rowIds[i]];
                 } else {
-                    [retryPartitionKeys addObject:partitionKeys[i]];
+                    [retryRowIds addObject:rowIds[i]];
                 }
             }
         }

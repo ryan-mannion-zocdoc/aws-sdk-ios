@@ -242,6 +242,7 @@ typedef void (^data_callback)(AWSSRWebSocket *webSocket,  NSData *data);
 
     BOOL _sentClose;
     BOOL _didFail;
+    BOOL _cleanupScheduled;
     int _closeCode;
     
     BOOL _isPumping;
@@ -657,7 +658,12 @@ static __strong NSData *CRLFCRLF;
         case NSURLNetworkServiceTypeVoice:
             networkServiceType = NSStreamNetworkServiceTypeVoice;
             break;
-        case NSURLNetworkServiceTypeCallSignaling:
+        default:
+            if (@available(iOS 10.0, *)) {
+                if (requestNetworkServiceType == NSURLNetworkServiceTypeCallSignaling) {
+                    networkServiceType = NSStreamNetworkServiceTypeCallSignaling;
+                }
+            }
             break;
     }
     
@@ -770,11 +776,11 @@ static __strong NSData *CRLFCRLF;
             }];
 
             self.readyState = AWSSR_CLOSED;
-            self->_selfRetain = nil;
 
             SRFastLog(@"Failing with error %@", error.localizedDescription);
             
             [self closeConnection];
+            [self _scheduleCleanup];
         }
     });
 }
@@ -1182,13 +1188,14 @@ static const uint8_t SRPayloadLenMask   = 0x7F;
          _inputStream.streamStatus != NSStreamStatusClosed) &&
         !_sentClose) {
         _sentClose = YES;
-            
-        [_outputStream close];
-        [_inputStream close];
         
-        
-        for (NSArray *runLoop in [_scheduledRunloops copy]) {
-            [self unscheduleFromRunLoop:[runLoop objectAtIndex:0] forMode:[runLoop objectAtIndex:1]];
+        @synchronized(self) {
+            [_outputStream close];
+            [_inputStream close];
+
+            for (NSArray *runLoop in [_scheduledRunloops copy]) {
+                [self unscheduleFromRunLoop:[runLoop objectAtIndex:0] forMode:[runLoop objectAtIndex:1]];
+            }
         }
         
         if (!_failed) {
@@ -1199,7 +1206,7 @@ static const uint8_t SRPayloadLenMask   = 0x7F;
             }];
         }
         
-        _selfRetain = nil;
+        [self _scheduleCleanup];
     }
 }
 
@@ -1223,6 +1230,40 @@ static const uint8_t SRPayloadLenMask   = 0x7F;
     [self assertOnWorkQueue];
     [_consumers addObject:[_consumerPool consumerWithScanner:consumer handler:callback bytesNeeded:dataLength readToCurrentFrame:NO unmaskBytes:NO]];
     [self _pumpScanner];
+}
+
+- (void)_scheduleCleanup
+{
+    @synchronized(self) {
+        if (_cleanupScheduled) {
+            return;
+        }
+
+        _cleanupScheduled = YES;
+
+        // Cleanup NSStream delegate's in the same RunLoop used by the streams themselves:
+        // This way we'll prevent race conditions between handleEvent and SRWebsocket's dealloc
+        NSTimer *timer = [NSTimer timerWithTimeInterval:(0.0f) target:self selector:@selector(_cleanupSelfReference:) userInfo:nil repeats:NO];
+        [[NSRunLoop AWSSR_networkRunLoop] addTimer:timer forMode:NSDefaultRunLoopMode];
+    }
+}
+
+- (void)_cleanupSelfReference:(NSTimer *)timer
+{
+    @synchronized(self) {
+        // Nuke NSStream delegate's
+        _inputStream.delegate = nil;
+        _outputStream.delegate = nil;
+
+        // Remove the streams, right now, from the networkRunLoop
+        [_inputStream close];
+        [_outputStream close];
+    }
+
+    // Cleanup selfRetain in the same GCD queue as usual
+    dispatch_async(_workQueue, ^{
+        self->_selfRetain = nil;
+    });
 }
 
 
@@ -1470,6 +1511,8 @@ static const size_t SRFrameHeaderOverhead = 32;
 
 - (void)stream:(NSStream *)aStream handleEvent:(NSStreamEvent)eventCode;
 {
+    __weak typeof(self) wself = self;
+
     if (_secure && !_pinnedCertFound && (eventCode == NSStreamEventHasBytesAvailable || eventCode == NSStreamEventHasSpaceAvailable)) {
         
         NSArray *sslCerts = [_urlRequest AWSSR_SSLPinnedCertificates];
@@ -1495,7 +1538,7 @@ static const size_t SRFrameHeaderOverhead = 32;
             
             if (!_pinnedCertFound) {
                 dispatch_async(_workQueue, ^{
-                    [self _failWithError:[NSError errorWithDomain:AWSSRWebSocketErrorDomain code:23556 userInfo:[NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"Invalid server cert"] forKey:NSLocalizedDescriptionKey]]];
+                    [wself _failWithError:[NSError errorWithDomain:AWSSRWebSocketErrorDomain code:23556 userInfo:[NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"Invalid server cert"] forKey:NSLocalizedDescriptionKey]]];
                 });
                 return;
             }
@@ -1509,6 +1552,12 @@ static const size_t SRFrameHeaderOverhead = 32;
     }
 
     dispatch_async(_workQueue, ^{
+        [wself safeHandleEvent:eventCode stream:aStream];
+    });
+}
+
+- (void)safeHandleEvent:(NSStreamEvent)eventCode stream:(NSStream *)aStream
+{
         switch (eventCode) {
             case NSStreamEventOpenCompleted: {
                 SRFastLog(@"NSStreamEventOpenCompleted %@", aStream);
@@ -1550,7 +1599,7 @@ static const size_t SRFrameHeaderOverhead = 32;
                     dispatch_async(self->_workQueue, ^{
                         if (self.readyState != AWSSR_CLOSED) {
                             self.readyState = AWSSR_CLOSED;
-                            self->_selfRetain = nil;
+                            [self _scheduleCleanup];
                         }
 
                         if (!self->_sentClose && !self->_failed) {
@@ -1600,7 +1649,6 @@ static const size_t SRFrameHeaderOverhead = 32;
                 SRFastLog(@"(default)  %@", aStream);
                 break;
         }
-    });
 }
 
 @end

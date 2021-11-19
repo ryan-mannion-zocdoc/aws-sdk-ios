@@ -1,5 +1,5 @@
 //
-// Copyright 2010-2018 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+// Copyright 2010-2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License").
 // You may not use this file except in compliance with the License.
@@ -14,7 +14,6 @@
 //
 
 #import "AWSIoTDataService.h"
-#import <AWSCore/AWSNetworking.h>
 #import <AWSCore/AWSCategory.h>
 #import <AWSCore/AWSNetworking.h>
 #import <AWSCore/AWSSignature.h>
@@ -26,7 +25,7 @@
 #import "AWSIoTDataResources.h"
 
 static NSString *const AWSInfoIoTData = @"IoTData";
-static NSString *const AWSIoTDataSDKVersion = @"2.6.21";
+NSString *const AWSIoTDataSDKVersion = @"2.26.5";
 
 
 @interface AWSIoTDataResponseSerializer : AWSJSONResponseSerializer
@@ -309,6 +308,29 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     }];
 }
 
+- (AWSTask<AWSIoTDataGetRetainedMessageResponse *> *)getRetainedMessage:(AWSIoTDataGetRetainedMessageRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodGET
+                     URLString:@"/retainedMessage/{topic}"
+                  targetPrefix:@""
+                 operationName:@"GetRetainedMessage"
+                   outputClass:[AWSIoTDataGetRetainedMessageResponse class]];
+}
+
+- (void)getRetainedMessage:(AWSIoTDataGetRetainedMessageRequest *)request
+     completionHandler:(void (^)(AWSIoTDataGetRetainedMessageResponse *response, NSError *error))completionHandler {
+    [[self getRetainedMessage:request] continueWithBlock:^id _Nullable(AWSTask<AWSIoTDataGetRetainedMessageResponse *> * _Nonnull task) {
+        AWSIoTDataGetRetainedMessageResponse *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
 - (AWSTask<AWSIoTDataGetThingShadowResponse *> *)getThingShadow:(AWSIoTDataGetThingShadowRequest *)request {
     return [self invokeRequest:request
                     HTTPMethod:AWSHTTPMethodGET
@@ -322,6 +344,52 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
      completionHandler:(void (^)(AWSIoTDataGetThingShadowResponse *response, NSError *error))completionHandler {
     [[self getThingShadow:request] continueWithBlock:^id _Nullable(AWSTask<AWSIoTDataGetThingShadowResponse *> * _Nonnull task) {
         AWSIoTDataGetThingShadowResponse *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSIoTDataListNamedShadowsForThingResponse *> *)listNamedShadowsForThing:(AWSIoTDataListNamedShadowsForThingRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodGET
+                     URLString:@"/api/things/shadow/ListNamedShadowsForThing/{thingName}"
+                  targetPrefix:@""
+                 operationName:@"ListNamedShadowsForThing"
+                   outputClass:[AWSIoTDataListNamedShadowsForThingResponse class]];
+}
+
+- (void)listNamedShadowsForThing:(AWSIoTDataListNamedShadowsForThingRequest *)request
+     completionHandler:(void (^)(AWSIoTDataListNamedShadowsForThingResponse *response, NSError *error))completionHandler {
+    [[self listNamedShadowsForThing:request] continueWithBlock:^id _Nullable(AWSTask<AWSIoTDataListNamedShadowsForThingResponse *> * _Nonnull task) {
+        AWSIoTDataListNamedShadowsForThingResponse *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSIoTDataListRetainedMessagesResponse *> *)listRetainedMessages:(AWSIoTDataListRetainedMessagesRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodGET
+                     URLString:@"/retainedMessage"
+                  targetPrefix:@""
+                 operationName:@"ListRetainedMessages"
+                   outputClass:[AWSIoTDataListRetainedMessagesResponse class]];
+}
+
+- (void)listRetainedMessages:(AWSIoTDataListRetainedMessagesRequest *)request
+     completionHandler:(void (^)(AWSIoTDataListRetainedMessagesResponse *response, NSError *error))completionHandler {
+    [[self listRetainedMessages:request] continueWithBlock:^id _Nullable(AWSTask<AWSIoTDataListRetainedMessagesResponse *> * _Nonnull task) {
+        AWSIoTDataListRetainedMessagesResponse *result = task.result;
         NSError *error = task.error;
 
         if (completionHandler) {

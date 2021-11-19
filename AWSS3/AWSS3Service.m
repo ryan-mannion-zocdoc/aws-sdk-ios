@@ -1,5 +1,5 @@
 //
-// Copyright 2010-2018 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+// Copyright 2010-2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License").
 // You may not use this file except in compliance with the License.
@@ -14,7 +14,6 @@
 //
 
 #import "AWSS3Service.h"
-#import <AWSCore/AWSNetworking.h>
 #import <AWSCore/AWSCategory.h>
 #import <AWSCore/AWSNetworking.h>
 #import <AWSCore/AWSSignature.h>
@@ -28,7 +27,7 @@
 #import "AWSS3Serializer.h"
 
 static NSString *const AWSInfoS3 = @"S3";
-static NSString *const AWSS3SDKVersion = @"2.6.21";
+NSString *const AWSS3SDKVersion = @"2.26.5";
 
 
 
@@ -474,6 +473,28 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     }];
 }
 
+- (AWSTask *)deleteBucketOwnershipControls:(AWSS3DeleteBucketOwnershipControlsRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodDELETE
+                     URLString:@"/{Bucket}?ownershipControls"
+                  targetPrefix:@""
+                 operationName:@"DeleteBucketOwnershipControls"
+                   outputClass:nil];
+}
+
+- (void)deleteBucketOwnershipControls:(AWSS3DeleteBucketOwnershipControlsRequest *)request
+     completionHandler:(void (^)(NSError *error))completionHandler {
+    [[self deleteBucketOwnershipControls:request] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(error);
+        }
+
+        return nil;
+    }];
+}
+
 - (AWSTask *)deleteBucketPolicy:(AWSS3DeleteBucketPolicyRequest *)request {
     return [self invokeRequest:request
                     HTTPMethod:AWSHTTPMethodDELETE
@@ -625,6 +646,28 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
 
         if (completionHandler) {
             completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask *)deletePublicAccessBlock:(AWSS3DeletePublicAccessBlockRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodDELETE
+                     URLString:@"/{Bucket}?publicAccessBlock"
+                  targetPrefix:@""
+                 operationName:@"DeletePublicAccessBlock"
+                   outputClass:nil];
+}
+
+- (void)deletePublicAccessBlock:(AWSS3DeletePublicAccessBlockRequest *)request
+     completionHandler:(void (^)(NSError *error))completionHandler {
+    [[self deletePublicAccessBlock:request] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(error);
         }
 
         return nil;
@@ -930,6 +973,29 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     }];
 }
 
+- (AWSTask<AWSS3GetBucketOwnershipControlsOutput *> *)getBucketOwnershipControls:(AWSS3GetBucketOwnershipControlsRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodGET
+                     URLString:@"/{Bucket}?ownershipControls"
+                  targetPrefix:@""
+                 operationName:@"GetBucketOwnershipControls"
+                   outputClass:[AWSS3GetBucketOwnershipControlsOutput class]];
+}
+
+- (void)getBucketOwnershipControls:(AWSS3GetBucketOwnershipControlsRequest *)request
+     completionHandler:(void (^)(AWSS3GetBucketOwnershipControlsOutput *response, NSError *error))completionHandler {
+    [[self getBucketOwnershipControls:request] continueWithBlock:^id _Nullable(AWSTask<AWSS3GetBucketOwnershipControlsOutput *> * _Nonnull task) {
+        AWSS3GetBucketOwnershipControlsOutput *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
 - (AWSTask<AWSS3GetBucketPolicyOutput *> *)getBucketPolicy:(AWSS3GetBucketPolicyRequest *)request {
     return [self invokeRequest:request
                     HTTPMethod:AWSHTTPMethodGET
@@ -943,6 +1009,29 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
      completionHandler:(void (^)(AWSS3GetBucketPolicyOutput *response, NSError *error))completionHandler {
     [[self getBucketPolicy:request] continueWithBlock:^id _Nullable(AWSTask<AWSS3GetBucketPolicyOutput *> * _Nonnull task) {
         AWSS3GetBucketPolicyOutput *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSS3GetBucketPolicyStatusOutput *> *)getBucketPolicyStatus:(AWSS3GetBucketPolicyStatusRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodGET
+                     URLString:@"/{Bucket}?policyStatus"
+                  targetPrefix:@""
+                 operationName:@"GetBucketPolicyStatus"
+                   outputClass:[AWSS3GetBucketPolicyStatusOutput class]];
+}
+
+- (void)getBucketPolicyStatus:(AWSS3GetBucketPolicyStatusRequest *)request
+     completionHandler:(void (^)(AWSS3GetBucketPolicyStatusOutput *response, NSError *error))completionHandler {
+    [[self getBucketPolicyStatus:request] continueWithBlock:^id _Nullable(AWSTask<AWSS3GetBucketPolicyStatusOutput *> * _Nonnull task) {
+        AWSS3GetBucketPolicyStatusOutput *result = task.result;
         NSError *error = task.error;
 
         if (completionHandler) {
@@ -1114,6 +1203,75 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     }];
 }
 
+- (AWSTask<AWSS3GetObjectLegalHoldOutput *> *)getObjectLegalHold:(AWSS3GetObjectLegalHoldRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodGET
+                     URLString:@"/{Bucket}/{Key+}?legal-hold"
+                  targetPrefix:@""
+                 operationName:@"GetObjectLegalHold"
+                   outputClass:[AWSS3GetObjectLegalHoldOutput class]];
+}
+
+- (void)getObjectLegalHold:(AWSS3GetObjectLegalHoldRequest *)request
+     completionHandler:(void (^)(AWSS3GetObjectLegalHoldOutput *response, NSError *error))completionHandler {
+    [[self getObjectLegalHold:request] continueWithBlock:^id _Nullable(AWSTask<AWSS3GetObjectLegalHoldOutput *> * _Nonnull task) {
+        AWSS3GetObjectLegalHoldOutput *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSS3GetObjectLockConfigurationOutput *> *)getObjectLockConfiguration:(AWSS3GetObjectLockConfigurationRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodGET
+                     URLString:@"/{Bucket}?object-lock"
+                  targetPrefix:@""
+                 operationName:@"GetObjectLockConfiguration"
+                   outputClass:[AWSS3GetObjectLockConfigurationOutput class]];
+}
+
+- (void)getObjectLockConfiguration:(AWSS3GetObjectLockConfigurationRequest *)request
+     completionHandler:(void (^)(AWSS3GetObjectLockConfigurationOutput *response, NSError *error))completionHandler {
+    [[self getObjectLockConfiguration:request] continueWithBlock:^id _Nullable(AWSTask<AWSS3GetObjectLockConfigurationOutput *> * _Nonnull task) {
+        AWSS3GetObjectLockConfigurationOutput *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSS3GetObjectRetentionOutput *> *)getObjectRetention:(AWSS3GetObjectRetentionRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodGET
+                     URLString:@"/{Bucket}/{Key+}?retention"
+                  targetPrefix:@""
+                 operationName:@"GetObjectRetention"
+                   outputClass:[AWSS3GetObjectRetentionOutput class]];
+}
+
+- (void)getObjectRetention:(AWSS3GetObjectRetentionRequest *)request
+     completionHandler:(void (^)(AWSS3GetObjectRetentionOutput *response, NSError *error))completionHandler {
+    [[self getObjectRetention:request] continueWithBlock:^id _Nullable(AWSTask<AWSS3GetObjectRetentionOutput *> * _Nonnull task) {
+        AWSS3GetObjectRetentionOutput *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
 - (AWSTask<AWSS3GetObjectTaggingOutput *> *)getObjectTagging:(AWSS3GetObjectTaggingRequest *)request {
     return [self invokeRequest:request
                     HTTPMethod:AWSHTTPMethodGET
@@ -1150,6 +1308,29 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
      completionHandler:(void (^)(AWSS3GetObjectTorrentOutput *response, NSError *error))completionHandler {
     [[self getObjectTorrent:request] continueWithBlock:^id _Nullable(AWSTask<AWSS3GetObjectTorrentOutput *> * _Nonnull task) {
         AWSS3GetObjectTorrentOutput *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSS3GetPublicAccessBlockOutput *> *)getPublicAccessBlock:(AWSS3GetPublicAccessBlockRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodGET
+                     URLString:@"/{Bucket}?publicAccessBlock"
+                  targetPrefix:@""
+                 operationName:@"GetPublicAccessBlock"
+                   outputClass:[AWSS3GetPublicAccessBlockOutput class]];
+}
+
+- (void)getPublicAccessBlock:(AWSS3GetPublicAccessBlockRequest *)request
+     completionHandler:(void (^)(AWSS3GetPublicAccessBlockOutput *response, NSError *error))completionHandler {
+    [[self getPublicAccessBlock:request] continueWithBlock:^id _Nullable(AWSTask<AWSS3GetPublicAccessBlockOutput *> * _Nonnull task) {
+        AWSS3GetPublicAccessBlockOutput *result = task.result;
         NSError *error = task.error;
 
         if (completionHandler) {
@@ -1676,6 +1857,28 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     }];
 }
 
+- (AWSTask *)putBucketOwnershipControls:(AWSS3PutBucketOwnershipControlsRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPUT
+                     URLString:@"/{Bucket}?ownershipControls"
+                  targetPrefix:@""
+                 operationName:@"PutBucketOwnershipControls"
+                   outputClass:nil];
+}
+
+- (void)putBucketOwnershipControls:(AWSS3PutBucketOwnershipControlsRequest *)request
+     completionHandler:(void (^)(NSError *error))completionHandler {
+    [[self putBucketOwnershipControls:request] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(error);
+        }
+
+        return nil;
+    }];
+}
+
 - (AWSTask *)putBucketPolicy:(AWSS3PutBucketPolicyRequest *)request {
     return [self invokeRequest:request
                     HTTPMethod:AWSHTTPMethodPUT
@@ -1854,6 +2057,75 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     }];
 }
 
+- (AWSTask<AWSS3PutObjectLegalHoldOutput *> *)putObjectLegalHold:(AWSS3PutObjectLegalHoldRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPUT
+                     URLString:@"/{Bucket}/{Key+}?legal-hold"
+                  targetPrefix:@""
+                 operationName:@"PutObjectLegalHold"
+                   outputClass:[AWSS3PutObjectLegalHoldOutput class]];
+}
+
+- (void)putObjectLegalHold:(AWSS3PutObjectLegalHoldRequest *)request
+     completionHandler:(void (^)(AWSS3PutObjectLegalHoldOutput *response, NSError *error))completionHandler {
+    [[self putObjectLegalHold:request] continueWithBlock:^id _Nullable(AWSTask<AWSS3PutObjectLegalHoldOutput *> * _Nonnull task) {
+        AWSS3PutObjectLegalHoldOutput *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSS3PutObjectLockConfigurationOutput *> *)putObjectLockConfiguration:(AWSS3PutObjectLockConfigurationRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPUT
+                     URLString:@"/{Bucket}?object-lock"
+                  targetPrefix:@""
+                 operationName:@"PutObjectLockConfiguration"
+                   outputClass:[AWSS3PutObjectLockConfigurationOutput class]];
+}
+
+- (void)putObjectLockConfiguration:(AWSS3PutObjectLockConfigurationRequest *)request
+     completionHandler:(void (^)(AWSS3PutObjectLockConfigurationOutput *response, NSError *error))completionHandler {
+    [[self putObjectLockConfiguration:request] continueWithBlock:^id _Nullable(AWSTask<AWSS3PutObjectLockConfigurationOutput *> * _Nonnull task) {
+        AWSS3PutObjectLockConfigurationOutput *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSS3PutObjectRetentionOutput *> *)putObjectRetention:(AWSS3PutObjectRetentionRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPUT
+                     URLString:@"/{Bucket}/{Key+}?retention"
+                  targetPrefix:@""
+                 operationName:@"PutObjectRetention"
+                   outputClass:[AWSS3PutObjectRetentionOutput class]];
+}
+
+- (void)putObjectRetention:(AWSS3PutObjectRetentionRequest *)request
+     completionHandler:(void (^)(AWSS3PutObjectRetentionOutput *response, NSError *error))completionHandler {
+    [[self putObjectRetention:request] continueWithBlock:^id _Nullable(AWSTask<AWSS3PutObjectRetentionOutput *> * _Nonnull task) {
+        AWSS3PutObjectRetentionOutput *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
 - (AWSTask<AWSS3PutObjectTaggingOutput *> *)putObjectTagging:(AWSS3PutObjectTaggingRequest *)request {
     return [self invokeRequest:request
                     HTTPMethod:AWSHTTPMethodPUT
@@ -1871,6 +2143,28 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
 
         if (completionHandler) {
             completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask *)putPublicAccessBlock:(AWSS3PutPublicAccessBlockRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPUT
+                     URLString:@"/{Bucket}?publicAccessBlock"
+                  targetPrefix:@""
+                 operationName:@"PutPublicAccessBlock"
+                   outputClass:nil];
+}
+
+- (void)putPublicAccessBlock:(AWSS3PutPublicAccessBlockRequest *)request
+     completionHandler:(void (^)(NSError *error))completionHandler {
+    [[self putPublicAccessBlock:request] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(error);
         }
 
         return nil;

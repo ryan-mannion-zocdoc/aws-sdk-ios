@@ -20,8 +20,7 @@ class AWSTranslateTests: XCTestCase {
     
     override class func setUp() {
         super.setUp()
-        // Setup cognito credentials to use for tests.
-        AWSTestUtility.setupCognitoCredentialsProvider()
+        AWSTestUtility.setupSessionCredentialsProvider()
     }
     
     override func tearDown() {
@@ -39,13 +38,13 @@ class AWSTranslateTests: XCTestCase {
         
         let callback: (AWSTranslateTranslateTextResponse?, Error?) -> Void = { (response, error) in
             guard let response = response else {
-                XCTAssertTrue(false,"Got error \(error)")
+                XCTAssertTrue(false,"Got error \(String(describing: error))")
                 return
             }
             XCTAssertNotNil(response.translatedText)
             
             if let translatedText = response.translatedText {
-                XCTAssertEqual(translatedText, "Hola Mundo")
+                XCTAssertEqual(translatedText.lowercased(), "hola mundo")
             }
             expectation.fulfill()
         }
@@ -64,7 +63,7 @@ class AWSTranslateTests: XCTestCase {
         
         let callback: (AWSTranslateTranslateTextResponse?, Error?) -> Void = { (response, error) in
             guard let response = response else {
-                XCTAssertTrue(false,"Got error \(error)")
+                XCTAssertTrue(false,"Got error \(String(describing: error))")
                 return
             }
             XCTAssertNotNil(response.translatedText)

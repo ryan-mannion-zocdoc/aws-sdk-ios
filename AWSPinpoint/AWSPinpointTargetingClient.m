@@ -13,6 +13,7 @@
  permissions and limitations under the License.
  */
 
+#import <AWSCore/AWSNSCodingUtilities.h>
 #import "AWSPinpointTargetingClient.h"
 #import "AWSPinpointEndpointProfile.h"
 #import "AWSPinpointDateUtils.h"
@@ -30,7 +31,8 @@ NSString *const APNS_CHANNEL_TYPE = @"APNS";
 
 @interface AWSPinpointTargetingClient()
 
-@property (nonatomic) AWSPinpointContext *context;
+@property (nonatomic, weak) AWSPinpointContext *context;
+
 @property (nonatomic) NSMutableArray* endpointObservers;
 @property (nonatomic) NSMutableDictionary* globalAttributes;
 @property (nonatomic) NSMutableDictionary* globalMetrics;
@@ -39,7 +41,7 @@ NSString *const APNS_CHANNEL_TYPE = @"APNS";
 @end
 
 @interface AWSPinpointConfiguration()
-@property (nonnull, strong) NSUserDefaults *userDefaults;
+@property (nonatomic, strong) NSUserDefaults *userDefaults;
 @end
 
 @interface AWSPinpointEndpointProfile()
@@ -47,17 +49,18 @@ NSString *const APNS_CHANNEL_TYPE = @"APNS";
 - (void) removeAllMetrics;
 - (BOOL) isApplicationLevelOptOut:(AWSPinpointContext *) context;
 - (void) updateEndpointProfileWithContext:(AWSPinpointContext *) context;
+- (void) setEndpointOptOut:(BOOL) applicationLevelOptOut;
 @end
 
 @implementation AWSPinpointTargetingClient
 
-- (instancetype)init {
+- (instancetype) init {
     @throw [NSException exceptionWithName:NSInternalInconsistencyException
                                    reason:@"You must not initialize this class directly. Access the AWSPinpointTargetingClient from AWSPinpoint."
                                  userInfo:nil];
 }
 
-- (instancetype)initWithContext:(AWSPinpointContext *) context {
+- (instancetype) initWithContext:(AWSPinpointContext *) context {
     if (self = [super init]) {
         _context = context;
         NSDictionary *customAttributes = [context.configuration.userDefaults objectForKey:AWSPinpointEndpointAttributesKey];
@@ -70,69 +73,81 @@ NSString *const APNS_CHANNEL_TYPE = @"APNS";
 }
 
 - (AWSPinpointEndpointProfile *) currentEndpointProfile {
-    if (!_endpointProfile) {
-        if ([_context.configuration.userDefaults objectForKey:AWSPinpointEndpointProfileKey] != nil) {
-            NSData *endpointProfileData = [_context.configuration.userDefaults objectForKey:AWSPinpointEndpointProfileKey];
-            AWSPinpointEndpointProfile *endpointProfile = [NSKeyedUnarchiver unarchiveObjectWithData:endpointProfileData];
-            if ([endpointProfile.applicationId isEqualToString:self.context.configuration.appId]) {
+    AWSPinpointEndpointProfile *localEndpointProfile;
+    if (!self.endpointProfile) {
+        if ([self.context.configuration.userDefaults objectForKey:AWSPinpointEndpointProfileKey] != nil) {
+            NSData *endpointProfileData = [self.context.configuration.userDefaults objectForKey:AWSPinpointEndpointProfileKey];
+
+            NSError *decodingError;
+            localEndpointProfile = [AWSNSCodingUtilities versionSafeUnarchivedObjectOfClass:[AWSPinpointEndpointProfile class]
+                                                                                   fromData:endpointProfileData
+                                                                                      error:&decodingError];
+            if (decodingError) {
+                AWSDDLogError(@"Error decoding local endpoint profile: %@", decodingError);
+            }
+
+            if ([localEndpointProfile.applicationId isEqualToString:self.context.configuration.appId]) {
                 // This is to verify that same appId is being used. Anyone can modify the plist and test with a different app id
-                self.endpointProfile = endpointProfile;
+                [localEndpointProfile removeAllMetrics];
+                [localEndpointProfile removeAllAttributes];
             } else {
-                self.endpointProfile = [[AWSPinpointEndpointProfile alloc] initWithContext: self.context];
                 @synchronized (self) {
                     [self.context.configuration.userDefaults removeObjectForKey:AWSPinpointEndpointProfileKey];
                     [self.context.configuration.userDefaults synchronize];
                 }
+                localEndpointProfile = [[AWSPinpointEndpointProfile alloc] initWithContext: self.context];
             }
         } else {
-            self.endpointProfile = [[AWSPinpointEndpointProfile alloc] initWithContext: self.context];
+            localEndpointProfile = [[AWSPinpointEndpointProfile alloc] initWithContext: self.context];
         }
+    } else {
+        localEndpointProfile = self.endpointProfile;
+        [localEndpointProfile removeAllMetrics];
+        [localEndpointProfile removeAllAttributes];
     }
-    [self.endpointProfile removeAllMetrics];
-    [self.endpointProfile removeAllAttributes];
-    //This updates endpoint id, address and debug mode and app id
-    [self.endpointProfile updateEndpointProfileWithContext:self.context];
+    
+    //This updates endpoint id, demograhpic information, address, debug mode and app id
+    [localEndpointProfile updateEndpointProfileWithContext:self.context];
     //update opt outs
-    BOOL applicationLevelOptOut = [self.endpointProfile isApplicationLevelOptOut:self.context];
-    [self.endpointProfile performSelectorOnMainThread:@selector(setOptOut:) withObject:[NSNumber numberWithBool:applicationLevelOptOut] waitUntilDone:YES];
-    
-    
-    
-    //Add attributes
+    BOOL applicationLevelOptOut = [localEndpointProfile isApplicationLevelOptOut:self.context];
+    [localEndpointProfile setEndpointOptOut:applicationLevelOptOut];
+
+    [self addMetricsAndAttributesToEndpointProfile:localEndpointProfile];
+
+    return localEndpointProfile;
+}
+
+- (void) addMetricsAndAttributesToEndpointProfile:(AWSPinpointEndpointProfile *) localEndpointProfile {
+    // Add attributes
     if (self.globalAttributes.count > 0) {
         AWSDDLogVerbose(@"Applying Global Endpoint Attributes: %@", self.globalAttributes);
         for (NSString *key in [self.globalAttributes allKeys]) {
-            [self.endpointProfile addAttribute:[self.globalAttributes objectForKey:key] forKey:key];
+            if ([[self.globalAttributes objectForKey:key] isKindOfClass:[NSArray class]]) {
+                [localEndpointProfile addAttribute:[self.globalAttributes objectForKey:key] forKey:key];
+            } else {
+                AWSDDLogWarn(@"Metric should be of NSArray type: %@, Skipping...", [self.globalAttributes objectForKey:key]);
+            }
         }
     }
     
+    // Add metrics
     if (self.globalMetrics.count > 0) {
         AWSDDLogVerbose(@"Applying Global Endpoint Metrics: %@", self.globalMetrics);
         for (NSString *key in [self.globalMetrics allKeys]) {
-            [self.endpointProfile addMetric:[self.globalMetrics objectForKey:key] forKey:key];
+            if ([[self.globalMetrics objectForKey:key] isKindOfClass:[NSNumber class]]) {
+                [localEndpointProfile addMetric:[self.globalMetrics objectForKey:key] forKey:key];
+            } else {
+                AWSDDLogWarn(@"Metric should be of NSNumber type: %@, Skipping...", [self.globalMetrics objectForKey:key]);
+            }
         }
     }
-    
-    return self.endpointProfile;
 }
 
 #pragma mark - Endpoint Client -
 - (nonnull AWSTask *)updateEndpointProfile:(nonnull AWSPinpointEndpointProfile*) endpointProfile {
     
-    //Add attributes
-    if (self.globalAttributes.count > 0) {
-        AWSDDLogVerbose(@"Applying Global Endpoint Attributes: %@", self.globalAttributes);
-        for (NSString *key in [self.globalAttributes allKeys]) {
-            [endpointProfile addAttribute:[self.globalAttributes objectForKey:key] forKey:key];
-        }
-    }
+    [self addMetricsAndAttributesToEndpointProfile:endpointProfile];
     
-    if (self.globalMetrics.count > 0) {
-        AWSDDLogVerbose(@"Applying Global Endpoint Metrics: %@", self.globalMetrics);
-        for (NSString *key in [self.globalMetrics allKeys]) {
-            [endpointProfile addMetric:[self.globalMetrics objectForKey:key] forKey:key];
-        }
-    }
     return [self executeUpdate:endpointProfile];
 }
 
@@ -142,11 +157,19 @@ NSString *const APNS_CHANNEL_TYPE = @"APNS";
 
 - (AWSTask *)executeUpdate:(AWSPinpointEndpointProfile *) endpointProfile {
     self.endpointProfile = endpointProfile;
-    @synchronized (self) {
-        NSData *endpointProfileData = [NSKeyedArchiver archivedDataWithRootObject:endpointProfile];
+    @synchronized (self.endpointProfile) {
+        NSError *codingError;
+        NSData *endpointProfileData = [AWSNSCodingUtilities versionSafeArchivedDataWithRootObject:endpointProfile
+                                                                            requiringSecureCoding:YES
+                                                                                            error:&codingError];
+        if (codingError) {
+            AWSDDLogError(@"Error archiving endpointProfileData. Updating service but not persisting locally: %@", codingError);
+        }
+
         [self.context.configuration.userDefaults setObject:endpointProfileData forKey:AWSPinpointEndpointProfileKey];
         [self.context.configuration.userDefaults synchronize];
     }
+
     return [[self.context.targetingService updateEndpoint:[self updateEndpointRequestForEndpoint:self.endpointProfile]] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
         if (task.error) {
             AWSDDLogError(@"Unable to successfully update endpoint. Error Message:%@", task.error);
@@ -167,7 +190,7 @@ NSString *const APNS_CHANNEL_TYPE = @"APNS";
 }
 
 - (void)addAttribute:(NSArray *)theValue
-                    forKey:(NSString *)theKey {
+              forKey:(NSString *)theKey {
     if (theValue == nil) {
         @throw [NSException exceptionWithName:AWSPinpointTargetingClientErrorDomain
                                        reason:@"Nil value provided to addGlobalAttribute"
@@ -204,7 +227,7 @@ NSString *const APNS_CHANNEL_TYPE = @"APNS";
 }
 
 - (void)addMetric:(NSNumber *)theValue
-                 forKey:(NSString *)theKey {
+           forKey:(NSString *)theKey {
     if (theValue == nil) {
         @throw [NSException exceptionWithName:AWSPinpointTargetingClientErrorDomain
                                        reason:@"Nil value provided to addGlobalMetric"
@@ -266,14 +289,11 @@ NSString *const APNS_CHANNEL_TYPE = @"APNS";
 - (AWSPinpointTargetingEndpointUser*) userModelForUser:(AWSPinpointEndpointProfileUser *) user {
     AWSPinpointTargetingEndpointUser *userModel = [AWSPinpointTargetingEndpointUser new];
     userModel.userId = user.userId;
+    userModel.userAttributes = user.allUserAttributes;
     return userModel;
 }
 
 - (AWSPinpointTargetingUpdateEndpointRequest*) updateEndpointRequestForEndpoint:(AWSPinpointEndpointProfile *) endpoint {
-    AWSPinpointTargetingUpdateEndpointRequest *updateEndpointRequest = [AWSPinpointTargetingUpdateEndpointRequest new];
-    updateEndpointRequest.endpointId = endpoint.endpointId;
-    updateEndpointRequest.applicationId = endpoint.applicationId;
-    
     AWSPinpointTargetingEndpointRequest *endpointRequest =  [AWSPinpointTargetingEndpointRequest new];
     endpointRequest.channelType = [endpoint.channelType isEqualToString:APNS_CHANNEL_TYPE] ? AWSPinpointTargetingChannelTypeApns : AWSPinpointTargetingChannelTypeApnsSandbox;
     endpointRequest.address = endpoint.address;
@@ -285,7 +305,12 @@ NSString *const APNS_CHANNEL_TYPE = @"APNS";
     endpointRequest.metrics = [endpoint allMetrics];
     endpointRequest.user = [self userModelForUser:endpoint.user];
     
+    AWSPinpointTargetingUpdateEndpointRequest *updateEndpointRequest = [AWSPinpointTargetingUpdateEndpointRequest new];
+    updateEndpointRequest.endpointId = endpoint.endpointId;
+    updateEndpointRequest.applicationId = endpoint.applicationId;
     updateEndpointRequest.endpointRequest = endpointRequest;
+    
+    AWSDDLogVerbose(@"UpdateEndpointRequest: [%@]", updateEndpointRequest);
     
     return updateEndpointRequest;
 }

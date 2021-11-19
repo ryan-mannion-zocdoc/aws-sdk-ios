@@ -1,5 +1,5 @@
 //
-// Copyright 2010-2018 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+// Copyright 2010-2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License").
 // You may not use this file except in compliance with the License.
@@ -14,7 +14,6 @@
 //
 
 #import "AWSEC2Service.h"
-#import <AWSCore/AWSNetworking.h>
 #import <AWSCore/AWSCategory.h>
 #import <AWSCore/AWSNetworking.h>
 #import <AWSCore/AWSSignature.h>
@@ -27,7 +26,7 @@
 #import "AWSEC2Serializer.h"
 
 static NSString *const AWSInfoEC2 = @"EC2";
-static NSString *const AWSEC2SDKVersion = @"2.6.21";
+NSString *const AWSEC2SDKVersion = @"2.26.5";
 
 
 @interface AWSEC2ResponseSerializer : AWSXMLResponseSerializer
@@ -295,6 +294,75 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     }];
 }
 
+- (AWSTask<AWSEC2AcceptTransitGatewayMulticastDomainAssociationsResult *> *)acceptTransitGatewayMulticastDomainAssociations:(AWSEC2AcceptTransitGatewayMulticastDomainAssociationsRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"AcceptTransitGatewayMulticastDomainAssociations"
+                   outputClass:[AWSEC2AcceptTransitGatewayMulticastDomainAssociationsResult class]];
+}
+
+- (void)acceptTransitGatewayMulticastDomainAssociations:(AWSEC2AcceptTransitGatewayMulticastDomainAssociationsRequest *)request
+     completionHandler:(void (^)(AWSEC2AcceptTransitGatewayMulticastDomainAssociationsResult *response, NSError *error))completionHandler {
+    [[self acceptTransitGatewayMulticastDomainAssociations:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2AcceptTransitGatewayMulticastDomainAssociationsResult *> * _Nonnull task) {
+        AWSEC2AcceptTransitGatewayMulticastDomainAssociationsResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2AcceptTransitGatewayPeeringAttachmentResult *> *)acceptTransitGatewayPeeringAttachment:(AWSEC2AcceptTransitGatewayPeeringAttachmentRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"AcceptTransitGatewayPeeringAttachment"
+                   outputClass:[AWSEC2AcceptTransitGatewayPeeringAttachmentResult class]];
+}
+
+- (void)acceptTransitGatewayPeeringAttachment:(AWSEC2AcceptTransitGatewayPeeringAttachmentRequest *)request
+     completionHandler:(void (^)(AWSEC2AcceptTransitGatewayPeeringAttachmentResult *response, NSError *error))completionHandler {
+    [[self acceptTransitGatewayPeeringAttachment:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2AcceptTransitGatewayPeeringAttachmentResult *> * _Nonnull task) {
+        AWSEC2AcceptTransitGatewayPeeringAttachmentResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2AcceptTransitGatewayVpcAttachmentResult *> *)acceptTransitGatewayVpcAttachment:(AWSEC2AcceptTransitGatewayVpcAttachmentRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"AcceptTransitGatewayVpcAttachment"
+                   outputClass:[AWSEC2AcceptTransitGatewayVpcAttachmentResult class]];
+}
+
+- (void)acceptTransitGatewayVpcAttachment:(AWSEC2AcceptTransitGatewayVpcAttachmentRequest *)request
+     completionHandler:(void (^)(AWSEC2AcceptTransitGatewayVpcAttachmentResult *response, NSError *error))completionHandler {
+    [[self acceptTransitGatewayVpcAttachment:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2AcceptTransitGatewayVpcAttachmentResult *> * _Nonnull task) {
+        AWSEC2AcceptTransitGatewayVpcAttachmentResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
 - (AWSTask<AWSEC2AcceptVpcEndpointConnectionsResult *> *)acceptVpcEndpointConnections:(AWSEC2AcceptVpcEndpointConnectionsRequest *)request {
     return [self invokeRequest:request
                     HTTPMethod:AWSHTTPMethodPOST
@@ -331,6 +399,29 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
      completionHandler:(void (^)(AWSEC2AcceptVpcPeeringConnectionResult *response, NSError *error))completionHandler {
     [[self acceptVpcPeeringConnection:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2AcceptVpcPeeringConnectionResult *> * _Nonnull task) {
         AWSEC2AcceptVpcPeeringConnectionResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2AdvertiseByoipCidrResult *> *)advertiseByoipCidr:(AWSEC2AdvertiseByoipCidrRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"AdvertiseByoipCidr"
+                   outputClass:[AWSEC2AdvertiseByoipCidrResult class]];
+}
+
+- (void)advertiseByoipCidr:(AWSEC2AdvertiseByoipCidrRequest *)request
+     completionHandler:(void (^)(AWSEC2AdvertiseByoipCidrResult *response, NSError *error))completionHandler {
+    [[self advertiseByoipCidr:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2AdvertiseByoipCidrResult *> * _Nonnull task) {
+        AWSEC2AdvertiseByoipCidrResult *result = task.result;
         NSError *error = task.error;
 
         if (completionHandler) {
@@ -387,6 +478,29 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     }];
 }
 
+- (AWSTask<AWSEC2ApplySecurityGroupsToClientVpnTargetNetworkResult *> *)applySecurityGroupsToClientVpnTargetNetwork:(AWSEC2ApplySecurityGroupsToClientVpnTargetNetworkRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"ApplySecurityGroupsToClientVpnTargetNetwork"
+                   outputClass:[AWSEC2ApplySecurityGroupsToClientVpnTargetNetworkResult class]];
+}
+
+- (void)applySecurityGroupsToClientVpnTargetNetwork:(AWSEC2ApplySecurityGroupsToClientVpnTargetNetworkRequest *)request
+     completionHandler:(void (^)(AWSEC2ApplySecurityGroupsToClientVpnTargetNetworkResult *response, NSError *error))completionHandler {
+    [[self applySecurityGroupsToClientVpnTargetNetwork:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2ApplySecurityGroupsToClientVpnTargetNetworkResult *> * _Nonnull task) {
+        AWSEC2ApplySecurityGroupsToClientVpnTargetNetworkResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
 - (AWSTask<AWSEC2AssignIpv6AddressesResult *> *)assignIpv6Addresses:(AWSEC2AssignIpv6AddressesRequest *)request {
     return [self invokeRequest:request
                     HTTPMethod:AWSHTTPMethodPOST
@@ -410,22 +524,23 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     }];
 }
 
-- (AWSTask *)assignPrivateIpAddresses:(AWSEC2AssignPrivateIpAddressesRequest *)request {
+- (AWSTask<AWSEC2AssignPrivateIpAddressesResult *> *)assignPrivateIpAddresses:(AWSEC2AssignPrivateIpAddressesRequest *)request {
     return [self invokeRequest:request
                     HTTPMethod:AWSHTTPMethodPOST
                      URLString:@""
                   targetPrefix:@""
                  operationName:@"AssignPrivateIpAddresses"
-                   outputClass:nil];
+                   outputClass:[AWSEC2AssignPrivateIpAddressesResult class]];
 }
 
 - (void)assignPrivateIpAddresses:(AWSEC2AssignPrivateIpAddressesRequest *)request
-     completionHandler:(void (^)(NSError *error))completionHandler {
-    [[self assignPrivateIpAddresses:request] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
+     completionHandler:(void (^)(AWSEC2AssignPrivateIpAddressesResult *response, NSError *error))completionHandler {
+    [[self assignPrivateIpAddresses:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2AssignPrivateIpAddressesResult *> * _Nonnull task) {
+        AWSEC2AssignPrivateIpAddressesResult *result = task.result;
         NSError *error = task.error;
 
         if (completionHandler) {
-            completionHandler(error);
+            completionHandler(result, error);
         }
 
         return nil;
@@ -445,6 +560,29 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
      completionHandler:(void (^)(AWSEC2AssociateAddressResult *response, NSError *error))completionHandler {
     [[self associateAddress:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2AssociateAddressResult *> * _Nonnull task) {
         AWSEC2AssociateAddressResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2AssociateClientVpnTargetNetworkResult *> *)associateClientVpnTargetNetwork:(AWSEC2AssociateClientVpnTargetNetworkRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"AssociateClientVpnTargetNetwork"
+                   outputClass:[AWSEC2AssociateClientVpnTargetNetworkResult class]];
+}
+
+- (void)associateClientVpnTargetNetwork:(AWSEC2AssociateClientVpnTargetNetworkRequest *)request
+     completionHandler:(void (^)(AWSEC2AssociateClientVpnTargetNetworkResult *response, NSError *error))completionHandler {
+    [[self associateClientVpnTargetNetwork:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2AssociateClientVpnTargetNetworkResult *> * _Nonnull task) {
+        AWSEC2AssociateClientVpnTargetNetworkResult *result = task.result;
         NSError *error = task.error;
 
         if (completionHandler) {
@@ -477,6 +615,29 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     }];
 }
 
+- (AWSTask<AWSEC2AssociateEnclaveCertificateIamRoleResult *> *)associateEnclaveCertificateIamRole:(AWSEC2AssociateEnclaveCertificateIamRoleRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"AssociateEnclaveCertificateIamRole"
+                   outputClass:[AWSEC2AssociateEnclaveCertificateIamRoleResult class]];
+}
+
+- (void)associateEnclaveCertificateIamRole:(AWSEC2AssociateEnclaveCertificateIamRoleRequest *)request
+     completionHandler:(void (^)(AWSEC2AssociateEnclaveCertificateIamRoleResult *response, NSError *error))completionHandler {
+    [[self associateEnclaveCertificateIamRole:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2AssociateEnclaveCertificateIamRoleResult *> * _Nonnull task) {
+        AWSEC2AssociateEnclaveCertificateIamRoleResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
 - (AWSTask<AWSEC2AssociateIamInstanceProfileResult *> *)associateIamInstanceProfile:(AWSEC2AssociateIamInstanceProfileRequest *)request {
     return [self invokeRequest:request
                     HTTPMethod:AWSHTTPMethodPOST
@@ -490,6 +651,29 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
      completionHandler:(void (^)(AWSEC2AssociateIamInstanceProfileResult *response, NSError *error))completionHandler {
     [[self associateIamInstanceProfile:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2AssociateIamInstanceProfileResult *> * _Nonnull task) {
         AWSEC2AssociateIamInstanceProfileResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2AssociateInstanceEventWindowResult *> *)associateInstanceEventWindow:(AWSEC2AssociateInstanceEventWindowRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"AssociateInstanceEventWindow"
+                   outputClass:[AWSEC2AssociateInstanceEventWindowResult class]];
+}
+
+- (void)associateInstanceEventWindow:(AWSEC2AssociateInstanceEventWindowRequest *)request
+     completionHandler:(void (^)(AWSEC2AssociateInstanceEventWindowResult *response, NSError *error))completionHandler {
+    [[self associateInstanceEventWindow:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2AssociateInstanceEventWindowResult *> * _Nonnull task) {
+        AWSEC2AssociateInstanceEventWindowResult *result = task.result;
         NSError *error = task.error;
 
         if (completionHandler) {
@@ -536,6 +720,75 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
      completionHandler:(void (^)(AWSEC2AssociateSubnetCidrBlockResult *response, NSError *error))completionHandler {
     [[self associateSubnetCidrBlock:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2AssociateSubnetCidrBlockResult *> * _Nonnull task) {
         AWSEC2AssociateSubnetCidrBlockResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2AssociateTransitGatewayMulticastDomainResult *> *)associateTransitGatewayMulticastDomain:(AWSEC2AssociateTransitGatewayMulticastDomainRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"AssociateTransitGatewayMulticastDomain"
+                   outputClass:[AWSEC2AssociateTransitGatewayMulticastDomainResult class]];
+}
+
+- (void)associateTransitGatewayMulticastDomain:(AWSEC2AssociateTransitGatewayMulticastDomainRequest *)request
+     completionHandler:(void (^)(AWSEC2AssociateTransitGatewayMulticastDomainResult *response, NSError *error))completionHandler {
+    [[self associateTransitGatewayMulticastDomain:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2AssociateTransitGatewayMulticastDomainResult *> * _Nonnull task) {
+        AWSEC2AssociateTransitGatewayMulticastDomainResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2AssociateTransitGatewayRouteTableResult *> *)associateTransitGatewayRouteTable:(AWSEC2AssociateTransitGatewayRouteTableRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"AssociateTransitGatewayRouteTable"
+                   outputClass:[AWSEC2AssociateTransitGatewayRouteTableResult class]];
+}
+
+- (void)associateTransitGatewayRouteTable:(AWSEC2AssociateTransitGatewayRouteTableRequest *)request
+     completionHandler:(void (^)(AWSEC2AssociateTransitGatewayRouteTableResult *response, NSError *error))completionHandler {
+    [[self associateTransitGatewayRouteTable:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2AssociateTransitGatewayRouteTableResult *> * _Nonnull task) {
+        AWSEC2AssociateTransitGatewayRouteTableResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2AssociateTrunkInterfaceResult *> *)associateTrunkInterface:(AWSEC2AssociateTrunkInterfaceRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"AssociateTrunkInterface"
+                   outputClass:[AWSEC2AssociateTrunkInterfaceResult class]];
+}
+
+- (void)associateTrunkInterface:(AWSEC2AssociateTrunkInterfaceRequest *)request
+     completionHandler:(void (^)(AWSEC2AssociateTrunkInterfaceResult *response, NSError *error))completionHandler {
+    [[self associateTrunkInterface:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2AssociateTrunkInterfaceResult *> * _Nonnull task) {
+        AWSEC2AssociateTrunkInterfaceResult *result = task.result;
         NSError *error = task.error;
 
         if (completionHandler) {
@@ -683,44 +936,69 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     }];
 }
 
-- (AWSTask *)authorizeSecurityGroupEgress:(AWSEC2AuthorizeSecurityGroupEgressRequest *)request {
+- (AWSTask<AWSEC2AuthorizeClientVpnIngressResult *> *)authorizeClientVpnIngress:(AWSEC2AuthorizeClientVpnIngressRequest *)request {
     return [self invokeRequest:request
                     HTTPMethod:AWSHTTPMethodPOST
                      URLString:@""
                   targetPrefix:@""
-                 operationName:@"AuthorizeSecurityGroupEgress"
-                   outputClass:nil];
+                 operationName:@"AuthorizeClientVpnIngress"
+                   outputClass:[AWSEC2AuthorizeClientVpnIngressResult class]];
 }
 
-- (void)authorizeSecurityGroupEgress:(AWSEC2AuthorizeSecurityGroupEgressRequest *)request
-     completionHandler:(void (^)(NSError *error))completionHandler {
-    [[self authorizeSecurityGroupEgress:request] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
+- (void)authorizeClientVpnIngress:(AWSEC2AuthorizeClientVpnIngressRequest *)request
+     completionHandler:(void (^)(AWSEC2AuthorizeClientVpnIngressResult *response, NSError *error))completionHandler {
+    [[self authorizeClientVpnIngress:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2AuthorizeClientVpnIngressResult *> * _Nonnull task) {
+        AWSEC2AuthorizeClientVpnIngressResult *result = task.result;
         NSError *error = task.error;
 
         if (completionHandler) {
-            completionHandler(error);
+            completionHandler(result, error);
         }
 
         return nil;
     }];
 }
 
-- (AWSTask *)authorizeSecurityGroupIngress:(AWSEC2AuthorizeSecurityGroupIngressRequest *)request {
+- (AWSTask<AWSEC2AuthorizeSecurityGroupEgressResult *> *)authorizeSecurityGroupEgress:(AWSEC2AuthorizeSecurityGroupEgressRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"AuthorizeSecurityGroupEgress"
+                   outputClass:[AWSEC2AuthorizeSecurityGroupEgressResult class]];
+}
+
+- (void)authorizeSecurityGroupEgress:(AWSEC2AuthorizeSecurityGroupEgressRequest *)request
+     completionHandler:(void (^)(AWSEC2AuthorizeSecurityGroupEgressResult *response, NSError *error))completionHandler {
+    [[self authorizeSecurityGroupEgress:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2AuthorizeSecurityGroupEgressResult *> * _Nonnull task) {
+        AWSEC2AuthorizeSecurityGroupEgressResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2AuthorizeSecurityGroupIngressResult *> *)authorizeSecurityGroupIngress:(AWSEC2AuthorizeSecurityGroupIngressRequest *)request {
     return [self invokeRequest:request
                     HTTPMethod:AWSHTTPMethodPOST
                      URLString:@""
                   targetPrefix:@""
                  operationName:@"AuthorizeSecurityGroupIngress"
-                   outputClass:nil];
+                   outputClass:[AWSEC2AuthorizeSecurityGroupIngressResult class]];
 }
 
 - (void)authorizeSecurityGroupIngress:(AWSEC2AuthorizeSecurityGroupIngressRequest *)request
-     completionHandler:(void (^)(NSError *error))completionHandler {
-    [[self authorizeSecurityGroupIngress:request] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
+     completionHandler:(void (^)(AWSEC2AuthorizeSecurityGroupIngressResult *response, NSError *error))completionHandler {
+    [[self authorizeSecurityGroupIngress:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2AuthorizeSecurityGroupIngressResult *> * _Nonnull task) {
+        AWSEC2AuthorizeSecurityGroupIngressResult *result = task.result;
         NSError *error = task.error;
 
         if (completionHandler) {
-            completionHandler(error);
+            completionHandler(result, error);
         }
 
         return nil;
@@ -763,6 +1041,29 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
      completionHandler:(void (^)(AWSEC2CancelBundleTaskResult *response, NSError *error))completionHandler {
     [[self cancelBundleTask:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2CancelBundleTaskResult *> * _Nonnull task) {
         AWSEC2CancelBundleTaskResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2CancelCapacityReservationResult *> *)cancelCapacityReservation:(AWSEC2CancelCapacityReservationRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"CancelCapacityReservation"
+                   outputClass:[AWSEC2CancelCapacityReservationResult class]];
+}
+
+- (void)cancelCapacityReservation:(AWSEC2CancelCapacityReservationRequest *)request
+     completionHandler:(void (^)(AWSEC2CancelCapacityReservationResult *response, NSError *error))completionHandler {
+    [[self cancelCapacityReservation:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2CancelCapacityReservationResult *> * _Nonnull task) {
+        AWSEC2CancelCapacityReservationResult *result = task.result;
         NSError *error = task.error;
 
         if (completionHandler) {
@@ -1001,6 +1302,98 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     }];
 }
 
+- (AWSTask<AWSEC2CreateCapacityReservationResult *> *)createCapacityReservation:(AWSEC2CreateCapacityReservationRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"CreateCapacityReservation"
+                   outputClass:[AWSEC2CreateCapacityReservationResult class]];
+}
+
+- (void)createCapacityReservation:(AWSEC2CreateCapacityReservationRequest *)request
+     completionHandler:(void (^)(AWSEC2CreateCapacityReservationResult *response, NSError *error))completionHandler {
+    [[self createCapacityReservation:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2CreateCapacityReservationResult *> * _Nonnull task) {
+        AWSEC2CreateCapacityReservationResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2CreateCarrierGatewayResult *> *)createCarrierGateway:(AWSEC2CreateCarrierGatewayRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"CreateCarrierGateway"
+                   outputClass:[AWSEC2CreateCarrierGatewayResult class]];
+}
+
+- (void)createCarrierGateway:(AWSEC2CreateCarrierGatewayRequest *)request
+     completionHandler:(void (^)(AWSEC2CreateCarrierGatewayResult *response, NSError *error))completionHandler {
+    [[self createCarrierGateway:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2CreateCarrierGatewayResult *> * _Nonnull task) {
+        AWSEC2CreateCarrierGatewayResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2CreateClientVpnEndpointResult *> *)createClientVpnEndpoint:(AWSEC2CreateClientVpnEndpointRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"CreateClientVpnEndpoint"
+                   outputClass:[AWSEC2CreateClientVpnEndpointResult class]];
+}
+
+- (void)createClientVpnEndpoint:(AWSEC2CreateClientVpnEndpointRequest *)request
+     completionHandler:(void (^)(AWSEC2CreateClientVpnEndpointResult *response, NSError *error))completionHandler {
+    [[self createClientVpnEndpoint:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2CreateClientVpnEndpointResult *> * _Nonnull task) {
+        AWSEC2CreateClientVpnEndpointResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2CreateClientVpnRouteResult *> *)createClientVpnRoute:(AWSEC2CreateClientVpnRouteRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"CreateClientVpnRoute"
+                   outputClass:[AWSEC2CreateClientVpnRouteResult class]];
+}
+
+- (void)createClientVpnRoute:(AWSEC2CreateClientVpnRouteRequest *)request
+     completionHandler:(void (^)(AWSEC2CreateClientVpnRouteResult *response, NSError *error))completionHandler {
+    [[self createClientVpnRoute:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2CreateClientVpnRouteResult *> * _Nonnull task) {
+        AWSEC2CreateClientVpnRouteResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
 - (AWSTask<AWSEC2CreateCustomerGatewayResult *> *)createCustomerGateway:(AWSEC2CreateCustomerGatewayRequest *)request {
     return [self invokeRequest:request
                     HTTPMethod:AWSHTTPMethodPOST
@@ -1208,6 +1601,29 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     }];
 }
 
+- (AWSTask<AWSEC2CreateInstanceEventWindowResult *> *)createInstanceEventWindow:(AWSEC2CreateInstanceEventWindowRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"CreateInstanceEventWindow"
+                   outputClass:[AWSEC2CreateInstanceEventWindowResult class]];
+}
+
+- (void)createInstanceEventWindow:(AWSEC2CreateInstanceEventWindowRequest *)request
+     completionHandler:(void (^)(AWSEC2CreateInstanceEventWindowResult *response, NSError *error))completionHandler {
+    [[self createInstanceEventWindow:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2CreateInstanceEventWindowResult *> * _Nonnull task) {
+        AWSEC2CreateInstanceEventWindowResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
 - (AWSTask<AWSEC2CreateInstanceExportTaskResult *> *)createInstanceExportTask:(AWSEC2CreateInstanceExportTaskRequest *)request {
     return [self invokeRequest:request
                     HTTPMethod:AWSHTTPMethodPOST
@@ -1323,6 +1739,75 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     }];
 }
 
+- (AWSTask<AWSEC2CreateLocalGatewayRouteResult *> *)createLocalGatewayRoute:(AWSEC2CreateLocalGatewayRouteRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"CreateLocalGatewayRoute"
+                   outputClass:[AWSEC2CreateLocalGatewayRouteResult class]];
+}
+
+- (void)createLocalGatewayRoute:(AWSEC2CreateLocalGatewayRouteRequest *)request
+     completionHandler:(void (^)(AWSEC2CreateLocalGatewayRouteResult *response, NSError *error))completionHandler {
+    [[self createLocalGatewayRoute:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2CreateLocalGatewayRouteResult *> * _Nonnull task) {
+        AWSEC2CreateLocalGatewayRouteResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2CreateLocalGatewayRouteTableVpcAssociationResult *> *)createLocalGatewayRouteTableVpcAssociation:(AWSEC2CreateLocalGatewayRouteTableVpcAssociationRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"CreateLocalGatewayRouteTableVpcAssociation"
+                   outputClass:[AWSEC2CreateLocalGatewayRouteTableVpcAssociationResult class]];
+}
+
+- (void)createLocalGatewayRouteTableVpcAssociation:(AWSEC2CreateLocalGatewayRouteTableVpcAssociationRequest *)request
+     completionHandler:(void (^)(AWSEC2CreateLocalGatewayRouteTableVpcAssociationResult *response, NSError *error))completionHandler {
+    [[self createLocalGatewayRouteTableVpcAssociation:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2CreateLocalGatewayRouteTableVpcAssociationResult *> * _Nonnull task) {
+        AWSEC2CreateLocalGatewayRouteTableVpcAssociationResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2CreateManagedPrefixListResult *> *)createManagedPrefixList:(AWSEC2CreateManagedPrefixListRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"CreateManagedPrefixList"
+                   outputClass:[AWSEC2CreateManagedPrefixListResult class]];
+}
+
+- (void)createManagedPrefixList:(AWSEC2CreateManagedPrefixListRequest *)request
+     completionHandler:(void (^)(AWSEC2CreateManagedPrefixListResult *response, NSError *error))completionHandler {
+    [[self createManagedPrefixList:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2CreateManagedPrefixListResult *> * _Nonnull task) {
+        AWSEC2CreateManagedPrefixListResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
 - (AWSTask<AWSEC2CreateNatGatewayResult *> *)createNatGateway:(AWSEC2CreateNatGatewayRequest *)request {
     return [self invokeRequest:request
                     HTTPMethod:AWSHTTPMethodPOST
@@ -1391,6 +1876,29 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     }];
 }
 
+- (AWSTask<AWSEC2CreateNetworkInsightsPathResult *> *)createNetworkInsightsPath:(AWSEC2CreateNetworkInsightsPathRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"CreateNetworkInsightsPath"
+                   outputClass:[AWSEC2CreateNetworkInsightsPathResult class]];
+}
+
+- (void)createNetworkInsightsPath:(AWSEC2CreateNetworkInsightsPathRequest *)request
+     completionHandler:(void (^)(AWSEC2CreateNetworkInsightsPathResult *response, NSError *error))completionHandler {
+    [[self createNetworkInsightsPath:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2CreateNetworkInsightsPathResult *> * _Nonnull task) {
+        AWSEC2CreateNetworkInsightsPathResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
 - (AWSTask<AWSEC2CreateNetworkInterfaceResult *> *)createNetworkInterface:(AWSEC2CreateNetworkInterfaceRequest *)request {
     return [self invokeRequest:request
                     HTTPMethod:AWSHTTPMethodPOST
@@ -1437,22 +1945,46 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     }];
 }
 
-- (AWSTask *)createPlacementGroup:(AWSEC2CreatePlacementGroupRequest *)request {
+- (AWSTask<AWSEC2CreatePlacementGroupResult *> *)createPlacementGroup:(AWSEC2CreatePlacementGroupRequest *)request {
     return [self invokeRequest:request
                     HTTPMethod:AWSHTTPMethodPOST
                      URLString:@""
                   targetPrefix:@""
                  operationName:@"CreatePlacementGroup"
-                   outputClass:nil];
+                   outputClass:[AWSEC2CreatePlacementGroupResult class]];
 }
 
 - (void)createPlacementGroup:(AWSEC2CreatePlacementGroupRequest *)request
-     completionHandler:(void (^)(NSError *error))completionHandler {
-    [[self createPlacementGroup:request] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
+     completionHandler:(void (^)(AWSEC2CreatePlacementGroupResult *response, NSError *error))completionHandler {
+    [[self createPlacementGroup:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2CreatePlacementGroupResult *> * _Nonnull task) {
+        AWSEC2CreatePlacementGroupResult *result = task.result;
         NSError *error = task.error;
 
         if (completionHandler) {
-            completionHandler(error);
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2CreateReplaceRootVolumeTaskResult *> *)createReplaceRootVolumeTask:(AWSEC2CreateReplaceRootVolumeTaskRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"CreateReplaceRootVolumeTask"
+                   outputClass:[AWSEC2CreateReplaceRootVolumeTaskResult class]];
+}
+
+- (void)createReplaceRootVolumeTask:(AWSEC2CreateReplaceRootVolumeTaskRequest *)request
+     completionHandler:(void (^)(AWSEC2CreateReplaceRootVolumeTaskResult *response, NSError *error))completionHandler {
+    [[self createReplaceRootVolumeTask:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2CreateReplaceRootVolumeTaskResult *> * _Nonnull task) {
+        AWSEC2CreateReplaceRootVolumeTaskResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
         }
 
         return nil;
@@ -1472,6 +2004,29 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
      completionHandler:(void (^)(AWSEC2CreateReservedInstancesListingResult *response, NSError *error))completionHandler {
     [[self createReservedInstancesListing:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2CreateReservedInstancesListingResult *> * _Nonnull task) {
         AWSEC2CreateReservedInstancesListingResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2CreateRestoreImageTaskResult *> *)createRestoreImageTask:(AWSEC2CreateRestoreImageTaskRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"CreateRestoreImageTask"
+                   outputClass:[AWSEC2CreateRestoreImageTaskResult class]];
+}
+
+- (void)createRestoreImageTask:(AWSEC2CreateRestoreImageTaskRequest *)request
+     completionHandler:(void (^)(AWSEC2CreateRestoreImageTaskResult *response, NSError *error))completionHandler {
+    [[self createRestoreImageTask:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2CreateRestoreImageTaskResult *> * _Nonnull task) {
+        AWSEC2CreateRestoreImageTaskResult *result = task.result;
         NSError *error = task.error;
 
         if (completionHandler) {
@@ -1574,6 +2129,29 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     }];
 }
 
+- (AWSTask<AWSEC2CreateSnapshotsResult *> *)createSnapshots:(AWSEC2CreateSnapshotsRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"CreateSnapshots"
+                   outputClass:[AWSEC2CreateSnapshotsResult class]];
+}
+
+- (void)createSnapshots:(AWSEC2CreateSnapshotsRequest *)request
+     completionHandler:(void (^)(AWSEC2CreateSnapshotsResult *response, NSError *error))completionHandler {
+    [[self createSnapshots:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2CreateSnapshotsResult *> * _Nonnull task) {
+        AWSEC2CreateSnapshotsResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
 - (AWSTask<AWSEC2CreateSpotDatafeedSubscriptionResult *> *)createSpotDatafeedSubscription:(AWSEC2CreateSpotDatafeedSubscriptionRequest *)request {
     return [self invokeRequest:request
                     HTTPMethod:AWSHTTPMethodPOST
@@ -1587,6 +2165,29 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
      completionHandler:(void (^)(AWSEC2CreateSpotDatafeedSubscriptionResult *response, NSError *error))completionHandler {
     [[self createSpotDatafeedSubscription:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2CreateSpotDatafeedSubscriptionResult *> * _Nonnull task) {
         AWSEC2CreateSpotDatafeedSubscriptionResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2CreateStoreImageTaskResult *> *)createStoreImageTask:(AWSEC2CreateStoreImageTaskRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"CreateStoreImageTask"
+                   outputClass:[AWSEC2CreateStoreImageTaskResult class]];
+}
+
+- (void)createStoreImageTask:(AWSEC2CreateStoreImageTaskRequest *)request
+     completionHandler:(void (^)(AWSEC2CreateStoreImageTaskResult *response, NSError *error))completionHandler {
+    [[self createStoreImageTask:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2CreateStoreImageTaskResult *> * _Nonnull task) {
+        AWSEC2CreateStoreImageTaskResult *result = task.result;
         NSError *error = task.error;
 
         if (completionHandler) {
@@ -1620,6 +2221,29 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     }];
 }
 
+- (AWSTask<AWSEC2CreateSubnetCidrReservationResult *> *)createSubnetCidrReservation:(AWSEC2CreateSubnetCidrReservationRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"CreateSubnetCidrReservation"
+                   outputClass:[AWSEC2CreateSubnetCidrReservationResult class]];
+}
+
+- (void)createSubnetCidrReservation:(AWSEC2CreateSubnetCidrReservationRequest *)request
+     completionHandler:(void (^)(AWSEC2CreateSubnetCidrReservationResult *response, NSError *error))completionHandler {
+    [[self createSubnetCidrReservation:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2CreateSubnetCidrReservationResult *> * _Nonnull task) {
+        AWSEC2CreateSubnetCidrReservationResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
 - (AWSTask *)createTags:(AWSEC2CreateTagsRequest *)request {
     return [self invokeRequest:request
                     HTTPMethod:AWSHTTPMethodPOST
@@ -1636,6 +2260,305 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
 
         if (completionHandler) {
             completionHandler(error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2CreateTrafficMirrorFilterResult *> *)createTrafficMirrorFilter:(AWSEC2CreateTrafficMirrorFilterRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"CreateTrafficMirrorFilter"
+                   outputClass:[AWSEC2CreateTrafficMirrorFilterResult class]];
+}
+
+- (void)createTrafficMirrorFilter:(AWSEC2CreateTrafficMirrorFilterRequest *)request
+     completionHandler:(void (^)(AWSEC2CreateTrafficMirrorFilterResult *response, NSError *error))completionHandler {
+    [[self createTrafficMirrorFilter:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2CreateTrafficMirrorFilterResult *> * _Nonnull task) {
+        AWSEC2CreateTrafficMirrorFilterResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2CreateTrafficMirrorFilterRuleResult *> *)createTrafficMirrorFilterRule:(AWSEC2CreateTrafficMirrorFilterRuleRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"CreateTrafficMirrorFilterRule"
+                   outputClass:[AWSEC2CreateTrafficMirrorFilterRuleResult class]];
+}
+
+- (void)createTrafficMirrorFilterRule:(AWSEC2CreateTrafficMirrorFilterRuleRequest *)request
+     completionHandler:(void (^)(AWSEC2CreateTrafficMirrorFilterRuleResult *response, NSError *error))completionHandler {
+    [[self createTrafficMirrorFilterRule:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2CreateTrafficMirrorFilterRuleResult *> * _Nonnull task) {
+        AWSEC2CreateTrafficMirrorFilterRuleResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2CreateTrafficMirrorSessionResult *> *)createTrafficMirrorSession:(AWSEC2CreateTrafficMirrorSessionRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"CreateTrafficMirrorSession"
+                   outputClass:[AWSEC2CreateTrafficMirrorSessionResult class]];
+}
+
+- (void)createTrafficMirrorSession:(AWSEC2CreateTrafficMirrorSessionRequest *)request
+     completionHandler:(void (^)(AWSEC2CreateTrafficMirrorSessionResult *response, NSError *error))completionHandler {
+    [[self createTrafficMirrorSession:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2CreateTrafficMirrorSessionResult *> * _Nonnull task) {
+        AWSEC2CreateTrafficMirrorSessionResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2CreateTrafficMirrorTargetResult *> *)createTrafficMirrorTarget:(AWSEC2CreateTrafficMirrorTargetRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"CreateTrafficMirrorTarget"
+                   outputClass:[AWSEC2CreateTrafficMirrorTargetResult class]];
+}
+
+- (void)createTrafficMirrorTarget:(AWSEC2CreateTrafficMirrorTargetRequest *)request
+     completionHandler:(void (^)(AWSEC2CreateTrafficMirrorTargetResult *response, NSError *error))completionHandler {
+    [[self createTrafficMirrorTarget:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2CreateTrafficMirrorTargetResult *> * _Nonnull task) {
+        AWSEC2CreateTrafficMirrorTargetResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2CreateTransitGatewayResult *> *)createTransitGateway:(AWSEC2CreateTransitGatewayRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"CreateTransitGateway"
+                   outputClass:[AWSEC2CreateTransitGatewayResult class]];
+}
+
+- (void)createTransitGateway:(AWSEC2CreateTransitGatewayRequest *)request
+     completionHandler:(void (^)(AWSEC2CreateTransitGatewayResult *response, NSError *error))completionHandler {
+    [[self createTransitGateway:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2CreateTransitGatewayResult *> * _Nonnull task) {
+        AWSEC2CreateTransitGatewayResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2CreateTransitGatewayConnectResult *> *)createTransitGatewayConnect:(AWSEC2CreateTransitGatewayConnectRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"CreateTransitGatewayConnect"
+                   outputClass:[AWSEC2CreateTransitGatewayConnectResult class]];
+}
+
+- (void)createTransitGatewayConnect:(AWSEC2CreateTransitGatewayConnectRequest *)request
+     completionHandler:(void (^)(AWSEC2CreateTransitGatewayConnectResult *response, NSError *error))completionHandler {
+    [[self createTransitGatewayConnect:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2CreateTransitGatewayConnectResult *> * _Nonnull task) {
+        AWSEC2CreateTransitGatewayConnectResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2CreateTransitGatewayConnectPeerResult *> *)createTransitGatewayConnectPeer:(AWSEC2CreateTransitGatewayConnectPeerRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"CreateTransitGatewayConnectPeer"
+                   outputClass:[AWSEC2CreateTransitGatewayConnectPeerResult class]];
+}
+
+- (void)createTransitGatewayConnectPeer:(AWSEC2CreateTransitGatewayConnectPeerRequest *)request
+     completionHandler:(void (^)(AWSEC2CreateTransitGatewayConnectPeerResult *response, NSError *error))completionHandler {
+    [[self createTransitGatewayConnectPeer:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2CreateTransitGatewayConnectPeerResult *> * _Nonnull task) {
+        AWSEC2CreateTransitGatewayConnectPeerResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2CreateTransitGatewayMulticastDomainResult *> *)createTransitGatewayMulticastDomain:(AWSEC2CreateTransitGatewayMulticastDomainRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"CreateTransitGatewayMulticastDomain"
+                   outputClass:[AWSEC2CreateTransitGatewayMulticastDomainResult class]];
+}
+
+- (void)createTransitGatewayMulticastDomain:(AWSEC2CreateTransitGatewayMulticastDomainRequest *)request
+     completionHandler:(void (^)(AWSEC2CreateTransitGatewayMulticastDomainResult *response, NSError *error))completionHandler {
+    [[self createTransitGatewayMulticastDomain:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2CreateTransitGatewayMulticastDomainResult *> * _Nonnull task) {
+        AWSEC2CreateTransitGatewayMulticastDomainResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2CreateTransitGatewayPeeringAttachmentResult *> *)createTransitGatewayPeeringAttachment:(AWSEC2CreateTransitGatewayPeeringAttachmentRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"CreateTransitGatewayPeeringAttachment"
+                   outputClass:[AWSEC2CreateTransitGatewayPeeringAttachmentResult class]];
+}
+
+- (void)createTransitGatewayPeeringAttachment:(AWSEC2CreateTransitGatewayPeeringAttachmentRequest *)request
+     completionHandler:(void (^)(AWSEC2CreateTransitGatewayPeeringAttachmentResult *response, NSError *error))completionHandler {
+    [[self createTransitGatewayPeeringAttachment:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2CreateTransitGatewayPeeringAttachmentResult *> * _Nonnull task) {
+        AWSEC2CreateTransitGatewayPeeringAttachmentResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2CreateTransitGatewayPrefixListReferenceResult *> *)createTransitGatewayPrefixListReference:(AWSEC2CreateTransitGatewayPrefixListReferenceRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"CreateTransitGatewayPrefixListReference"
+                   outputClass:[AWSEC2CreateTransitGatewayPrefixListReferenceResult class]];
+}
+
+- (void)createTransitGatewayPrefixListReference:(AWSEC2CreateTransitGatewayPrefixListReferenceRequest *)request
+     completionHandler:(void (^)(AWSEC2CreateTransitGatewayPrefixListReferenceResult *response, NSError *error))completionHandler {
+    [[self createTransitGatewayPrefixListReference:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2CreateTransitGatewayPrefixListReferenceResult *> * _Nonnull task) {
+        AWSEC2CreateTransitGatewayPrefixListReferenceResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2CreateTransitGatewayRouteResult *> *)createTransitGatewayRoute:(AWSEC2CreateTransitGatewayRouteRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"CreateTransitGatewayRoute"
+                   outputClass:[AWSEC2CreateTransitGatewayRouteResult class]];
+}
+
+- (void)createTransitGatewayRoute:(AWSEC2CreateTransitGatewayRouteRequest *)request
+     completionHandler:(void (^)(AWSEC2CreateTransitGatewayRouteResult *response, NSError *error))completionHandler {
+    [[self createTransitGatewayRoute:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2CreateTransitGatewayRouteResult *> * _Nonnull task) {
+        AWSEC2CreateTransitGatewayRouteResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2CreateTransitGatewayRouteTableResult *> *)createTransitGatewayRouteTable:(AWSEC2CreateTransitGatewayRouteTableRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"CreateTransitGatewayRouteTable"
+                   outputClass:[AWSEC2CreateTransitGatewayRouteTableResult class]];
+}
+
+- (void)createTransitGatewayRouteTable:(AWSEC2CreateTransitGatewayRouteTableRequest *)request
+     completionHandler:(void (^)(AWSEC2CreateTransitGatewayRouteTableResult *response, NSError *error))completionHandler {
+    [[self createTransitGatewayRouteTable:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2CreateTransitGatewayRouteTableResult *> * _Nonnull task) {
+        AWSEC2CreateTransitGatewayRouteTableResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2CreateTransitGatewayVpcAttachmentResult *> *)createTransitGatewayVpcAttachment:(AWSEC2CreateTransitGatewayVpcAttachmentRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"CreateTransitGatewayVpcAttachment"
+                   outputClass:[AWSEC2CreateTransitGatewayVpcAttachmentResult class]];
+}
+
+- (void)createTransitGatewayVpcAttachment:(AWSEC2CreateTransitGatewayVpcAttachmentRequest *)request
+     completionHandler:(void (^)(AWSEC2CreateTransitGatewayVpcAttachmentResult *response, NSError *error))completionHandler {
+    [[self createTransitGatewayVpcAttachment:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2CreateTransitGatewayVpcAttachmentResult *> * _Nonnull task) {
+        AWSEC2CreateTransitGatewayVpcAttachmentResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
         }
 
         return nil;
@@ -1848,6 +2771,75 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     }];
 }
 
+- (AWSTask<AWSEC2DeleteCarrierGatewayResult *> *)deleteCarrierGateway:(AWSEC2DeleteCarrierGatewayRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DeleteCarrierGateway"
+                   outputClass:[AWSEC2DeleteCarrierGatewayResult class]];
+}
+
+- (void)deleteCarrierGateway:(AWSEC2DeleteCarrierGatewayRequest *)request
+     completionHandler:(void (^)(AWSEC2DeleteCarrierGatewayResult *response, NSError *error))completionHandler {
+    [[self deleteCarrierGateway:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DeleteCarrierGatewayResult *> * _Nonnull task) {
+        AWSEC2DeleteCarrierGatewayResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DeleteClientVpnEndpointResult *> *)deleteClientVpnEndpoint:(AWSEC2DeleteClientVpnEndpointRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DeleteClientVpnEndpoint"
+                   outputClass:[AWSEC2DeleteClientVpnEndpointResult class]];
+}
+
+- (void)deleteClientVpnEndpoint:(AWSEC2DeleteClientVpnEndpointRequest *)request
+     completionHandler:(void (^)(AWSEC2DeleteClientVpnEndpointResult *response, NSError *error))completionHandler {
+    [[self deleteClientVpnEndpoint:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DeleteClientVpnEndpointResult *> * _Nonnull task) {
+        AWSEC2DeleteClientVpnEndpointResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DeleteClientVpnRouteResult *> *)deleteClientVpnRoute:(AWSEC2DeleteClientVpnRouteRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DeleteClientVpnRoute"
+                   outputClass:[AWSEC2DeleteClientVpnRouteResult class]];
+}
+
+- (void)deleteClientVpnRoute:(AWSEC2DeleteClientVpnRouteRequest *)request
+     completionHandler:(void (^)(AWSEC2DeleteClientVpnRouteResult *response, NSError *error))completionHandler {
+    [[self deleteClientVpnRoute:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DeleteClientVpnRouteResult *> * _Nonnull task) {
+        AWSEC2DeleteClientVpnRouteResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
 - (AWSTask *)deleteCustomerGateway:(AWSEC2DeleteCustomerGatewayRequest *)request {
     return [self invokeRequest:request
                     HTTPMethod:AWSHTTPMethodPOST
@@ -1984,6 +2976,29 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     }];
 }
 
+- (AWSTask<AWSEC2DeleteInstanceEventWindowResult *> *)deleteInstanceEventWindow:(AWSEC2DeleteInstanceEventWindowRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DeleteInstanceEventWindow"
+                   outputClass:[AWSEC2DeleteInstanceEventWindowResult class]];
+}
+
+- (void)deleteInstanceEventWindow:(AWSEC2DeleteInstanceEventWindowRequest *)request
+     completionHandler:(void (^)(AWSEC2DeleteInstanceEventWindowResult *response, NSError *error))completionHandler {
+    [[self deleteInstanceEventWindow:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DeleteInstanceEventWindowResult *> * _Nonnull task) {
+        AWSEC2DeleteInstanceEventWindowResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
 - (AWSTask *)deleteInternetGateway:(AWSEC2DeleteInternetGatewayRequest *)request {
     return [self invokeRequest:request
                     HTTPMethod:AWSHTTPMethodPOST
@@ -2074,6 +3089,75 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     }];
 }
 
+- (AWSTask<AWSEC2DeleteLocalGatewayRouteResult *> *)deleteLocalGatewayRoute:(AWSEC2DeleteLocalGatewayRouteRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DeleteLocalGatewayRoute"
+                   outputClass:[AWSEC2DeleteLocalGatewayRouteResult class]];
+}
+
+- (void)deleteLocalGatewayRoute:(AWSEC2DeleteLocalGatewayRouteRequest *)request
+     completionHandler:(void (^)(AWSEC2DeleteLocalGatewayRouteResult *response, NSError *error))completionHandler {
+    [[self deleteLocalGatewayRoute:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DeleteLocalGatewayRouteResult *> * _Nonnull task) {
+        AWSEC2DeleteLocalGatewayRouteResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DeleteLocalGatewayRouteTableVpcAssociationResult *> *)deleteLocalGatewayRouteTableVpcAssociation:(AWSEC2DeleteLocalGatewayRouteTableVpcAssociationRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DeleteLocalGatewayRouteTableVpcAssociation"
+                   outputClass:[AWSEC2DeleteLocalGatewayRouteTableVpcAssociationResult class]];
+}
+
+- (void)deleteLocalGatewayRouteTableVpcAssociation:(AWSEC2DeleteLocalGatewayRouteTableVpcAssociationRequest *)request
+     completionHandler:(void (^)(AWSEC2DeleteLocalGatewayRouteTableVpcAssociationResult *response, NSError *error))completionHandler {
+    [[self deleteLocalGatewayRouteTableVpcAssociation:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DeleteLocalGatewayRouteTableVpcAssociationResult *> * _Nonnull task) {
+        AWSEC2DeleteLocalGatewayRouteTableVpcAssociationResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DeleteManagedPrefixListResult *> *)deleteManagedPrefixList:(AWSEC2DeleteManagedPrefixListRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DeleteManagedPrefixList"
+                   outputClass:[AWSEC2DeleteManagedPrefixListResult class]];
+}
+
+- (void)deleteManagedPrefixList:(AWSEC2DeleteManagedPrefixListRequest *)request
+     completionHandler:(void (^)(AWSEC2DeleteManagedPrefixListResult *response, NSError *error))completionHandler {
+    [[self deleteManagedPrefixList:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DeleteManagedPrefixListResult *> * _Nonnull task) {
+        AWSEC2DeleteManagedPrefixListResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
 - (AWSTask<AWSEC2DeleteNatGatewayResult *> *)deleteNatGateway:(AWSEC2DeleteNatGatewayRequest *)request {
     return [self invokeRequest:request
                     HTTPMethod:AWSHTTPMethodPOST
@@ -2141,6 +3225,52 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     }];
 }
 
+- (AWSTask<AWSEC2DeleteNetworkInsightsAnalysisResult *> *)deleteNetworkInsightsAnalysis:(AWSEC2DeleteNetworkInsightsAnalysisRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DeleteNetworkInsightsAnalysis"
+                   outputClass:[AWSEC2DeleteNetworkInsightsAnalysisResult class]];
+}
+
+- (void)deleteNetworkInsightsAnalysis:(AWSEC2DeleteNetworkInsightsAnalysisRequest *)request
+     completionHandler:(void (^)(AWSEC2DeleteNetworkInsightsAnalysisResult *response, NSError *error))completionHandler {
+    [[self deleteNetworkInsightsAnalysis:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DeleteNetworkInsightsAnalysisResult *> * _Nonnull task) {
+        AWSEC2DeleteNetworkInsightsAnalysisResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DeleteNetworkInsightsPathResult *> *)deleteNetworkInsightsPath:(AWSEC2DeleteNetworkInsightsPathRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DeleteNetworkInsightsPath"
+                   outputClass:[AWSEC2DeleteNetworkInsightsPathResult class]];
+}
+
+- (void)deleteNetworkInsightsPath:(AWSEC2DeleteNetworkInsightsPathRequest *)request
+     completionHandler:(void (^)(AWSEC2DeleteNetworkInsightsPathResult *response, NSError *error))completionHandler {
+    [[self deleteNetworkInsightsPath:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DeleteNetworkInsightsPathResult *> * _Nonnull task) {
+        AWSEC2DeleteNetworkInsightsPathResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
 - (AWSTask *)deleteNetworkInterface:(AWSEC2DeleteNetworkInterfaceRequest *)request {
     return [self invokeRequest:request
                     HTTPMethod:AWSHTTPMethodPOST
@@ -2202,6 +3332,29 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
 
         if (completionHandler) {
             completionHandler(error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DeleteQueuedReservedInstancesResult *> *)deleteQueuedReservedInstances:(AWSEC2DeleteQueuedReservedInstancesRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DeleteQueuedReservedInstances"
+                   outputClass:[AWSEC2DeleteQueuedReservedInstancesResult class]];
+}
+
+- (void)deleteQueuedReservedInstances:(AWSEC2DeleteQueuedReservedInstancesRequest *)request
+     completionHandler:(void (^)(AWSEC2DeleteQueuedReservedInstancesResult *response, NSError *error))completionHandler {
+    [[self deleteQueuedReservedInstances:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DeleteQueuedReservedInstancesResult *> * _Nonnull task) {
+        AWSEC2DeleteQueuedReservedInstancesResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
         }
 
         return nil;
@@ -2340,6 +3493,29 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     }];
 }
 
+- (AWSTask<AWSEC2DeleteSubnetCidrReservationResult *> *)deleteSubnetCidrReservation:(AWSEC2DeleteSubnetCidrReservationRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DeleteSubnetCidrReservation"
+                   outputClass:[AWSEC2DeleteSubnetCidrReservationResult class]];
+}
+
+- (void)deleteSubnetCidrReservation:(AWSEC2DeleteSubnetCidrReservationRequest *)request
+     completionHandler:(void (^)(AWSEC2DeleteSubnetCidrReservationResult *response, NSError *error))completionHandler {
+    [[self deleteSubnetCidrReservation:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DeleteSubnetCidrReservationResult *> * _Nonnull task) {
+        AWSEC2DeleteSubnetCidrReservationResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
 - (AWSTask *)deleteTags:(AWSEC2DeleteTagsRequest *)request {
     return [self invokeRequest:request
                     HTTPMethod:AWSHTTPMethodPOST
@@ -2356,6 +3532,305 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
 
         if (completionHandler) {
             completionHandler(error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DeleteTrafficMirrorFilterResult *> *)deleteTrafficMirrorFilter:(AWSEC2DeleteTrafficMirrorFilterRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DeleteTrafficMirrorFilter"
+                   outputClass:[AWSEC2DeleteTrafficMirrorFilterResult class]];
+}
+
+- (void)deleteTrafficMirrorFilter:(AWSEC2DeleteTrafficMirrorFilterRequest *)request
+     completionHandler:(void (^)(AWSEC2DeleteTrafficMirrorFilterResult *response, NSError *error))completionHandler {
+    [[self deleteTrafficMirrorFilter:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DeleteTrafficMirrorFilterResult *> * _Nonnull task) {
+        AWSEC2DeleteTrafficMirrorFilterResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DeleteTrafficMirrorFilterRuleResult *> *)deleteTrafficMirrorFilterRule:(AWSEC2DeleteTrafficMirrorFilterRuleRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DeleteTrafficMirrorFilterRule"
+                   outputClass:[AWSEC2DeleteTrafficMirrorFilterRuleResult class]];
+}
+
+- (void)deleteTrafficMirrorFilterRule:(AWSEC2DeleteTrafficMirrorFilterRuleRequest *)request
+     completionHandler:(void (^)(AWSEC2DeleteTrafficMirrorFilterRuleResult *response, NSError *error))completionHandler {
+    [[self deleteTrafficMirrorFilterRule:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DeleteTrafficMirrorFilterRuleResult *> * _Nonnull task) {
+        AWSEC2DeleteTrafficMirrorFilterRuleResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DeleteTrafficMirrorSessionResult *> *)deleteTrafficMirrorSession:(AWSEC2DeleteTrafficMirrorSessionRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DeleteTrafficMirrorSession"
+                   outputClass:[AWSEC2DeleteTrafficMirrorSessionResult class]];
+}
+
+- (void)deleteTrafficMirrorSession:(AWSEC2DeleteTrafficMirrorSessionRequest *)request
+     completionHandler:(void (^)(AWSEC2DeleteTrafficMirrorSessionResult *response, NSError *error))completionHandler {
+    [[self deleteTrafficMirrorSession:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DeleteTrafficMirrorSessionResult *> * _Nonnull task) {
+        AWSEC2DeleteTrafficMirrorSessionResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DeleteTrafficMirrorTargetResult *> *)deleteTrafficMirrorTarget:(AWSEC2DeleteTrafficMirrorTargetRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DeleteTrafficMirrorTarget"
+                   outputClass:[AWSEC2DeleteTrafficMirrorTargetResult class]];
+}
+
+- (void)deleteTrafficMirrorTarget:(AWSEC2DeleteTrafficMirrorTargetRequest *)request
+     completionHandler:(void (^)(AWSEC2DeleteTrafficMirrorTargetResult *response, NSError *error))completionHandler {
+    [[self deleteTrafficMirrorTarget:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DeleteTrafficMirrorTargetResult *> * _Nonnull task) {
+        AWSEC2DeleteTrafficMirrorTargetResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DeleteTransitGatewayResult *> *)deleteTransitGateway:(AWSEC2DeleteTransitGatewayRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DeleteTransitGateway"
+                   outputClass:[AWSEC2DeleteTransitGatewayResult class]];
+}
+
+- (void)deleteTransitGateway:(AWSEC2DeleteTransitGatewayRequest *)request
+     completionHandler:(void (^)(AWSEC2DeleteTransitGatewayResult *response, NSError *error))completionHandler {
+    [[self deleteTransitGateway:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DeleteTransitGatewayResult *> * _Nonnull task) {
+        AWSEC2DeleteTransitGatewayResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DeleteTransitGatewayConnectResult *> *)deleteTransitGatewayConnect:(AWSEC2DeleteTransitGatewayConnectRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DeleteTransitGatewayConnect"
+                   outputClass:[AWSEC2DeleteTransitGatewayConnectResult class]];
+}
+
+- (void)deleteTransitGatewayConnect:(AWSEC2DeleteTransitGatewayConnectRequest *)request
+     completionHandler:(void (^)(AWSEC2DeleteTransitGatewayConnectResult *response, NSError *error))completionHandler {
+    [[self deleteTransitGatewayConnect:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DeleteTransitGatewayConnectResult *> * _Nonnull task) {
+        AWSEC2DeleteTransitGatewayConnectResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DeleteTransitGatewayConnectPeerResult *> *)deleteTransitGatewayConnectPeer:(AWSEC2DeleteTransitGatewayConnectPeerRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DeleteTransitGatewayConnectPeer"
+                   outputClass:[AWSEC2DeleteTransitGatewayConnectPeerResult class]];
+}
+
+- (void)deleteTransitGatewayConnectPeer:(AWSEC2DeleteTransitGatewayConnectPeerRequest *)request
+     completionHandler:(void (^)(AWSEC2DeleteTransitGatewayConnectPeerResult *response, NSError *error))completionHandler {
+    [[self deleteTransitGatewayConnectPeer:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DeleteTransitGatewayConnectPeerResult *> * _Nonnull task) {
+        AWSEC2DeleteTransitGatewayConnectPeerResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DeleteTransitGatewayMulticastDomainResult *> *)deleteTransitGatewayMulticastDomain:(AWSEC2DeleteTransitGatewayMulticastDomainRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DeleteTransitGatewayMulticastDomain"
+                   outputClass:[AWSEC2DeleteTransitGatewayMulticastDomainResult class]];
+}
+
+- (void)deleteTransitGatewayMulticastDomain:(AWSEC2DeleteTransitGatewayMulticastDomainRequest *)request
+     completionHandler:(void (^)(AWSEC2DeleteTransitGatewayMulticastDomainResult *response, NSError *error))completionHandler {
+    [[self deleteTransitGatewayMulticastDomain:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DeleteTransitGatewayMulticastDomainResult *> * _Nonnull task) {
+        AWSEC2DeleteTransitGatewayMulticastDomainResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DeleteTransitGatewayPeeringAttachmentResult *> *)deleteTransitGatewayPeeringAttachment:(AWSEC2DeleteTransitGatewayPeeringAttachmentRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DeleteTransitGatewayPeeringAttachment"
+                   outputClass:[AWSEC2DeleteTransitGatewayPeeringAttachmentResult class]];
+}
+
+- (void)deleteTransitGatewayPeeringAttachment:(AWSEC2DeleteTransitGatewayPeeringAttachmentRequest *)request
+     completionHandler:(void (^)(AWSEC2DeleteTransitGatewayPeeringAttachmentResult *response, NSError *error))completionHandler {
+    [[self deleteTransitGatewayPeeringAttachment:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DeleteTransitGatewayPeeringAttachmentResult *> * _Nonnull task) {
+        AWSEC2DeleteTransitGatewayPeeringAttachmentResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DeleteTransitGatewayPrefixListReferenceResult *> *)deleteTransitGatewayPrefixListReference:(AWSEC2DeleteTransitGatewayPrefixListReferenceRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DeleteTransitGatewayPrefixListReference"
+                   outputClass:[AWSEC2DeleteTransitGatewayPrefixListReferenceResult class]];
+}
+
+- (void)deleteTransitGatewayPrefixListReference:(AWSEC2DeleteTransitGatewayPrefixListReferenceRequest *)request
+     completionHandler:(void (^)(AWSEC2DeleteTransitGatewayPrefixListReferenceResult *response, NSError *error))completionHandler {
+    [[self deleteTransitGatewayPrefixListReference:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DeleteTransitGatewayPrefixListReferenceResult *> * _Nonnull task) {
+        AWSEC2DeleteTransitGatewayPrefixListReferenceResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DeleteTransitGatewayRouteResult *> *)deleteTransitGatewayRoute:(AWSEC2DeleteTransitGatewayRouteRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DeleteTransitGatewayRoute"
+                   outputClass:[AWSEC2DeleteTransitGatewayRouteResult class]];
+}
+
+- (void)deleteTransitGatewayRoute:(AWSEC2DeleteTransitGatewayRouteRequest *)request
+     completionHandler:(void (^)(AWSEC2DeleteTransitGatewayRouteResult *response, NSError *error))completionHandler {
+    [[self deleteTransitGatewayRoute:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DeleteTransitGatewayRouteResult *> * _Nonnull task) {
+        AWSEC2DeleteTransitGatewayRouteResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DeleteTransitGatewayRouteTableResult *> *)deleteTransitGatewayRouteTable:(AWSEC2DeleteTransitGatewayRouteTableRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DeleteTransitGatewayRouteTable"
+                   outputClass:[AWSEC2DeleteTransitGatewayRouteTableResult class]];
+}
+
+- (void)deleteTransitGatewayRouteTable:(AWSEC2DeleteTransitGatewayRouteTableRequest *)request
+     completionHandler:(void (^)(AWSEC2DeleteTransitGatewayRouteTableResult *response, NSError *error))completionHandler {
+    [[self deleteTransitGatewayRouteTable:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DeleteTransitGatewayRouteTableResult *> * _Nonnull task) {
+        AWSEC2DeleteTransitGatewayRouteTableResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DeleteTransitGatewayVpcAttachmentResult *> *)deleteTransitGatewayVpcAttachment:(AWSEC2DeleteTransitGatewayVpcAttachmentRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DeleteTransitGatewayVpcAttachment"
+                   outputClass:[AWSEC2DeleteTransitGatewayVpcAttachmentResult class]];
+}
+
+- (void)deleteTransitGatewayVpcAttachment:(AWSEC2DeleteTransitGatewayVpcAttachmentRequest *)request
+     completionHandler:(void (^)(AWSEC2DeleteTransitGatewayVpcAttachmentResult *response, NSError *error))completionHandler {
+    [[self deleteTransitGatewayVpcAttachment:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DeleteTransitGatewayVpcAttachmentResult *> * _Nonnull task) {
+        AWSEC2DeleteTransitGatewayVpcAttachmentResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
         }
 
         return nil;
@@ -2564,6 +4039,29 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     }];
 }
 
+- (AWSTask<AWSEC2DeprovisionByoipCidrResult *> *)deprovisionByoipCidr:(AWSEC2DeprovisionByoipCidrRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DeprovisionByoipCidr"
+                   outputClass:[AWSEC2DeprovisionByoipCidrResult class]];
+}
+
+- (void)deprovisionByoipCidr:(AWSEC2DeprovisionByoipCidrRequest *)request
+     completionHandler:(void (^)(AWSEC2DeprovisionByoipCidrResult *response, NSError *error))completionHandler {
+    [[self deprovisionByoipCidr:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DeprovisionByoipCidrResult *> * _Nonnull task) {
+        AWSEC2DeprovisionByoipCidrResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
 - (AWSTask *)deregisterImage:(AWSEC2DeregisterImageRequest *)request {
     return [self invokeRequest:request
                     HTTPMethod:AWSHTTPMethodPOST
@@ -2580,6 +4078,75 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
 
         if (completionHandler) {
             completionHandler(error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DeregisterInstanceEventNotificationAttributesResult *> *)deregisterInstanceEventNotificationAttributes:(AWSEC2DeregisterInstanceEventNotificationAttributesRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DeregisterInstanceEventNotificationAttributes"
+                   outputClass:[AWSEC2DeregisterInstanceEventNotificationAttributesResult class]];
+}
+
+- (void)deregisterInstanceEventNotificationAttributes:(AWSEC2DeregisterInstanceEventNotificationAttributesRequest *)request
+     completionHandler:(void (^)(AWSEC2DeregisterInstanceEventNotificationAttributesResult *response, NSError *error))completionHandler {
+    [[self deregisterInstanceEventNotificationAttributes:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DeregisterInstanceEventNotificationAttributesResult *> * _Nonnull task) {
+        AWSEC2DeregisterInstanceEventNotificationAttributesResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DeregisterTransitGatewayMulticastGroupMembersResult *> *)deregisterTransitGatewayMulticastGroupMembers:(AWSEC2DeregisterTransitGatewayMulticastGroupMembersRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DeregisterTransitGatewayMulticastGroupMembers"
+                   outputClass:[AWSEC2DeregisterTransitGatewayMulticastGroupMembersResult class]];
+}
+
+- (void)deregisterTransitGatewayMulticastGroupMembers:(AWSEC2DeregisterTransitGatewayMulticastGroupMembersRequest *)request
+     completionHandler:(void (^)(AWSEC2DeregisterTransitGatewayMulticastGroupMembersResult *response, NSError *error))completionHandler {
+    [[self deregisterTransitGatewayMulticastGroupMembers:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DeregisterTransitGatewayMulticastGroupMembersResult *> * _Nonnull task) {
+        AWSEC2DeregisterTransitGatewayMulticastGroupMembersResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DeregisterTransitGatewayMulticastGroupSourcesResult *> *)deregisterTransitGatewayMulticastGroupSources:(AWSEC2DeregisterTransitGatewayMulticastGroupSourcesRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DeregisterTransitGatewayMulticastGroupSources"
+                   outputClass:[AWSEC2DeregisterTransitGatewayMulticastGroupSourcesResult class]];
+}
+
+- (void)deregisterTransitGatewayMulticastGroupSources:(AWSEC2DeregisterTransitGatewayMulticastGroupSourcesRequest *)request
+     completionHandler:(void (^)(AWSEC2DeregisterTransitGatewayMulticastGroupSourcesResult *response, NSError *error))completionHandler {
+    [[self deregisterTransitGatewayMulticastGroupSources:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DeregisterTransitGatewayMulticastGroupSourcesResult *> * _Nonnull task) {
+        AWSEC2DeregisterTransitGatewayMulticastGroupSourcesResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
         }
 
         return nil;
@@ -2622,6 +4189,29 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
      completionHandler:(void (^)(AWSEC2DescribeAddressesResult *response, NSError *error))completionHandler {
     [[self describeAddresses:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeAddressesResult *> * _Nonnull task) {
         AWSEC2DescribeAddressesResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DescribeAddressesAttributeResult *> *)describeAddressesAttribute:(AWSEC2DescribeAddressesAttributeRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DescribeAddressesAttribute"
+                   outputClass:[AWSEC2DescribeAddressesAttributeResult class]];
+}
+
+- (void)describeAddressesAttribute:(AWSEC2DescribeAddressesAttributeRequest *)request
+     completionHandler:(void (^)(AWSEC2DescribeAddressesAttributeResult *response, NSError *error))completionHandler {
+    [[self describeAddressesAttribute:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeAddressesAttributeResult *> * _Nonnull task) {
+        AWSEC2DescribeAddressesAttributeResult *result = task.result;
         NSError *error = task.error;
 
         if (completionHandler) {
@@ -2701,6 +4291,75 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     }];
 }
 
+- (AWSTask<AWSEC2DescribeByoipCidrsResult *> *)describeByoipCidrs:(AWSEC2DescribeByoipCidrsRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DescribeByoipCidrs"
+                   outputClass:[AWSEC2DescribeByoipCidrsResult class]];
+}
+
+- (void)describeByoipCidrs:(AWSEC2DescribeByoipCidrsRequest *)request
+     completionHandler:(void (^)(AWSEC2DescribeByoipCidrsResult *response, NSError *error))completionHandler {
+    [[self describeByoipCidrs:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeByoipCidrsResult *> * _Nonnull task) {
+        AWSEC2DescribeByoipCidrsResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DescribeCapacityReservationsResult *> *)describeCapacityReservations:(AWSEC2DescribeCapacityReservationsRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DescribeCapacityReservations"
+                   outputClass:[AWSEC2DescribeCapacityReservationsResult class]];
+}
+
+- (void)describeCapacityReservations:(AWSEC2DescribeCapacityReservationsRequest *)request
+     completionHandler:(void (^)(AWSEC2DescribeCapacityReservationsResult *response, NSError *error))completionHandler {
+    [[self describeCapacityReservations:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeCapacityReservationsResult *> * _Nonnull task) {
+        AWSEC2DescribeCapacityReservationsResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DescribeCarrierGatewaysResult *> *)describeCarrierGateways:(AWSEC2DescribeCarrierGatewaysRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DescribeCarrierGateways"
+                   outputClass:[AWSEC2DescribeCarrierGatewaysResult class]];
+}
+
+- (void)describeCarrierGateways:(AWSEC2DescribeCarrierGatewaysRequest *)request
+     completionHandler:(void (^)(AWSEC2DescribeCarrierGatewaysResult *response, NSError *error))completionHandler {
+    [[self describeCarrierGateways:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeCarrierGatewaysResult *> * _Nonnull task) {
+        AWSEC2DescribeCarrierGatewaysResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
 - (AWSTask<AWSEC2DescribeClassicLinkInstancesResult *> *)describeClassicLinkInstances:(AWSEC2DescribeClassicLinkInstancesRequest *)request {
     return [self invokeRequest:request
                     HTTPMethod:AWSHTTPMethodPOST
@@ -2714,6 +4373,144 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
      completionHandler:(void (^)(AWSEC2DescribeClassicLinkInstancesResult *response, NSError *error))completionHandler {
     [[self describeClassicLinkInstances:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeClassicLinkInstancesResult *> * _Nonnull task) {
         AWSEC2DescribeClassicLinkInstancesResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DescribeClientVpnAuthorizationRulesResult *> *)describeClientVpnAuthorizationRules:(AWSEC2DescribeClientVpnAuthorizationRulesRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DescribeClientVpnAuthorizationRules"
+                   outputClass:[AWSEC2DescribeClientVpnAuthorizationRulesResult class]];
+}
+
+- (void)describeClientVpnAuthorizationRules:(AWSEC2DescribeClientVpnAuthorizationRulesRequest *)request
+     completionHandler:(void (^)(AWSEC2DescribeClientVpnAuthorizationRulesResult *response, NSError *error))completionHandler {
+    [[self describeClientVpnAuthorizationRules:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeClientVpnAuthorizationRulesResult *> * _Nonnull task) {
+        AWSEC2DescribeClientVpnAuthorizationRulesResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DescribeClientVpnConnectionsResult *> *)describeClientVpnConnections:(AWSEC2DescribeClientVpnConnectionsRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DescribeClientVpnConnections"
+                   outputClass:[AWSEC2DescribeClientVpnConnectionsResult class]];
+}
+
+- (void)describeClientVpnConnections:(AWSEC2DescribeClientVpnConnectionsRequest *)request
+     completionHandler:(void (^)(AWSEC2DescribeClientVpnConnectionsResult *response, NSError *error))completionHandler {
+    [[self describeClientVpnConnections:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeClientVpnConnectionsResult *> * _Nonnull task) {
+        AWSEC2DescribeClientVpnConnectionsResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DescribeClientVpnEndpointsResult *> *)describeClientVpnEndpoints:(AWSEC2DescribeClientVpnEndpointsRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DescribeClientVpnEndpoints"
+                   outputClass:[AWSEC2DescribeClientVpnEndpointsResult class]];
+}
+
+- (void)describeClientVpnEndpoints:(AWSEC2DescribeClientVpnEndpointsRequest *)request
+     completionHandler:(void (^)(AWSEC2DescribeClientVpnEndpointsResult *response, NSError *error))completionHandler {
+    [[self describeClientVpnEndpoints:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeClientVpnEndpointsResult *> * _Nonnull task) {
+        AWSEC2DescribeClientVpnEndpointsResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DescribeClientVpnRoutesResult *> *)describeClientVpnRoutes:(AWSEC2DescribeClientVpnRoutesRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DescribeClientVpnRoutes"
+                   outputClass:[AWSEC2DescribeClientVpnRoutesResult class]];
+}
+
+- (void)describeClientVpnRoutes:(AWSEC2DescribeClientVpnRoutesRequest *)request
+     completionHandler:(void (^)(AWSEC2DescribeClientVpnRoutesResult *response, NSError *error))completionHandler {
+    [[self describeClientVpnRoutes:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeClientVpnRoutesResult *> * _Nonnull task) {
+        AWSEC2DescribeClientVpnRoutesResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DescribeClientVpnTargetNetworksResult *> *)describeClientVpnTargetNetworks:(AWSEC2DescribeClientVpnTargetNetworksRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DescribeClientVpnTargetNetworks"
+                   outputClass:[AWSEC2DescribeClientVpnTargetNetworksResult class]];
+}
+
+- (void)describeClientVpnTargetNetworks:(AWSEC2DescribeClientVpnTargetNetworksRequest *)request
+     completionHandler:(void (^)(AWSEC2DescribeClientVpnTargetNetworksResult *response, NSError *error))completionHandler {
+    [[self describeClientVpnTargetNetworks:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeClientVpnTargetNetworksResult *> * _Nonnull task) {
+        AWSEC2DescribeClientVpnTargetNetworksResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DescribeCoipPoolsResult *> *)describeCoipPools:(AWSEC2DescribeCoipPoolsRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DescribeCoipPools"
+                   outputClass:[AWSEC2DescribeCoipPoolsResult class]];
+}
+
+- (void)describeCoipPools:(AWSEC2DescribeCoipPoolsRequest *)request
+     completionHandler:(void (^)(AWSEC2DescribeCoipPoolsResult *response, NSError *error))completionHandler {
+    [[self describeCoipPools:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeCoipPoolsResult *> * _Nonnull task) {
+        AWSEC2DescribeCoipPoolsResult *result = task.result;
         NSError *error = task.error;
 
         if (completionHandler) {
@@ -2839,6 +4636,29 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     }];
 }
 
+- (AWSTask<AWSEC2DescribeExportImageTasksResult *> *)describeExportImageTasks:(AWSEC2DescribeExportImageTasksRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DescribeExportImageTasks"
+                   outputClass:[AWSEC2DescribeExportImageTasksResult class]];
+}
+
+- (void)describeExportImageTasks:(AWSEC2DescribeExportImageTasksRequest *)request
+     completionHandler:(void (^)(AWSEC2DescribeExportImageTasksResult *response, NSError *error))completionHandler {
+    [[self describeExportImageTasks:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeExportImageTasksResult *> * _Nonnull task) {
+        AWSEC2DescribeExportImageTasksResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
 - (AWSTask<AWSEC2DescribeExportTasksResult *> *)describeExportTasks:(AWSEC2DescribeExportTasksRequest *)request {
     return [self invokeRequest:request
                     HTTPMethod:AWSHTTPMethodPOST
@@ -2852,6 +4672,29 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
      completionHandler:(void (^)(AWSEC2DescribeExportTasksResult *response, NSError *error))completionHandler {
     [[self describeExportTasks:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeExportTasksResult *> * _Nonnull task) {
         AWSEC2DescribeExportTasksResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DescribeFastSnapshotRestoresResult *> *)describeFastSnapshotRestores:(AWSEC2DescribeFastSnapshotRestoresRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DescribeFastSnapshotRestores"
+                   outputClass:[AWSEC2DescribeFastSnapshotRestoresResult class]];
+}
+
+- (void)describeFastSnapshotRestores:(AWSEC2DescribeFastSnapshotRestoresRequest *)request
+     completionHandler:(void (^)(AWSEC2DescribeFastSnapshotRestoresResult *response, NSError *error))completionHandler {
+    [[self describeFastSnapshotRestores:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeFastSnapshotRestoresResult *> * _Nonnull task) {
+        AWSEC2DescribeFastSnapshotRestoresResult *result = task.result;
         NSError *error = task.error;
 
         if (completionHandler) {
@@ -3276,6 +5119,52 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     }];
 }
 
+- (AWSTask<AWSEC2DescribeInstanceEventNotificationAttributesResult *> *)describeInstanceEventNotificationAttributes:(AWSEC2DescribeInstanceEventNotificationAttributesRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DescribeInstanceEventNotificationAttributes"
+                   outputClass:[AWSEC2DescribeInstanceEventNotificationAttributesResult class]];
+}
+
+- (void)describeInstanceEventNotificationAttributes:(AWSEC2DescribeInstanceEventNotificationAttributesRequest *)request
+     completionHandler:(void (^)(AWSEC2DescribeInstanceEventNotificationAttributesResult *response, NSError *error))completionHandler {
+    [[self describeInstanceEventNotificationAttributes:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeInstanceEventNotificationAttributesResult *> * _Nonnull task) {
+        AWSEC2DescribeInstanceEventNotificationAttributesResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DescribeInstanceEventWindowsResult *> *)describeInstanceEventWindows:(AWSEC2DescribeInstanceEventWindowsRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DescribeInstanceEventWindows"
+                   outputClass:[AWSEC2DescribeInstanceEventWindowsResult class]];
+}
+
+- (void)describeInstanceEventWindows:(AWSEC2DescribeInstanceEventWindowsRequest *)request
+     completionHandler:(void (^)(AWSEC2DescribeInstanceEventWindowsResult *response, NSError *error))completionHandler {
+    [[self describeInstanceEventWindows:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeInstanceEventWindowsResult *> * _Nonnull task) {
+        AWSEC2DescribeInstanceEventWindowsResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
 - (AWSTask<AWSEC2DescribeInstanceStatusResult *> *)describeInstanceStatus:(AWSEC2DescribeInstanceStatusRequest *)request {
     return [self invokeRequest:request
                     HTTPMethod:AWSHTTPMethodPOST
@@ -3289,6 +5178,52 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
      completionHandler:(void (^)(AWSEC2DescribeInstanceStatusResult *response, NSError *error))completionHandler {
     [[self describeInstanceStatus:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeInstanceStatusResult *> * _Nonnull task) {
         AWSEC2DescribeInstanceStatusResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DescribeInstanceTypeOfferingsResult *> *)describeInstanceTypeOfferings:(AWSEC2DescribeInstanceTypeOfferingsRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DescribeInstanceTypeOfferings"
+                   outputClass:[AWSEC2DescribeInstanceTypeOfferingsResult class]];
+}
+
+- (void)describeInstanceTypeOfferings:(AWSEC2DescribeInstanceTypeOfferingsRequest *)request
+     completionHandler:(void (^)(AWSEC2DescribeInstanceTypeOfferingsResult *response, NSError *error))completionHandler {
+    [[self describeInstanceTypeOfferings:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeInstanceTypeOfferingsResult *> * _Nonnull task) {
+        AWSEC2DescribeInstanceTypeOfferingsResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DescribeInstanceTypesResult *> *)describeInstanceTypes:(AWSEC2DescribeInstanceTypesRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DescribeInstanceTypes"
+                   outputClass:[AWSEC2DescribeInstanceTypesResult class]];
+}
+
+- (void)describeInstanceTypes:(AWSEC2DescribeInstanceTypesRequest *)request
+     completionHandler:(void (^)(AWSEC2DescribeInstanceTypesResult *response, NSError *error))completionHandler {
+    [[self describeInstanceTypes:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeInstanceTypesResult *> * _Nonnull task) {
+        AWSEC2DescribeInstanceTypesResult *result = task.result;
         NSError *error = task.error;
 
         if (completionHandler) {
@@ -3335,6 +5270,29 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
      completionHandler:(void (^)(AWSEC2DescribeInternetGatewaysResult *response, NSError *error))completionHandler {
     [[self describeInternetGateways:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeInternetGatewaysResult *> * _Nonnull task) {
         AWSEC2DescribeInternetGatewaysResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DescribeIpv6PoolsResult *> *)describeIpv6Pools:(AWSEC2DescribeIpv6PoolsRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DescribeIpv6Pools"
+                   outputClass:[AWSEC2DescribeIpv6PoolsResult class]];
+}
+
+- (void)describeIpv6Pools:(AWSEC2DescribeIpv6PoolsRequest *)request
+     completionHandler:(void (^)(AWSEC2DescribeIpv6PoolsResult *response, NSError *error))completionHandler {
+    [[self describeIpv6Pools:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeIpv6PoolsResult *> * _Nonnull task) {
+        AWSEC2DescribeIpv6PoolsResult *result = task.result;
         NSError *error = task.error;
 
         if (completionHandler) {
@@ -3414,6 +5372,167 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     }];
 }
 
+- (AWSTask<AWSEC2DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsResult *> *)describeLocalGatewayRouteTableVirtualInterfaceGroupAssociations:(AWSEC2DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociations"
+                   outputClass:[AWSEC2DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsResult class]];
+}
+
+- (void)describeLocalGatewayRouteTableVirtualInterfaceGroupAssociations:(AWSEC2DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsRequest *)request
+     completionHandler:(void (^)(AWSEC2DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsResult *response, NSError *error))completionHandler {
+    [[self describeLocalGatewayRouteTableVirtualInterfaceGroupAssociations:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsResult *> * _Nonnull task) {
+        AWSEC2DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DescribeLocalGatewayRouteTableVpcAssociationsResult *> *)describeLocalGatewayRouteTableVpcAssociations:(AWSEC2DescribeLocalGatewayRouteTableVpcAssociationsRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DescribeLocalGatewayRouteTableVpcAssociations"
+                   outputClass:[AWSEC2DescribeLocalGatewayRouteTableVpcAssociationsResult class]];
+}
+
+- (void)describeLocalGatewayRouteTableVpcAssociations:(AWSEC2DescribeLocalGatewayRouteTableVpcAssociationsRequest *)request
+     completionHandler:(void (^)(AWSEC2DescribeLocalGatewayRouteTableVpcAssociationsResult *response, NSError *error))completionHandler {
+    [[self describeLocalGatewayRouteTableVpcAssociations:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeLocalGatewayRouteTableVpcAssociationsResult *> * _Nonnull task) {
+        AWSEC2DescribeLocalGatewayRouteTableVpcAssociationsResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DescribeLocalGatewayRouteTablesResult *> *)describeLocalGatewayRouteTables:(AWSEC2DescribeLocalGatewayRouteTablesRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DescribeLocalGatewayRouteTables"
+                   outputClass:[AWSEC2DescribeLocalGatewayRouteTablesResult class]];
+}
+
+- (void)describeLocalGatewayRouteTables:(AWSEC2DescribeLocalGatewayRouteTablesRequest *)request
+     completionHandler:(void (^)(AWSEC2DescribeLocalGatewayRouteTablesResult *response, NSError *error))completionHandler {
+    [[self describeLocalGatewayRouteTables:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeLocalGatewayRouteTablesResult *> * _Nonnull task) {
+        AWSEC2DescribeLocalGatewayRouteTablesResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DescribeLocalGatewayVirtualInterfaceGroupsResult *> *)describeLocalGatewayVirtualInterfaceGroups:(AWSEC2DescribeLocalGatewayVirtualInterfaceGroupsRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DescribeLocalGatewayVirtualInterfaceGroups"
+                   outputClass:[AWSEC2DescribeLocalGatewayVirtualInterfaceGroupsResult class]];
+}
+
+- (void)describeLocalGatewayVirtualInterfaceGroups:(AWSEC2DescribeLocalGatewayVirtualInterfaceGroupsRequest *)request
+     completionHandler:(void (^)(AWSEC2DescribeLocalGatewayVirtualInterfaceGroupsResult *response, NSError *error))completionHandler {
+    [[self describeLocalGatewayVirtualInterfaceGroups:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeLocalGatewayVirtualInterfaceGroupsResult *> * _Nonnull task) {
+        AWSEC2DescribeLocalGatewayVirtualInterfaceGroupsResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DescribeLocalGatewayVirtualInterfacesResult *> *)describeLocalGatewayVirtualInterfaces:(AWSEC2DescribeLocalGatewayVirtualInterfacesRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DescribeLocalGatewayVirtualInterfaces"
+                   outputClass:[AWSEC2DescribeLocalGatewayVirtualInterfacesResult class]];
+}
+
+- (void)describeLocalGatewayVirtualInterfaces:(AWSEC2DescribeLocalGatewayVirtualInterfacesRequest *)request
+     completionHandler:(void (^)(AWSEC2DescribeLocalGatewayVirtualInterfacesResult *response, NSError *error))completionHandler {
+    [[self describeLocalGatewayVirtualInterfaces:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeLocalGatewayVirtualInterfacesResult *> * _Nonnull task) {
+        AWSEC2DescribeLocalGatewayVirtualInterfacesResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DescribeLocalGatewaysResult *> *)describeLocalGateways:(AWSEC2DescribeLocalGatewaysRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DescribeLocalGateways"
+                   outputClass:[AWSEC2DescribeLocalGatewaysResult class]];
+}
+
+- (void)describeLocalGateways:(AWSEC2DescribeLocalGatewaysRequest *)request
+     completionHandler:(void (^)(AWSEC2DescribeLocalGatewaysResult *response, NSError *error))completionHandler {
+    [[self describeLocalGateways:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeLocalGatewaysResult *> * _Nonnull task) {
+        AWSEC2DescribeLocalGatewaysResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DescribeManagedPrefixListsResult *> *)describeManagedPrefixLists:(AWSEC2DescribeManagedPrefixListsRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DescribeManagedPrefixLists"
+                   outputClass:[AWSEC2DescribeManagedPrefixListsResult class]];
+}
+
+- (void)describeManagedPrefixLists:(AWSEC2DescribeManagedPrefixListsRequest *)request
+     completionHandler:(void (^)(AWSEC2DescribeManagedPrefixListsResult *response, NSError *error))completionHandler {
+    [[self describeManagedPrefixLists:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeManagedPrefixListsResult *> * _Nonnull task) {
+        AWSEC2DescribeManagedPrefixListsResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
 - (AWSTask<AWSEC2DescribeMovingAddressesResult *> *)describeMovingAddresses:(AWSEC2DescribeMovingAddressesRequest *)request {
     return [self invokeRequest:request
                     HTTPMethod:AWSHTTPMethodPOST
@@ -3473,6 +5592,52 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
      completionHandler:(void (^)(AWSEC2DescribeNetworkAclsResult *response, NSError *error))completionHandler {
     [[self describeNetworkAcls:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeNetworkAclsResult *> * _Nonnull task) {
         AWSEC2DescribeNetworkAclsResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DescribeNetworkInsightsAnalysesResult *> *)describeNetworkInsightsAnalyses:(AWSEC2DescribeNetworkInsightsAnalysesRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DescribeNetworkInsightsAnalyses"
+                   outputClass:[AWSEC2DescribeNetworkInsightsAnalysesResult class]];
+}
+
+- (void)describeNetworkInsightsAnalyses:(AWSEC2DescribeNetworkInsightsAnalysesRequest *)request
+     completionHandler:(void (^)(AWSEC2DescribeNetworkInsightsAnalysesResult *response, NSError *error))completionHandler {
+    [[self describeNetworkInsightsAnalyses:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeNetworkInsightsAnalysesResult *> * _Nonnull task) {
+        AWSEC2DescribeNetworkInsightsAnalysesResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DescribeNetworkInsightsPathsResult *> *)describeNetworkInsightsPaths:(AWSEC2DescribeNetworkInsightsPathsRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DescribeNetworkInsightsPaths"
+                   outputClass:[AWSEC2DescribeNetworkInsightsPathsResult class]];
+}
+
+- (void)describeNetworkInsightsPaths:(AWSEC2DescribeNetworkInsightsPathsRequest *)request
+     completionHandler:(void (^)(AWSEC2DescribeNetworkInsightsPathsResult *response, NSError *error))completionHandler {
+    [[self describeNetworkInsightsPaths:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeNetworkInsightsPathsResult *> * _Nonnull task) {
+        AWSEC2DescribeNetworkInsightsPathsResult *result = task.result;
         NSError *error = task.error;
 
         if (completionHandler) {
@@ -3621,6 +5786,29 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     }];
 }
 
+- (AWSTask<AWSEC2DescribePublicIpv4PoolsResult *> *)describePublicIpv4Pools:(AWSEC2DescribePublicIpv4PoolsRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DescribePublicIpv4Pools"
+                   outputClass:[AWSEC2DescribePublicIpv4PoolsResult class]];
+}
+
+- (void)describePublicIpv4Pools:(AWSEC2DescribePublicIpv4PoolsRequest *)request
+     completionHandler:(void (^)(AWSEC2DescribePublicIpv4PoolsResult *response, NSError *error))completionHandler {
+    [[self describePublicIpv4Pools:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribePublicIpv4PoolsResult *> * _Nonnull task) {
+        AWSEC2DescribePublicIpv4PoolsResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
 - (AWSTask<AWSEC2DescribeRegionsResult *> *)describeRegions:(AWSEC2DescribeRegionsRequest *)request {
     return [self invokeRequest:request
                     HTTPMethod:AWSHTTPMethodPOST
@@ -3634,6 +5822,29 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
      completionHandler:(void (^)(AWSEC2DescribeRegionsResult *response, NSError *error))completionHandler {
     [[self describeRegions:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeRegionsResult *> * _Nonnull task) {
         AWSEC2DescribeRegionsResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DescribeReplaceRootVolumeTasksResult *> *)describeReplaceRootVolumeTasks:(AWSEC2DescribeReplaceRootVolumeTasksRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DescribeReplaceRootVolumeTasks"
+                   outputClass:[AWSEC2DescribeReplaceRootVolumeTasksResult class]];
+}
+
+- (void)describeReplaceRootVolumeTasks:(AWSEC2DescribeReplaceRootVolumeTasksRequest *)request
+     completionHandler:(void (^)(AWSEC2DescribeReplaceRootVolumeTasksResult *response, NSError *error))completionHandler {
+    [[self describeReplaceRootVolumeTasks:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeReplaceRootVolumeTasksResult *> * _Nonnull task) {
+        AWSEC2DescribeReplaceRootVolumeTasksResult *result = task.result;
         NSError *error = task.error;
 
         if (completionHandler) {
@@ -3818,6 +6029,29 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
      completionHandler:(void (^)(AWSEC2DescribeSecurityGroupReferencesResult *response, NSError *error))completionHandler {
     [[self describeSecurityGroupReferences:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeSecurityGroupReferencesResult *> * _Nonnull task) {
         AWSEC2DescribeSecurityGroupReferencesResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DescribeSecurityGroupRulesResult *> *)describeSecurityGroupRules:(AWSEC2DescribeSecurityGroupRulesRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DescribeSecurityGroupRules"
+                   outputClass:[AWSEC2DescribeSecurityGroupRulesResult class]];
+}
+
+- (void)describeSecurityGroupRules:(AWSEC2DescribeSecurityGroupRulesRequest *)request
+     completionHandler:(void (^)(AWSEC2DescribeSecurityGroupRulesResult *response, NSError *error))completionHandler {
+    [[self describeSecurityGroupRules:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeSecurityGroupRulesResult *> * _Nonnull task) {
+        AWSEC2DescribeSecurityGroupRulesResult *result = task.result;
         NSError *error = task.error;
 
         if (completionHandler) {
@@ -4058,6 +6292,29 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     }];
 }
 
+- (AWSTask<AWSEC2DescribeStoreImageTasksResult *> *)describeStoreImageTasks:(AWSEC2DescribeStoreImageTasksRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DescribeStoreImageTasks"
+                   outputClass:[AWSEC2DescribeStoreImageTasksResult class]];
+}
+
+- (void)describeStoreImageTasks:(AWSEC2DescribeStoreImageTasksRequest *)request
+     completionHandler:(void (^)(AWSEC2DescribeStoreImageTasksResult *response, NSError *error))completionHandler {
+    [[self describeStoreImageTasks:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeStoreImageTasksResult *> * _Nonnull task) {
+        AWSEC2DescribeStoreImageTasksResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
 - (AWSTask<AWSEC2DescribeSubnetsResult *> *)describeSubnets:(AWSEC2DescribeSubnetsRequest *)request {
     return [self invokeRequest:request
                     HTTPMethod:AWSHTTPMethodPOST
@@ -4094,6 +6351,282 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
      completionHandler:(void (^)(AWSEC2DescribeTagsResult *response, NSError *error))completionHandler {
     [[self describeTags:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeTagsResult *> * _Nonnull task) {
         AWSEC2DescribeTagsResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DescribeTrafficMirrorFiltersResult *> *)describeTrafficMirrorFilters:(AWSEC2DescribeTrafficMirrorFiltersRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DescribeTrafficMirrorFilters"
+                   outputClass:[AWSEC2DescribeTrafficMirrorFiltersResult class]];
+}
+
+- (void)describeTrafficMirrorFilters:(AWSEC2DescribeTrafficMirrorFiltersRequest *)request
+     completionHandler:(void (^)(AWSEC2DescribeTrafficMirrorFiltersResult *response, NSError *error))completionHandler {
+    [[self describeTrafficMirrorFilters:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeTrafficMirrorFiltersResult *> * _Nonnull task) {
+        AWSEC2DescribeTrafficMirrorFiltersResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DescribeTrafficMirrorSessionsResult *> *)describeTrafficMirrorSessions:(AWSEC2DescribeTrafficMirrorSessionsRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DescribeTrafficMirrorSessions"
+                   outputClass:[AWSEC2DescribeTrafficMirrorSessionsResult class]];
+}
+
+- (void)describeTrafficMirrorSessions:(AWSEC2DescribeTrafficMirrorSessionsRequest *)request
+     completionHandler:(void (^)(AWSEC2DescribeTrafficMirrorSessionsResult *response, NSError *error))completionHandler {
+    [[self describeTrafficMirrorSessions:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeTrafficMirrorSessionsResult *> * _Nonnull task) {
+        AWSEC2DescribeTrafficMirrorSessionsResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DescribeTrafficMirrorTargetsResult *> *)describeTrafficMirrorTargets:(AWSEC2DescribeTrafficMirrorTargetsRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DescribeTrafficMirrorTargets"
+                   outputClass:[AWSEC2DescribeTrafficMirrorTargetsResult class]];
+}
+
+- (void)describeTrafficMirrorTargets:(AWSEC2DescribeTrafficMirrorTargetsRequest *)request
+     completionHandler:(void (^)(AWSEC2DescribeTrafficMirrorTargetsResult *response, NSError *error))completionHandler {
+    [[self describeTrafficMirrorTargets:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeTrafficMirrorTargetsResult *> * _Nonnull task) {
+        AWSEC2DescribeTrafficMirrorTargetsResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DescribeTransitGatewayAttachmentsResult *> *)describeTransitGatewayAttachments:(AWSEC2DescribeTransitGatewayAttachmentsRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DescribeTransitGatewayAttachments"
+                   outputClass:[AWSEC2DescribeTransitGatewayAttachmentsResult class]];
+}
+
+- (void)describeTransitGatewayAttachments:(AWSEC2DescribeTransitGatewayAttachmentsRequest *)request
+     completionHandler:(void (^)(AWSEC2DescribeTransitGatewayAttachmentsResult *response, NSError *error))completionHandler {
+    [[self describeTransitGatewayAttachments:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeTransitGatewayAttachmentsResult *> * _Nonnull task) {
+        AWSEC2DescribeTransitGatewayAttachmentsResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DescribeTransitGatewayConnectPeersResult *> *)describeTransitGatewayConnectPeers:(AWSEC2DescribeTransitGatewayConnectPeersRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DescribeTransitGatewayConnectPeers"
+                   outputClass:[AWSEC2DescribeTransitGatewayConnectPeersResult class]];
+}
+
+- (void)describeTransitGatewayConnectPeers:(AWSEC2DescribeTransitGatewayConnectPeersRequest *)request
+     completionHandler:(void (^)(AWSEC2DescribeTransitGatewayConnectPeersResult *response, NSError *error))completionHandler {
+    [[self describeTransitGatewayConnectPeers:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeTransitGatewayConnectPeersResult *> * _Nonnull task) {
+        AWSEC2DescribeTransitGatewayConnectPeersResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DescribeTransitGatewayConnectsResult *> *)describeTransitGatewayConnects:(AWSEC2DescribeTransitGatewayConnectsRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DescribeTransitGatewayConnects"
+                   outputClass:[AWSEC2DescribeTransitGatewayConnectsResult class]];
+}
+
+- (void)describeTransitGatewayConnects:(AWSEC2DescribeTransitGatewayConnectsRequest *)request
+     completionHandler:(void (^)(AWSEC2DescribeTransitGatewayConnectsResult *response, NSError *error))completionHandler {
+    [[self describeTransitGatewayConnects:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeTransitGatewayConnectsResult *> * _Nonnull task) {
+        AWSEC2DescribeTransitGatewayConnectsResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DescribeTransitGatewayMulticastDomainsResult *> *)describeTransitGatewayMulticastDomains:(AWSEC2DescribeTransitGatewayMulticastDomainsRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DescribeTransitGatewayMulticastDomains"
+                   outputClass:[AWSEC2DescribeTransitGatewayMulticastDomainsResult class]];
+}
+
+- (void)describeTransitGatewayMulticastDomains:(AWSEC2DescribeTransitGatewayMulticastDomainsRequest *)request
+     completionHandler:(void (^)(AWSEC2DescribeTransitGatewayMulticastDomainsResult *response, NSError *error))completionHandler {
+    [[self describeTransitGatewayMulticastDomains:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeTransitGatewayMulticastDomainsResult *> * _Nonnull task) {
+        AWSEC2DescribeTransitGatewayMulticastDomainsResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DescribeTransitGatewayPeeringAttachmentsResult *> *)describeTransitGatewayPeeringAttachments:(AWSEC2DescribeTransitGatewayPeeringAttachmentsRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DescribeTransitGatewayPeeringAttachments"
+                   outputClass:[AWSEC2DescribeTransitGatewayPeeringAttachmentsResult class]];
+}
+
+- (void)describeTransitGatewayPeeringAttachments:(AWSEC2DescribeTransitGatewayPeeringAttachmentsRequest *)request
+     completionHandler:(void (^)(AWSEC2DescribeTransitGatewayPeeringAttachmentsResult *response, NSError *error))completionHandler {
+    [[self describeTransitGatewayPeeringAttachments:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeTransitGatewayPeeringAttachmentsResult *> * _Nonnull task) {
+        AWSEC2DescribeTransitGatewayPeeringAttachmentsResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DescribeTransitGatewayRouteTablesResult *> *)describeTransitGatewayRouteTables:(AWSEC2DescribeTransitGatewayRouteTablesRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DescribeTransitGatewayRouteTables"
+                   outputClass:[AWSEC2DescribeTransitGatewayRouteTablesResult class]];
+}
+
+- (void)describeTransitGatewayRouteTables:(AWSEC2DescribeTransitGatewayRouteTablesRequest *)request
+     completionHandler:(void (^)(AWSEC2DescribeTransitGatewayRouteTablesResult *response, NSError *error))completionHandler {
+    [[self describeTransitGatewayRouteTables:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeTransitGatewayRouteTablesResult *> * _Nonnull task) {
+        AWSEC2DescribeTransitGatewayRouteTablesResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DescribeTransitGatewayVpcAttachmentsResult *> *)describeTransitGatewayVpcAttachments:(AWSEC2DescribeTransitGatewayVpcAttachmentsRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DescribeTransitGatewayVpcAttachments"
+                   outputClass:[AWSEC2DescribeTransitGatewayVpcAttachmentsResult class]];
+}
+
+- (void)describeTransitGatewayVpcAttachments:(AWSEC2DescribeTransitGatewayVpcAttachmentsRequest *)request
+     completionHandler:(void (^)(AWSEC2DescribeTransitGatewayVpcAttachmentsResult *response, NSError *error))completionHandler {
+    [[self describeTransitGatewayVpcAttachments:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeTransitGatewayVpcAttachmentsResult *> * _Nonnull task) {
+        AWSEC2DescribeTransitGatewayVpcAttachmentsResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DescribeTransitGatewaysResult *> *)describeTransitGateways:(AWSEC2DescribeTransitGatewaysRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DescribeTransitGateways"
+                   outputClass:[AWSEC2DescribeTransitGatewaysResult class]];
+}
+
+- (void)describeTransitGateways:(AWSEC2DescribeTransitGatewaysRequest *)request
+     completionHandler:(void (^)(AWSEC2DescribeTransitGatewaysResult *response, NSError *error))completionHandler {
+    [[self describeTransitGateways:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeTransitGatewaysResult *> * _Nonnull task) {
+        AWSEC2DescribeTransitGatewaysResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DescribeTrunkInterfaceAssociationsResult *> *)describeTrunkInterfaceAssociations:(AWSEC2DescribeTrunkInterfaceAssociationsRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DescribeTrunkInterfaceAssociations"
+                   outputClass:[AWSEC2DescribeTrunkInterfaceAssociationsResult class]];
+}
+
+- (void)describeTrunkInterfaceAssociations:(AWSEC2DescribeTrunkInterfaceAssociationsRequest *)request
+     completionHandler:(void (^)(AWSEC2DescribeTrunkInterfaceAssociationsResult *response, NSError *error))completionHandler {
+    [[self describeTrunkInterfaceAssociations:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeTrunkInterfaceAssociationsResult *> * _Nonnull task) {
+        AWSEC2DescribeTrunkInterfaceAssociationsResult *result = task.result;
         NSError *error = task.error;
 
         if (completionHandler) {
@@ -4607,6 +7140,121 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     }];
 }
 
+- (AWSTask<AWSEC2DisableEbsEncryptionByDefaultResult *> *)disableEbsEncryptionByDefault:(AWSEC2DisableEbsEncryptionByDefaultRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DisableEbsEncryptionByDefault"
+                   outputClass:[AWSEC2DisableEbsEncryptionByDefaultResult class]];
+}
+
+- (void)disableEbsEncryptionByDefault:(AWSEC2DisableEbsEncryptionByDefaultRequest *)request
+     completionHandler:(void (^)(AWSEC2DisableEbsEncryptionByDefaultResult *response, NSError *error))completionHandler {
+    [[self disableEbsEncryptionByDefault:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DisableEbsEncryptionByDefaultResult *> * _Nonnull task) {
+        AWSEC2DisableEbsEncryptionByDefaultResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DisableFastSnapshotRestoresResult *> *)disableFastSnapshotRestores:(AWSEC2DisableFastSnapshotRestoresRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DisableFastSnapshotRestores"
+                   outputClass:[AWSEC2DisableFastSnapshotRestoresResult class]];
+}
+
+- (void)disableFastSnapshotRestores:(AWSEC2DisableFastSnapshotRestoresRequest *)request
+     completionHandler:(void (^)(AWSEC2DisableFastSnapshotRestoresResult *response, NSError *error))completionHandler {
+    [[self disableFastSnapshotRestores:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DisableFastSnapshotRestoresResult *> * _Nonnull task) {
+        AWSEC2DisableFastSnapshotRestoresResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DisableImageDeprecationResult *> *)disableImageDeprecation:(AWSEC2DisableImageDeprecationRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DisableImageDeprecation"
+                   outputClass:[AWSEC2DisableImageDeprecationResult class]];
+}
+
+- (void)disableImageDeprecation:(AWSEC2DisableImageDeprecationRequest *)request
+     completionHandler:(void (^)(AWSEC2DisableImageDeprecationResult *response, NSError *error))completionHandler {
+    [[self disableImageDeprecation:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DisableImageDeprecationResult *> * _Nonnull task) {
+        AWSEC2DisableImageDeprecationResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DisableSerialConsoleAccessResult *> *)disableSerialConsoleAccess:(AWSEC2DisableSerialConsoleAccessRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DisableSerialConsoleAccess"
+                   outputClass:[AWSEC2DisableSerialConsoleAccessResult class]];
+}
+
+- (void)disableSerialConsoleAccess:(AWSEC2DisableSerialConsoleAccessRequest *)request
+     completionHandler:(void (^)(AWSEC2DisableSerialConsoleAccessResult *response, NSError *error))completionHandler {
+    [[self disableSerialConsoleAccess:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DisableSerialConsoleAccessResult *> * _Nonnull task) {
+        AWSEC2DisableSerialConsoleAccessResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DisableTransitGatewayRouteTablePropagationResult *> *)disableTransitGatewayRouteTablePropagation:(AWSEC2DisableTransitGatewayRouteTablePropagationRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DisableTransitGatewayRouteTablePropagation"
+                   outputClass:[AWSEC2DisableTransitGatewayRouteTablePropagationResult class]];
+}
+
+- (void)disableTransitGatewayRouteTablePropagation:(AWSEC2DisableTransitGatewayRouteTablePropagationRequest *)request
+     completionHandler:(void (^)(AWSEC2DisableTransitGatewayRouteTablePropagationResult *response, NSError *error))completionHandler {
+    [[self disableTransitGatewayRouteTablePropagation:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DisableTransitGatewayRouteTablePropagationResult *> * _Nonnull task) {
+        AWSEC2DisableTransitGatewayRouteTablePropagationResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
 - (AWSTask *)disableVgwRoutePropagation:(AWSEC2DisableVgwRoutePropagationRequest *)request {
     return [self invokeRequest:request
                     HTTPMethod:AWSHTTPMethodPOST
@@ -4697,6 +7345,52 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     }];
 }
 
+- (AWSTask<AWSEC2DisassociateClientVpnTargetNetworkResult *> *)disassociateClientVpnTargetNetwork:(AWSEC2DisassociateClientVpnTargetNetworkRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DisassociateClientVpnTargetNetwork"
+                   outputClass:[AWSEC2DisassociateClientVpnTargetNetworkResult class]];
+}
+
+- (void)disassociateClientVpnTargetNetwork:(AWSEC2DisassociateClientVpnTargetNetworkRequest *)request
+     completionHandler:(void (^)(AWSEC2DisassociateClientVpnTargetNetworkResult *response, NSError *error))completionHandler {
+    [[self disassociateClientVpnTargetNetwork:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DisassociateClientVpnTargetNetworkResult *> * _Nonnull task) {
+        AWSEC2DisassociateClientVpnTargetNetworkResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DisassociateEnclaveCertificateIamRoleResult *> *)disassociateEnclaveCertificateIamRole:(AWSEC2DisassociateEnclaveCertificateIamRoleRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DisassociateEnclaveCertificateIamRole"
+                   outputClass:[AWSEC2DisassociateEnclaveCertificateIamRoleResult class]];
+}
+
+- (void)disassociateEnclaveCertificateIamRole:(AWSEC2DisassociateEnclaveCertificateIamRoleRequest *)request
+     completionHandler:(void (^)(AWSEC2DisassociateEnclaveCertificateIamRoleResult *response, NSError *error))completionHandler {
+    [[self disassociateEnclaveCertificateIamRole:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DisassociateEnclaveCertificateIamRoleResult *> * _Nonnull task) {
+        AWSEC2DisassociateEnclaveCertificateIamRoleResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
 - (AWSTask<AWSEC2DisassociateIamInstanceProfileResult *> *)disassociateIamInstanceProfile:(AWSEC2DisassociateIamInstanceProfileRequest *)request {
     return [self invokeRequest:request
                     HTTPMethod:AWSHTTPMethodPOST
@@ -4710,6 +7404,29 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
      completionHandler:(void (^)(AWSEC2DisassociateIamInstanceProfileResult *response, NSError *error))completionHandler {
     [[self disassociateIamInstanceProfile:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DisassociateIamInstanceProfileResult *> * _Nonnull task) {
         AWSEC2DisassociateIamInstanceProfileResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DisassociateInstanceEventWindowResult *> *)disassociateInstanceEventWindow:(AWSEC2DisassociateInstanceEventWindowRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DisassociateInstanceEventWindow"
+                   outputClass:[AWSEC2DisassociateInstanceEventWindowResult class]];
+}
+
+- (void)disassociateInstanceEventWindow:(AWSEC2DisassociateInstanceEventWindowRequest *)request
+     completionHandler:(void (^)(AWSEC2DisassociateInstanceEventWindowResult *response, NSError *error))completionHandler {
+    [[self disassociateInstanceEventWindow:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DisassociateInstanceEventWindowResult *> * _Nonnull task) {
+        AWSEC2DisassociateInstanceEventWindowResult *result = task.result;
         NSError *error = task.error;
 
         if (completionHandler) {
@@ -4765,6 +7482,75 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     }];
 }
 
+- (AWSTask<AWSEC2DisassociateTransitGatewayMulticastDomainResult *> *)disassociateTransitGatewayMulticastDomain:(AWSEC2DisassociateTransitGatewayMulticastDomainRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DisassociateTransitGatewayMulticastDomain"
+                   outputClass:[AWSEC2DisassociateTransitGatewayMulticastDomainResult class]];
+}
+
+- (void)disassociateTransitGatewayMulticastDomain:(AWSEC2DisassociateTransitGatewayMulticastDomainRequest *)request
+     completionHandler:(void (^)(AWSEC2DisassociateTransitGatewayMulticastDomainResult *response, NSError *error))completionHandler {
+    [[self disassociateTransitGatewayMulticastDomain:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DisassociateTransitGatewayMulticastDomainResult *> * _Nonnull task) {
+        AWSEC2DisassociateTransitGatewayMulticastDomainResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DisassociateTransitGatewayRouteTableResult *> *)disassociateTransitGatewayRouteTable:(AWSEC2DisassociateTransitGatewayRouteTableRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DisassociateTransitGatewayRouteTable"
+                   outputClass:[AWSEC2DisassociateTransitGatewayRouteTableResult class]];
+}
+
+- (void)disassociateTransitGatewayRouteTable:(AWSEC2DisassociateTransitGatewayRouteTableRequest *)request
+     completionHandler:(void (^)(AWSEC2DisassociateTransitGatewayRouteTableResult *response, NSError *error))completionHandler {
+    [[self disassociateTransitGatewayRouteTable:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DisassociateTransitGatewayRouteTableResult *> * _Nonnull task) {
+        AWSEC2DisassociateTransitGatewayRouteTableResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DisassociateTrunkInterfaceResult *> *)disassociateTrunkInterface:(AWSEC2DisassociateTrunkInterfaceRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DisassociateTrunkInterface"
+                   outputClass:[AWSEC2DisassociateTrunkInterfaceResult class]];
+}
+
+- (void)disassociateTrunkInterface:(AWSEC2DisassociateTrunkInterfaceRequest *)request
+     completionHandler:(void (^)(AWSEC2DisassociateTrunkInterfaceResult *response, NSError *error))completionHandler {
+    [[self disassociateTrunkInterface:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DisassociateTrunkInterfaceResult *> * _Nonnull task) {
+        AWSEC2DisassociateTrunkInterfaceResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
 - (AWSTask<AWSEC2DisassociateVpcCidrBlockResult *> *)disassociateVpcCidrBlock:(AWSEC2DisassociateVpcCidrBlockRequest *)request {
     return [self invokeRequest:request
                     HTTPMethod:AWSHTTPMethodPOST
@@ -4778,6 +7564,121 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
      completionHandler:(void (^)(AWSEC2DisassociateVpcCidrBlockResult *response, NSError *error))completionHandler {
     [[self disassociateVpcCidrBlock:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DisassociateVpcCidrBlockResult *> * _Nonnull task) {
         AWSEC2DisassociateVpcCidrBlockResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2EnableEbsEncryptionByDefaultResult *> *)enableEbsEncryptionByDefault:(AWSEC2EnableEbsEncryptionByDefaultRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"EnableEbsEncryptionByDefault"
+                   outputClass:[AWSEC2EnableEbsEncryptionByDefaultResult class]];
+}
+
+- (void)enableEbsEncryptionByDefault:(AWSEC2EnableEbsEncryptionByDefaultRequest *)request
+     completionHandler:(void (^)(AWSEC2EnableEbsEncryptionByDefaultResult *response, NSError *error))completionHandler {
+    [[self enableEbsEncryptionByDefault:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2EnableEbsEncryptionByDefaultResult *> * _Nonnull task) {
+        AWSEC2EnableEbsEncryptionByDefaultResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2EnableFastSnapshotRestoresResult *> *)enableFastSnapshotRestores:(AWSEC2EnableFastSnapshotRestoresRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"EnableFastSnapshotRestores"
+                   outputClass:[AWSEC2EnableFastSnapshotRestoresResult class]];
+}
+
+- (void)enableFastSnapshotRestores:(AWSEC2EnableFastSnapshotRestoresRequest *)request
+     completionHandler:(void (^)(AWSEC2EnableFastSnapshotRestoresResult *response, NSError *error))completionHandler {
+    [[self enableFastSnapshotRestores:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2EnableFastSnapshotRestoresResult *> * _Nonnull task) {
+        AWSEC2EnableFastSnapshotRestoresResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2EnableImageDeprecationResult *> *)enableImageDeprecation:(AWSEC2EnableImageDeprecationRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"EnableImageDeprecation"
+                   outputClass:[AWSEC2EnableImageDeprecationResult class]];
+}
+
+- (void)enableImageDeprecation:(AWSEC2EnableImageDeprecationRequest *)request
+     completionHandler:(void (^)(AWSEC2EnableImageDeprecationResult *response, NSError *error))completionHandler {
+    [[self enableImageDeprecation:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2EnableImageDeprecationResult *> * _Nonnull task) {
+        AWSEC2EnableImageDeprecationResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2EnableSerialConsoleAccessResult *> *)enableSerialConsoleAccess:(AWSEC2EnableSerialConsoleAccessRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"EnableSerialConsoleAccess"
+                   outputClass:[AWSEC2EnableSerialConsoleAccessResult class]];
+}
+
+- (void)enableSerialConsoleAccess:(AWSEC2EnableSerialConsoleAccessRequest *)request
+     completionHandler:(void (^)(AWSEC2EnableSerialConsoleAccessResult *response, NSError *error))completionHandler {
+    [[self enableSerialConsoleAccess:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2EnableSerialConsoleAccessResult *> * _Nonnull task) {
+        AWSEC2EnableSerialConsoleAccessResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2EnableTransitGatewayRouteTablePropagationResult *> *)enableTransitGatewayRouteTablePropagation:(AWSEC2EnableTransitGatewayRouteTablePropagationRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"EnableTransitGatewayRouteTablePropagation"
+                   outputClass:[AWSEC2EnableTransitGatewayRouteTablePropagationResult class]];
+}
+
+- (void)enableTransitGatewayRouteTablePropagation:(AWSEC2EnableTransitGatewayRouteTablePropagationRequest *)request
+     completionHandler:(void (^)(AWSEC2EnableTransitGatewayRouteTablePropagationResult *response, NSError *error))completionHandler {
+    [[self enableTransitGatewayRouteTablePropagation:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2EnableTransitGatewayRouteTablePropagationResult *> * _Nonnull task) {
+        AWSEC2EnableTransitGatewayRouteTablePropagationResult *result = task.result;
         NSError *error = task.error;
 
         if (completionHandler) {
@@ -4878,6 +7779,190 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     }];
 }
 
+- (AWSTask<AWSEC2ExportClientVpnClientCertificateRevocationListResult *> *)exportClientVpnClientCertificateRevocationList:(AWSEC2ExportClientVpnClientCertificateRevocationListRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"ExportClientVpnClientCertificateRevocationList"
+                   outputClass:[AWSEC2ExportClientVpnClientCertificateRevocationListResult class]];
+}
+
+- (void)exportClientVpnClientCertificateRevocationList:(AWSEC2ExportClientVpnClientCertificateRevocationListRequest *)request
+     completionHandler:(void (^)(AWSEC2ExportClientVpnClientCertificateRevocationListResult *response, NSError *error))completionHandler {
+    [[self exportClientVpnClientCertificateRevocationList:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2ExportClientVpnClientCertificateRevocationListResult *> * _Nonnull task) {
+        AWSEC2ExportClientVpnClientCertificateRevocationListResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2ExportClientVpnClientConfigurationResult *> *)exportClientVpnClientConfiguration:(AWSEC2ExportClientVpnClientConfigurationRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"ExportClientVpnClientConfiguration"
+                   outputClass:[AWSEC2ExportClientVpnClientConfigurationResult class]];
+}
+
+- (void)exportClientVpnClientConfiguration:(AWSEC2ExportClientVpnClientConfigurationRequest *)request
+     completionHandler:(void (^)(AWSEC2ExportClientVpnClientConfigurationResult *response, NSError *error))completionHandler {
+    [[self exportClientVpnClientConfiguration:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2ExportClientVpnClientConfigurationResult *> * _Nonnull task) {
+        AWSEC2ExportClientVpnClientConfigurationResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2ExportImageResult *> *)exportImage:(AWSEC2ExportImageRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"ExportImage"
+                   outputClass:[AWSEC2ExportImageResult class]];
+}
+
+- (void)exportImage:(AWSEC2ExportImageRequest *)request
+     completionHandler:(void (^)(AWSEC2ExportImageResult *response, NSError *error))completionHandler {
+    [[self exportImage:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2ExportImageResult *> * _Nonnull task) {
+        AWSEC2ExportImageResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2ExportTransitGatewayRoutesResult *> *)exportTransitGatewayRoutes:(AWSEC2ExportTransitGatewayRoutesRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"ExportTransitGatewayRoutes"
+                   outputClass:[AWSEC2ExportTransitGatewayRoutesResult class]];
+}
+
+- (void)exportTransitGatewayRoutes:(AWSEC2ExportTransitGatewayRoutesRequest *)request
+     completionHandler:(void (^)(AWSEC2ExportTransitGatewayRoutesResult *response, NSError *error))completionHandler {
+    [[self exportTransitGatewayRoutes:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2ExportTransitGatewayRoutesResult *> * _Nonnull task) {
+        AWSEC2ExportTransitGatewayRoutesResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2GetAssociatedEnclaveCertificateIamRolesResult *> *)getAssociatedEnclaveCertificateIamRoles:(AWSEC2GetAssociatedEnclaveCertificateIamRolesRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"GetAssociatedEnclaveCertificateIamRoles"
+                   outputClass:[AWSEC2GetAssociatedEnclaveCertificateIamRolesResult class]];
+}
+
+- (void)getAssociatedEnclaveCertificateIamRoles:(AWSEC2GetAssociatedEnclaveCertificateIamRolesRequest *)request
+     completionHandler:(void (^)(AWSEC2GetAssociatedEnclaveCertificateIamRolesResult *response, NSError *error))completionHandler {
+    [[self getAssociatedEnclaveCertificateIamRoles:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2GetAssociatedEnclaveCertificateIamRolesResult *> * _Nonnull task) {
+        AWSEC2GetAssociatedEnclaveCertificateIamRolesResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2GetAssociatedIpv6PoolCidrsResult *> *)getAssociatedIpv6PoolCidrs:(AWSEC2GetAssociatedIpv6PoolCidrsRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"GetAssociatedIpv6PoolCidrs"
+                   outputClass:[AWSEC2GetAssociatedIpv6PoolCidrsResult class]];
+}
+
+- (void)getAssociatedIpv6PoolCidrs:(AWSEC2GetAssociatedIpv6PoolCidrsRequest *)request
+     completionHandler:(void (^)(AWSEC2GetAssociatedIpv6PoolCidrsResult *response, NSError *error))completionHandler {
+    [[self getAssociatedIpv6PoolCidrs:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2GetAssociatedIpv6PoolCidrsResult *> * _Nonnull task) {
+        AWSEC2GetAssociatedIpv6PoolCidrsResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2GetCapacityReservationUsageResult *> *)getCapacityReservationUsage:(AWSEC2GetCapacityReservationUsageRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"GetCapacityReservationUsage"
+                   outputClass:[AWSEC2GetCapacityReservationUsageResult class]];
+}
+
+- (void)getCapacityReservationUsage:(AWSEC2GetCapacityReservationUsageRequest *)request
+     completionHandler:(void (^)(AWSEC2GetCapacityReservationUsageResult *response, NSError *error))completionHandler {
+    [[self getCapacityReservationUsage:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2GetCapacityReservationUsageResult *> * _Nonnull task) {
+        AWSEC2GetCapacityReservationUsageResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2GetCoipPoolUsageResult *> *)getCoipPoolUsage:(AWSEC2GetCoipPoolUsageRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"GetCoipPoolUsage"
+                   outputClass:[AWSEC2GetCoipPoolUsageResult class]];
+}
+
+- (void)getCoipPoolUsage:(AWSEC2GetCoipPoolUsageRequest *)request
+     completionHandler:(void (^)(AWSEC2GetCoipPoolUsageResult *response, NSError *error))completionHandler {
+    [[self getCoipPoolUsage:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2GetCoipPoolUsageResult *> * _Nonnull task) {
+        AWSEC2GetCoipPoolUsageResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
 - (AWSTask<AWSEC2GetConsoleOutputResult *> *)getConsoleOutput:(AWSEC2GetConsoleOutputRequest *)request {
     return [self invokeRequest:request
                     HTTPMethod:AWSHTTPMethodPOST
@@ -4914,6 +7999,121 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
      completionHandler:(void (^)(AWSEC2GetConsoleScreenshotResult *response, NSError *error))completionHandler {
     [[self getConsoleScreenshot:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2GetConsoleScreenshotResult *> * _Nonnull task) {
         AWSEC2GetConsoleScreenshotResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2GetDefaultCreditSpecificationResult *> *)getDefaultCreditSpecification:(AWSEC2GetDefaultCreditSpecificationRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"GetDefaultCreditSpecification"
+                   outputClass:[AWSEC2GetDefaultCreditSpecificationResult class]];
+}
+
+- (void)getDefaultCreditSpecification:(AWSEC2GetDefaultCreditSpecificationRequest *)request
+     completionHandler:(void (^)(AWSEC2GetDefaultCreditSpecificationResult *response, NSError *error))completionHandler {
+    [[self getDefaultCreditSpecification:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2GetDefaultCreditSpecificationResult *> * _Nonnull task) {
+        AWSEC2GetDefaultCreditSpecificationResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2GetEbsDefaultKmsKeyIdResult *> *)getEbsDefaultKmsKeyId:(AWSEC2GetEbsDefaultKmsKeyIdRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"GetEbsDefaultKmsKeyId"
+                   outputClass:[AWSEC2GetEbsDefaultKmsKeyIdResult class]];
+}
+
+- (void)getEbsDefaultKmsKeyId:(AWSEC2GetEbsDefaultKmsKeyIdRequest *)request
+     completionHandler:(void (^)(AWSEC2GetEbsDefaultKmsKeyIdResult *response, NSError *error))completionHandler {
+    [[self getEbsDefaultKmsKeyId:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2GetEbsDefaultKmsKeyIdResult *> * _Nonnull task) {
+        AWSEC2GetEbsDefaultKmsKeyIdResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2GetEbsEncryptionByDefaultResult *> *)getEbsEncryptionByDefault:(AWSEC2GetEbsEncryptionByDefaultRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"GetEbsEncryptionByDefault"
+                   outputClass:[AWSEC2GetEbsEncryptionByDefaultResult class]];
+}
+
+- (void)getEbsEncryptionByDefault:(AWSEC2GetEbsEncryptionByDefaultRequest *)request
+     completionHandler:(void (^)(AWSEC2GetEbsEncryptionByDefaultResult *response, NSError *error))completionHandler {
+    [[self getEbsEncryptionByDefault:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2GetEbsEncryptionByDefaultResult *> * _Nonnull task) {
+        AWSEC2GetEbsEncryptionByDefaultResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2GetFlowLogsIntegrationTemplateResult *> *)getFlowLogsIntegrationTemplate:(AWSEC2GetFlowLogsIntegrationTemplateRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"GetFlowLogsIntegrationTemplate"
+                   outputClass:[AWSEC2GetFlowLogsIntegrationTemplateResult class]];
+}
+
+- (void)getFlowLogsIntegrationTemplate:(AWSEC2GetFlowLogsIntegrationTemplateRequest *)request
+     completionHandler:(void (^)(AWSEC2GetFlowLogsIntegrationTemplateResult *response, NSError *error))completionHandler {
+    [[self getFlowLogsIntegrationTemplate:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2GetFlowLogsIntegrationTemplateResult *> * _Nonnull task) {
+        AWSEC2GetFlowLogsIntegrationTemplateResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2GetGroupsForCapacityReservationResult *> *)getGroupsForCapacityReservation:(AWSEC2GetGroupsForCapacityReservationRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"GetGroupsForCapacityReservation"
+                   outputClass:[AWSEC2GetGroupsForCapacityReservationResult class]];
+}
+
+- (void)getGroupsForCapacityReservation:(AWSEC2GetGroupsForCapacityReservationRequest *)request
+     completionHandler:(void (^)(AWSEC2GetGroupsForCapacityReservationResult *response, NSError *error))completionHandler {
+    [[self getGroupsForCapacityReservation:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2GetGroupsForCapacityReservationResult *> * _Nonnull task) {
+        AWSEC2GetGroupsForCapacityReservationResult *result = task.result;
         NSError *error = task.error;
 
         if (completionHandler) {
@@ -4970,6 +8170,52 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     }];
 }
 
+- (AWSTask<AWSEC2GetManagedPrefixListAssociationsResult *> *)getManagedPrefixListAssociations:(AWSEC2GetManagedPrefixListAssociationsRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"GetManagedPrefixListAssociations"
+                   outputClass:[AWSEC2GetManagedPrefixListAssociationsResult class]];
+}
+
+- (void)getManagedPrefixListAssociations:(AWSEC2GetManagedPrefixListAssociationsRequest *)request
+     completionHandler:(void (^)(AWSEC2GetManagedPrefixListAssociationsResult *response, NSError *error))completionHandler {
+    [[self getManagedPrefixListAssociations:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2GetManagedPrefixListAssociationsResult *> * _Nonnull task) {
+        AWSEC2GetManagedPrefixListAssociationsResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2GetManagedPrefixListEntriesResult *> *)getManagedPrefixListEntries:(AWSEC2GetManagedPrefixListEntriesRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"GetManagedPrefixListEntries"
+                   outputClass:[AWSEC2GetManagedPrefixListEntriesResult class]];
+}
+
+- (void)getManagedPrefixListEntries:(AWSEC2GetManagedPrefixListEntriesRequest *)request
+     completionHandler:(void (^)(AWSEC2GetManagedPrefixListEntriesResult *response, NSError *error))completionHandler {
+    [[self getManagedPrefixListEntries:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2GetManagedPrefixListEntriesResult *> * _Nonnull task) {
+        AWSEC2GetManagedPrefixListEntriesResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
 - (AWSTask<AWSEC2GetPasswordDataResult *> *)getPasswordData:(AWSEC2GetPasswordDataRequest *)request {
     return [self invokeRequest:request
                     HTTPMethod:AWSHTTPMethodPOST
@@ -5006,6 +8252,236 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
      completionHandler:(void (^)(AWSEC2GetReservedInstancesExchangeQuoteResult *response, NSError *error))completionHandler {
     [[self getReservedInstancesExchangeQuote:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2GetReservedInstancesExchangeQuoteResult *> * _Nonnull task) {
         AWSEC2GetReservedInstancesExchangeQuoteResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2GetSerialConsoleAccessStatusResult *> *)getSerialConsoleAccessStatus:(AWSEC2GetSerialConsoleAccessStatusRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"GetSerialConsoleAccessStatus"
+                   outputClass:[AWSEC2GetSerialConsoleAccessStatusResult class]];
+}
+
+- (void)getSerialConsoleAccessStatus:(AWSEC2GetSerialConsoleAccessStatusRequest *)request
+     completionHandler:(void (^)(AWSEC2GetSerialConsoleAccessStatusResult *response, NSError *error))completionHandler {
+    [[self getSerialConsoleAccessStatus:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2GetSerialConsoleAccessStatusResult *> * _Nonnull task) {
+        AWSEC2GetSerialConsoleAccessStatusResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2GetSubnetCidrReservationsResult *> *)getSubnetCidrReservations:(AWSEC2GetSubnetCidrReservationsRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"GetSubnetCidrReservations"
+                   outputClass:[AWSEC2GetSubnetCidrReservationsResult class]];
+}
+
+- (void)getSubnetCidrReservations:(AWSEC2GetSubnetCidrReservationsRequest *)request
+     completionHandler:(void (^)(AWSEC2GetSubnetCidrReservationsResult *response, NSError *error))completionHandler {
+    [[self getSubnetCidrReservations:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2GetSubnetCidrReservationsResult *> * _Nonnull task) {
+        AWSEC2GetSubnetCidrReservationsResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2GetTransitGatewayAttachmentPropagationsResult *> *)getTransitGatewayAttachmentPropagations:(AWSEC2GetTransitGatewayAttachmentPropagationsRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"GetTransitGatewayAttachmentPropagations"
+                   outputClass:[AWSEC2GetTransitGatewayAttachmentPropagationsResult class]];
+}
+
+- (void)getTransitGatewayAttachmentPropagations:(AWSEC2GetTransitGatewayAttachmentPropagationsRequest *)request
+     completionHandler:(void (^)(AWSEC2GetTransitGatewayAttachmentPropagationsResult *response, NSError *error))completionHandler {
+    [[self getTransitGatewayAttachmentPropagations:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2GetTransitGatewayAttachmentPropagationsResult *> * _Nonnull task) {
+        AWSEC2GetTransitGatewayAttachmentPropagationsResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2GetTransitGatewayMulticastDomainAssociationsResult *> *)getTransitGatewayMulticastDomainAssociations:(AWSEC2GetTransitGatewayMulticastDomainAssociationsRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"GetTransitGatewayMulticastDomainAssociations"
+                   outputClass:[AWSEC2GetTransitGatewayMulticastDomainAssociationsResult class]];
+}
+
+- (void)getTransitGatewayMulticastDomainAssociations:(AWSEC2GetTransitGatewayMulticastDomainAssociationsRequest *)request
+     completionHandler:(void (^)(AWSEC2GetTransitGatewayMulticastDomainAssociationsResult *response, NSError *error))completionHandler {
+    [[self getTransitGatewayMulticastDomainAssociations:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2GetTransitGatewayMulticastDomainAssociationsResult *> * _Nonnull task) {
+        AWSEC2GetTransitGatewayMulticastDomainAssociationsResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2GetTransitGatewayPrefixListReferencesResult *> *)getTransitGatewayPrefixListReferences:(AWSEC2GetTransitGatewayPrefixListReferencesRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"GetTransitGatewayPrefixListReferences"
+                   outputClass:[AWSEC2GetTransitGatewayPrefixListReferencesResult class]];
+}
+
+- (void)getTransitGatewayPrefixListReferences:(AWSEC2GetTransitGatewayPrefixListReferencesRequest *)request
+     completionHandler:(void (^)(AWSEC2GetTransitGatewayPrefixListReferencesResult *response, NSError *error))completionHandler {
+    [[self getTransitGatewayPrefixListReferences:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2GetTransitGatewayPrefixListReferencesResult *> * _Nonnull task) {
+        AWSEC2GetTransitGatewayPrefixListReferencesResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2GetTransitGatewayRouteTableAssociationsResult *> *)getTransitGatewayRouteTableAssociations:(AWSEC2GetTransitGatewayRouteTableAssociationsRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"GetTransitGatewayRouteTableAssociations"
+                   outputClass:[AWSEC2GetTransitGatewayRouteTableAssociationsResult class]];
+}
+
+- (void)getTransitGatewayRouteTableAssociations:(AWSEC2GetTransitGatewayRouteTableAssociationsRequest *)request
+     completionHandler:(void (^)(AWSEC2GetTransitGatewayRouteTableAssociationsResult *response, NSError *error))completionHandler {
+    [[self getTransitGatewayRouteTableAssociations:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2GetTransitGatewayRouteTableAssociationsResult *> * _Nonnull task) {
+        AWSEC2GetTransitGatewayRouteTableAssociationsResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2GetTransitGatewayRouteTablePropagationsResult *> *)getTransitGatewayRouteTablePropagations:(AWSEC2GetTransitGatewayRouteTablePropagationsRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"GetTransitGatewayRouteTablePropagations"
+                   outputClass:[AWSEC2GetTransitGatewayRouteTablePropagationsResult class]];
+}
+
+- (void)getTransitGatewayRouteTablePropagations:(AWSEC2GetTransitGatewayRouteTablePropagationsRequest *)request
+     completionHandler:(void (^)(AWSEC2GetTransitGatewayRouteTablePropagationsResult *response, NSError *error))completionHandler {
+    [[self getTransitGatewayRouteTablePropagations:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2GetTransitGatewayRouteTablePropagationsResult *> * _Nonnull task) {
+        AWSEC2GetTransitGatewayRouteTablePropagationsResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2GetVpnConnectionDeviceSampleConfigurationResult *> *)getVpnConnectionDeviceSampleConfiguration:(AWSEC2GetVpnConnectionDeviceSampleConfigurationRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"GetVpnConnectionDeviceSampleConfiguration"
+                   outputClass:[AWSEC2GetVpnConnectionDeviceSampleConfigurationResult class]];
+}
+
+- (void)getVpnConnectionDeviceSampleConfiguration:(AWSEC2GetVpnConnectionDeviceSampleConfigurationRequest *)request
+     completionHandler:(void (^)(AWSEC2GetVpnConnectionDeviceSampleConfigurationResult *response, NSError *error))completionHandler {
+    [[self getVpnConnectionDeviceSampleConfiguration:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2GetVpnConnectionDeviceSampleConfigurationResult *> * _Nonnull task) {
+        AWSEC2GetVpnConnectionDeviceSampleConfigurationResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2GetVpnConnectionDeviceTypesResult *> *)getVpnConnectionDeviceTypes:(AWSEC2GetVpnConnectionDeviceTypesRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"GetVpnConnectionDeviceTypes"
+                   outputClass:[AWSEC2GetVpnConnectionDeviceTypesResult class]];
+}
+
+- (void)getVpnConnectionDeviceTypes:(AWSEC2GetVpnConnectionDeviceTypesRequest *)request
+     completionHandler:(void (^)(AWSEC2GetVpnConnectionDeviceTypesResult *response, NSError *error))completionHandler {
+    [[self getVpnConnectionDeviceTypes:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2GetVpnConnectionDeviceTypesResult *> * _Nonnull task) {
+        AWSEC2GetVpnConnectionDeviceTypesResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2ImportClientVpnClientCertificateRevocationListResult *> *)importClientVpnClientCertificateRevocationList:(AWSEC2ImportClientVpnClientCertificateRevocationListRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"ImportClientVpnClientCertificateRevocationList"
+                   outputClass:[AWSEC2ImportClientVpnClientCertificateRevocationListResult class]];
+}
+
+- (void)importClientVpnClientCertificateRevocationList:(AWSEC2ImportClientVpnClientCertificateRevocationListRequest *)request
+     completionHandler:(void (^)(AWSEC2ImportClientVpnClientCertificateRevocationListResult *response, NSError *error))completionHandler {
+    [[self importClientVpnClientCertificateRevocationList:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2ImportClientVpnClientCertificateRevocationListResult *> * _Nonnull task) {
+        AWSEC2ImportClientVpnClientCertificateRevocationListResult *result = task.result;
         NSError *error = task.error;
 
         if (completionHandler) {
@@ -5121,6 +8597,144 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
      completionHandler:(void (^)(AWSEC2ImportVolumeResult *response, NSError *error))completionHandler {
     [[self importVolume:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2ImportVolumeResult *> * _Nonnull task) {
         AWSEC2ImportVolumeResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2ModifyAddressAttributeResult *> *)modifyAddressAttribute:(AWSEC2ModifyAddressAttributeRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"ModifyAddressAttribute"
+                   outputClass:[AWSEC2ModifyAddressAttributeResult class]];
+}
+
+- (void)modifyAddressAttribute:(AWSEC2ModifyAddressAttributeRequest *)request
+     completionHandler:(void (^)(AWSEC2ModifyAddressAttributeResult *response, NSError *error))completionHandler {
+    [[self modifyAddressAttribute:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2ModifyAddressAttributeResult *> * _Nonnull task) {
+        AWSEC2ModifyAddressAttributeResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2ModifyAvailabilityZoneGroupResult *> *)modifyAvailabilityZoneGroup:(AWSEC2ModifyAvailabilityZoneGroupRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"ModifyAvailabilityZoneGroup"
+                   outputClass:[AWSEC2ModifyAvailabilityZoneGroupResult class]];
+}
+
+- (void)modifyAvailabilityZoneGroup:(AWSEC2ModifyAvailabilityZoneGroupRequest *)request
+     completionHandler:(void (^)(AWSEC2ModifyAvailabilityZoneGroupResult *response, NSError *error))completionHandler {
+    [[self modifyAvailabilityZoneGroup:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2ModifyAvailabilityZoneGroupResult *> * _Nonnull task) {
+        AWSEC2ModifyAvailabilityZoneGroupResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2ModifyCapacityReservationResult *> *)modifyCapacityReservation:(AWSEC2ModifyCapacityReservationRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"ModifyCapacityReservation"
+                   outputClass:[AWSEC2ModifyCapacityReservationResult class]];
+}
+
+- (void)modifyCapacityReservation:(AWSEC2ModifyCapacityReservationRequest *)request
+     completionHandler:(void (^)(AWSEC2ModifyCapacityReservationResult *response, NSError *error))completionHandler {
+    [[self modifyCapacityReservation:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2ModifyCapacityReservationResult *> * _Nonnull task) {
+        AWSEC2ModifyCapacityReservationResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2ModifyClientVpnEndpointResult *> *)modifyClientVpnEndpoint:(AWSEC2ModifyClientVpnEndpointRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"ModifyClientVpnEndpoint"
+                   outputClass:[AWSEC2ModifyClientVpnEndpointResult class]];
+}
+
+- (void)modifyClientVpnEndpoint:(AWSEC2ModifyClientVpnEndpointRequest *)request
+     completionHandler:(void (^)(AWSEC2ModifyClientVpnEndpointResult *response, NSError *error))completionHandler {
+    [[self modifyClientVpnEndpoint:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2ModifyClientVpnEndpointResult *> * _Nonnull task) {
+        AWSEC2ModifyClientVpnEndpointResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2ModifyDefaultCreditSpecificationResult *> *)modifyDefaultCreditSpecification:(AWSEC2ModifyDefaultCreditSpecificationRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"ModifyDefaultCreditSpecification"
+                   outputClass:[AWSEC2ModifyDefaultCreditSpecificationResult class]];
+}
+
+- (void)modifyDefaultCreditSpecification:(AWSEC2ModifyDefaultCreditSpecificationRequest *)request
+     completionHandler:(void (^)(AWSEC2ModifyDefaultCreditSpecificationResult *response, NSError *error))completionHandler {
+    [[self modifyDefaultCreditSpecification:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2ModifyDefaultCreditSpecificationResult *> * _Nonnull task) {
+        AWSEC2ModifyDefaultCreditSpecificationResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2ModifyEbsDefaultKmsKeyIdResult *> *)modifyEbsDefaultKmsKeyId:(AWSEC2ModifyEbsDefaultKmsKeyIdRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"ModifyEbsDefaultKmsKeyId"
+                   outputClass:[AWSEC2ModifyEbsDefaultKmsKeyIdResult class]];
+}
+
+- (void)modifyEbsDefaultKmsKeyId:(AWSEC2ModifyEbsDefaultKmsKeyIdRequest *)request
+     completionHandler:(void (^)(AWSEC2ModifyEbsDefaultKmsKeyIdResult *response, NSError *error))completionHandler {
+    [[self modifyEbsDefaultKmsKeyId:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2ModifyEbsDefaultKmsKeyIdResult *> * _Nonnull task) {
+        AWSEC2ModifyEbsDefaultKmsKeyIdResult *result = task.result;
         NSError *error = task.error;
 
         if (completionHandler) {
@@ -5288,6 +8902,29 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     }];
 }
 
+- (AWSTask<AWSEC2ModifyInstanceCapacityReservationAttributesResult *> *)modifyInstanceCapacityReservationAttributes:(AWSEC2ModifyInstanceCapacityReservationAttributesRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"ModifyInstanceCapacityReservationAttributes"
+                   outputClass:[AWSEC2ModifyInstanceCapacityReservationAttributesResult class]];
+}
+
+- (void)modifyInstanceCapacityReservationAttributes:(AWSEC2ModifyInstanceCapacityReservationAttributesRequest *)request
+     completionHandler:(void (^)(AWSEC2ModifyInstanceCapacityReservationAttributesResult *response, NSError *error))completionHandler {
+    [[self modifyInstanceCapacityReservationAttributes:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2ModifyInstanceCapacityReservationAttributesResult *> * _Nonnull task) {
+        AWSEC2ModifyInstanceCapacityReservationAttributesResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
 - (AWSTask<AWSEC2ModifyInstanceCreditSpecificationResult *> *)modifyInstanceCreditSpecification:(AWSEC2ModifyInstanceCreditSpecificationRequest *)request {
     return [self invokeRequest:request
                     HTTPMethod:AWSHTTPMethodPOST
@@ -5301,6 +8938,75 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
      completionHandler:(void (^)(AWSEC2ModifyInstanceCreditSpecificationResult *response, NSError *error))completionHandler {
     [[self modifyInstanceCreditSpecification:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2ModifyInstanceCreditSpecificationResult *> * _Nonnull task) {
         AWSEC2ModifyInstanceCreditSpecificationResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2ModifyInstanceEventStartTimeResult *> *)modifyInstanceEventStartTime:(AWSEC2ModifyInstanceEventStartTimeRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"ModifyInstanceEventStartTime"
+                   outputClass:[AWSEC2ModifyInstanceEventStartTimeResult class]];
+}
+
+- (void)modifyInstanceEventStartTime:(AWSEC2ModifyInstanceEventStartTimeRequest *)request
+     completionHandler:(void (^)(AWSEC2ModifyInstanceEventStartTimeResult *response, NSError *error))completionHandler {
+    [[self modifyInstanceEventStartTime:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2ModifyInstanceEventStartTimeResult *> * _Nonnull task) {
+        AWSEC2ModifyInstanceEventStartTimeResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2ModifyInstanceEventWindowResult *> *)modifyInstanceEventWindow:(AWSEC2ModifyInstanceEventWindowRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"ModifyInstanceEventWindow"
+                   outputClass:[AWSEC2ModifyInstanceEventWindowResult class]];
+}
+
+- (void)modifyInstanceEventWindow:(AWSEC2ModifyInstanceEventWindowRequest *)request
+     completionHandler:(void (^)(AWSEC2ModifyInstanceEventWindowResult *response, NSError *error))completionHandler {
+    [[self modifyInstanceEventWindow:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2ModifyInstanceEventWindowResult *> * _Nonnull task) {
+        AWSEC2ModifyInstanceEventWindowResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2ModifyInstanceMetadataOptionsResult *> *)modifyInstanceMetadataOptions:(AWSEC2ModifyInstanceMetadataOptionsRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"ModifyInstanceMetadataOptions"
+                   outputClass:[AWSEC2ModifyInstanceMetadataOptionsResult class]];
+}
+
+- (void)modifyInstanceMetadataOptions:(AWSEC2ModifyInstanceMetadataOptionsRequest *)request
+     completionHandler:(void (^)(AWSEC2ModifyInstanceMetadataOptionsResult *response, NSError *error))completionHandler {
+    [[self modifyInstanceMetadataOptions:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2ModifyInstanceMetadataOptionsResult *> * _Nonnull task) {
+        AWSEC2ModifyInstanceMetadataOptionsResult *result = task.result;
         NSError *error = task.error;
 
         if (completionHandler) {
@@ -5357,6 +9063,29 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     }];
 }
 
+- (AWSTask<AWSEC2ModifyManagedPrefixListResult *> *)modifyManagedPrefixList:(AWSEC2ModifyManagedPrefixListRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"ModifyManagedPrefixList"
+                   outputClass:[AWSEC2ModifyManagedPrefixListResult class]];
+}
+
+- (void)modifyManagedPrefixList:(AWSEC2ModifyManagedPrefixListRequest *)request
+     completionHandler:(void (^)(AWSEC2ModifyManagedPrefixListResult *response, NSError *error))completionHandler {
+    [[self modifyManagedPrefixList:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2ModifyManagedPrefixListResult *> * _Nonnull task) {
+        AWSEC2ModifyManagedPrefixListResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
 - (AWSTask *)modifyNetworkInterfaceAttribute:(AWSEC2ModifyNetworkInterfaceAttributeRequest *)request {
     return [self invokeRequest:request
                     HTTPMethod:AWSHTTPMethodPOST
@@ -5392,6 +9121,29 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
      completionHandler:(void (^)(AWSEC2ModifyReservedInstancesResult *response, NSError *error))completionHandler {
     [[self modifyReservedInstances:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2ModifyReservedInstancesResult *> * _Nonnull task) {
         AWSEC2ModifyReservedInstancesResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2ModifySecurityGroupRulesResult *> *)modifySecurityGroupRules:(AWSEC2ModifySecurityGroupRulesRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"ModifySecurityGroupRules"
+                   outputClass:[AWSEC2ModifySecurityGroupRulesResult class]];
+}
+
+- (void)modifySecurityGroupRules:(AWSEC2ModifySecurityGroupRulesRequest *)request
+     completionHandler:(void (^)(AWSEC2ModifySecurityGroupRulesResult *response, NSError *error))completionHandler {
+    [[self modifySecurityGroupRules:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2ModifySecurityGroupRulesResult *> * _Nonnull task) {
+        AWSEC2ModifySecurityGroupRulesResult *result = task.result;
         NSError *error = task.error;
 
         if (completionHandler) {
@@ -5463,6 +9215,144 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
 
         if (completionHandler) {
             completionHandler(error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2ModifyTrafficMirrorFilterNetworkServicesResult *> *)modifyTrafficMirrorFilterNetworkServices:(AWSEC2ModifyTrafficMirrorFilterNetworkServicesRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"ModifyTrafficMirrorFilterNetworkServices"
+                   outputClass:[AWSEC2ModifyTrafficMirrorFilterNetworkServicesResult class]];
+}
+
+- (void)modifyTrafficMirrorFilterNetworkServices:(AWSEC2ModifyTrafficMirrorFilterNetworkServicesRequest *)request
+     completionHandler:(void (^)(AWSEC2ModifyTrafficMirrorFilterNetworkServicesResult *response, NSError *error))completionHandler {
+    [[self modifyTrafficMirrorFilterNetworkServices:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2ModifyTrafficMirrorFilterNetworkServicesResult *> * _Nonnull task) {
+        AWSEC2ModifyTrafficMirrorFilterNetworkServicesResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2ModifyTrafficMirrorFilterRuleResult *> *)modifyTrafficMirrorFilterRule:(AWSEC2ModifyTrafficMirrorFilterRuleRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"ModifyTrafficMirrorFilterRule"
+                   outputClass:[AWSEC2ModifyTrafficMirrorFilterRuleResult class]];
+}
+
+- (void)modifyTrafficMirrorFilterRule:(AWSEC2ModifyTrafficMirrorFilterRuleRequest *)request
+     completionHandler:(void (^)(AWSEC2ModifyTrafficMirrorFilterRuleResult *response, NSError *error))completionHandler {
+    [[self modifyTrafficMirrorFilterRule:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2ModifyTrafficMirrorFilterRuleResult *> * _Nonnull task) {
+        AWSEC2ModifyTrafficMirrorFilterRuleResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2ModifyTrafficMirrorSessionResult *> *)modifyTrafficMirrorSession:(AWSEC2ModifyTrafficMirrorSessionRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"ModifyTrafficMirrorSession"
+                   outputClass:[AWSEC2ModifyTrafficMirrorSessionResult class]];
+}
+
+- (void)modifyTrafficMirrorSession:(AWSEC2ModifyTrafficMirrorSessionRequest *)request
+     completionHandler:(void (^)(AWSEC2ModifyTrafficMirrorSessionResult *response, NSError *error))completionHandler {
+    [[self modifyTrafficMirrorSession:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2ModifyTrafficMirrorSessionResult *> * _Nonnull task) {
+        AWSEC2ModifyTrafficMirrorSessionResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2ModifyTransitGatewayResult *> *)modifyTransitGateway:(AWSEC2ModifyTransitGatewayRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"ModifyTransitGateway"
+                   outputClass:[AWSEC2ModifyTransitGatewayResult class]];
+}
+
+- (void)modifyTransitGateway:(AWSEC2ModifyTransitGatewayRequest *)request
+     completionHandler:(void (^)(AWSEC2ModifyTransitGatewayResult *response, NSError *error))completionHandler {
+    [[self modifyTransitGateway:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2ModifyTransitGatewayResult *> * _Nonnull task) {
+        AWSEC2ModifyTransitGatewayResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2ModifyTransitGatewayPrefixListReferenceResult *> *)modifyTransitGatewayPrefixListReference:(AWSEC2ModifyTransitGatewayPrefixListReferenceRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"ModifyTransitGatewayPrefixListReference"
+                   outputClass:[AWSEC2ModifyTransitGatewayPrefixListReferenceResult class]];
+}
+
+- (void)modifyTransitGatewayPrefixListReference:(AWSEC2ModifyTransitGatewayPrefixListReferenceRequest *)request
+     completionHandler:(void (^)(AWSEC2ModifyTransitGatewayPrefixListReferenceResult *response, NSError *error))completionHandler {
+    [[self modifyTransitGatewayPrefixListReference:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2ModifyTransitGatewayPrefixListReferenceResult *> * _Nonnull task) {
+        AWSEC2ModifyTransitGatewayPrefixListReferenceResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2ModifyTransitGatewayVpcAttachmentResult *> *)modifyTransitGatewayVpcAttachment:(AWSEC2ModifyTransitGatewayVpcAttachmentRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"ModifyTransitGatewayVpcAttachment"
+                   outputClass:[AWSEC2ModifyTransitGatewayVpcAttachmentResult class]];
+}
+
+- (void)modifyTransitGatewayVpcAttachment:(AWSEC2ModifyTransitGatewayVpcAttachmentRequest *)request
+     completionHandler:(void (^)(AWSEC2ModifyTransitGatewayVpcAttachmentResult *response, NSError *error))completionHandler {
+    [[self modifyTransitGatewayVpcAttachment:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2ModifyTransitGatewayVpcAttachmentResult *> * _Nonnull task) {
+        AWSEC2ModifyTransitGatewayVpcAttachmentResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
         }
 
         return nil;
@@ -5674,6 +9564,98 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     }];
 }
 
+- (AWSTask<AWSEC2ModifyVpnConnectionResult *> *)modifyVpnConnection:(AWSEC2ModifyVpnConnectionRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"ModifyVpnConnection"
+                   outputClass:[AWSEC2ModifyVpnConnectionResult class]];
+}
+
+- (void)modifyVpnConnection:(AWSEC2ModifyVpnConnectionRequest *)request
+     completionHandler:(void (^)(AWSEC2ModifyVpnConnectionResult *response, NSError *error))completionHandler {
+    [[self modifyVpnConnection:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2ModifyVpnConnectionResult *> * _Nonnull task) {
+        AWSEC2ModifyVpnConnectionResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2ModifyVpnConnectionOptionsResult *> *)modifyVpnConnectionOptions:(AWSEC2ModifyVpnConnectionOptionsRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"ModifyVpnConnectionOptions"
+                   outputClass:[AWSEC2ModifyVpnConnectionOptionsResult class]];
+}
+
+- (void)modifyVpnConnectionOptions:(AWSEC2ModifyVpnConnectionOptionsRequest *)request
+     completionHandler:(void (^)(AWSEC2ModifyVpnConnectionOptionsResult *response, NSError *error))completionHandler {
+    [[self modifyVpnConnectionOptions:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2ModifyVpnConnectionOptionsResult *> * _Nonnull task) {
+        AWSEC2ModifyVpnConnectionOptionsResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2ModifyVpnTunnelCertificateResult *> *)modifyVpnTunnelCertificate:(AWSEC2ModifyVpnTunnelCertificateRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"ModifyVpnTunnelCertificate"
+                   outputClass:[AWSEC2ModifyVpnTunnelCertificateResult class]];
+}
+
+- (void)modifyVpnTunnelCertificate:(AWSEC2ModifyVpnTunnelCertificateRequest *)request
+     completionHandler:(void (^)(AWSEC2ModifyVpnTunnelCertificateResult *response, NSError *error))completionHandler {
+    [[self modifyVpnTunnelCertificate:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2ModifyVpnTunnelCertificateResult *> * _Nonnull task) {
+        AWSEC2ModifyVpnTunnelCertificateResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2ModifyVpnTunnelOptionsResult *> *)modifyVpnTunnelOptions:(AWSEC2ModifyVpnTunnelOptionsRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"ModifyVpnTunnelOptions"
+                   outputClass:[AWSEC2ModifyVpnTunnelOptionsResult class]];
+}
+
+- (void)modifyVpnTunnelOptions:(AWSEC2ModifyVpnTunnelOptionsRequest *)request
+     completionHandler:(void (^)(AWSEC2ModifyVpnTunnelOptionsResult *response, NSError *error))completionHandler {
+    [[self modifyVpnTunnelOptions:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2ModifyVpnTunnelOptionsResult *> * _Nonnull task) {
+        AWSEC2ModifyVpnTunnelOptionsResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
 - (AWSTask<AWSEC2MonitorInstancesResult *> *)monitorInstances:(AWSEC2MonitorInstancesRequest *)request {
     return [self invokeRequest:request
                     HTTPMethod:AWSHTTPMethodPOST
@@ -5710,6 +9692,29 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
      completionHandler:(void (^)(AWSEC2MoveAddressToVpcResult *response, NSError *error))completionHandler {
     [[self moveAddressToVpc:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2MoveAddressToVpcResult *> * _Nonnull task) {
         AWSEC2MoveAddressToVpcResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2ProvisionByoipCidrResult *> *)provisionByoipCidr:(AWSEC2ProvisionByoipCidrRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"ProvisionByoipCidr"
+                   outputClass:[AWSEC2ProvisionByoipCidrResult class]];
+}
+
+- (void)provisionByoipCidr:(AWSEC2ProvisionByoipCidrRequest *)request
+     completionHandler:(void (^)(AWSEC2ProvisionByoipCidrResult *response, NSError *error))completionHandler {
+    [[self provisionByoipCidr:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2ProvisionByoipCidrResult *> * _Nonnull task) {
+        AWSEC2ProvisionByoipCidrResult *result = task.result;
         NSError *error = task.error;
 
         if (completionHandler) {
@@ -5824,6 +9829,144 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
      completionHandler:(void (^)(AWSEC2RegisterImageResult *response, NSError *error))completionHandler {
     [[self registerImage:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2RegisterImageResult *> * _Nonnull task) {
         AWSEC2RegisterImageResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2RegisterInstanceEventNotificationAttributesResult *> *)registerInstanceEventNotificationAttributes:(AWSEC2RegisterInstanceEventNotificationAttributesRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"RegisterInstanceEventNotificationAttributes"
+                   outputClass:[AWSEC2RegisterInstanceEventNotificationAttributesResult class]];
+}
+
+- (void)registerInstanceEventNotificationAttributes:(AWSEC2RegisterInstanceEventNotificationAttributesRequest *)request
+     completionHandler:(void (^)(AWSEC2RegisterInstanceEventNotificationAttributesResult *response, NSError *error))completionHandler {
+    [[self registerInstanceEventNotificationAttributes:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2RegisterInstanceEventNotificationAttributesResult *> * _Nonnull task) {
+        AWSEC2RegisterInstanceEventNotificationAttributesResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2RegisterTransitGatewayMulticastGroupMembersResult *> *)registerTransitGatewayMulticastGroupMembers:(AWSEC2RegisterTransitGatewayMulticastGroupMembersRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"RegisterTransitGatewayMulticastGroupMembers"
+                   outputClass:[AWSEC2RegisterTransitGatewayMulticastGroupMembersResult class]];
+}
+
+- (void)registerTransitGatewayMulticastGroupMembers:(AWSEC2RegisterTransitGatewayMulticastGroupMembersRequest *)request
+     completionHandler:(void (^)(AWSEC2RegisterTransitGatewayMulticastGroupMembersResult *response, NSError *error))completionHandler {
+    [[self registerTransitGatewayMulticastGroupMembers:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2RegisterTransitGatewayMulticastGroupMembersResult *> * _Nonnull task) {
+        AWSEC2RegisterTransitGatewayMulticastGroupMembersResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2RegisterTransitGatewayMulticastGroupSourcesResult *> *)registerTransitGatewayMulticastGroupSources:(AWSEC2RegisterTransitGatewayMulticastGroupSourcesRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"RegisterTransitGatewayMulticastGroupSources"
+                   outputClass:[AWSEC2RegisterTransitGatewayMulticastGroupSourcesResult class]];
+}
+
+- (void)registerTransitGatewayMulticastGroupSources:(AWSEC2RegisterTransitGatewayMulticastGroupSourcesRequest *)request
+     completionHandler:(void (^)(AWSEC2RegisterTransitGatewayMulticastGroupSourcesResult *response, NSError *error))completionHandler {
+    [[self registerTransitGatewayMulticastGroupSources:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2RegisterTransitGatewayMulticastGroupSourcesResult *> * _Nonnull task) {
+        AWSEC2RegisterTransitGatewayMulticastGroupSourcesResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2RejectTransitGatewayMulticastDomainAssociationsResult *> *)rejectTransitGatewayMulticastDomainAssociations:(AWSEC2RejectTransitGatewayMulticastDomainAssociationsRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"RejectTransitGatewayMulticastDomainAssociations"
+                   outputClass:[AWSEC2RejectTransitGatewayMulticastDomainAssociationsResult class]];
+}
+
+- (void)rejectTransitGatewayMulticastDomainAssociations:(AWSEC2RejectTransitGatewayMulticastDomainAssociationsRequest *)request
+     completionHandler:(void (^)(AWSEC2RejectTransitGatewayMulticastDomainAssociationsResult *response, NSError *error))completionHandler {
+    [[self rejectTransitGatewayMulticastDomainAssociations:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2RejectTransitGatewayMulticastDomainAssociationsResult *> * _Nonnull task) {
+        AWSEC2RejectTransitGatewayMulticastDomainAssociationsResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2RejectTransitGatewayPeeringAttachmentResult *> *)rejectTransitGatewayPeeringAttachment:(AWSEC2RejectTransitGatewayPeeringAttachmentRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"RejectTransitGatewayPeeringAttachment"
+                   outputClass:[AWSEC2RejectTransitGatewayPeeringAttachmentResult class]];
+}
+
+- (void)rejectTransitGatewayPeeringAttachment:(AWSEC2RejectTransitGatewayPeeringAttachmentRequest *)request
+     completionHandler:(void (^)(AWSEC2RejectTransitGatewayPeeringAttachmentResult *response, NSError *error))completionHandler {
+    [[self rejectTransitGatewayPeeringAttachment:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2RejectTransitGatewayPeeringAttachmentResult *> * _Nonnull task) {
+        AWSEC2RejectTransitGatewayPeeringAttachmentResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2RejectTransitGatewayVpcAttachmentResult *> *)rejectTransitGatewayVpcAttachment:(AWSEC2RejectTransitGatewayVpcAttachmentRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"RejectTransitGatewayVpcAttachment"
+                   outputClass:[AWSEC2RejectTransitGatewayVpcAttachmentResult class]];
+}
+
+- (void)rejectTransitGatewayVpcAttachment:(AWSEC2RejectTransitGatewayVpcAttachmentRequest *)request
+     completionHandler:(void (^)(AWSEC2RejectTransitGatewayVpcAttachmentResult *response, NSError *error))completionHandler {
+    [[self rejectTransitGatewayVpcAttachment:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2RejectTransitGatewayVpcAttachmentResult *> * _Nonnull task) {
+        AWSEC2RejectTransitGatewayVpcAttachmentResult *result = task.result;
         NSError *error = task.error;
 
         if (completionHandler) {
@@ -6038,6 +10181,29 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     }];
 }
 
+- (AWSTask<AWSEC2ReplaceTransitGatewayRouteResult *> *)replaceTransitGatewayRoute:(AWSEC2ReplaceTransitGatewayRouteRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"ReplaceTransitGatewayRoute"
+                   outputClass:[AWSEC2ReplaceTransitGatewayRouteResult class]];
+}
+
+- (void)replaceTransitGatewayRoute:(AWSEC2ReplaceTransitGatewayRouteRequest *)request
+     completionHandler:(void (^)(AWSEC2ReplaceTransitGatewayRouteResult *response, NSError *error))completionHandler {
+    [[self replaceTransitGatewayRoute:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2ReplaceTransitGatewayRouteResult *> * _Nonnull task) {
+        AWSEC2ReplaceTransitGatewayRouteResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
 - (AWSTask *)reportInstanceStatus:(AWSEC2ReportInstanceStatusRequest *)request {
     return [self invokeRequest:request
                     HTTPMethod:AWSHTTPMethodPOST
@@ -6096,6 +10262,52 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
      completionHandler:(void (^)(AWSEC2RequestSpotInstancesResult *response, NSError *error))completionHandler {
     [[self requestSpotInstances:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2RequestSpotInstancesResult *> * _Nonnull task) {
         AWSEC2RequestSpotInstancesResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2ResetAddressAttributeResult *> *)resetAddressAttribute:(AWSEC2ResetAddressAttributeRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"ResetAddressAttribute"
+                   outputClass:[AWSEC2ResetAddressAttributeResult class]];
+}
+
+- (void)resetAddressAttribute:(AWSEC2ResetAddressAttributeRequest *)request
+     completionHandler:(void (^)(AWSEC2ResetAddressAttributeResult *response, NSError *error))completionHandler {
+    [[self resetAddressAttribute:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2ResetAddressAttributeResult *> * _Nonnull task) {
+        AWSEC2ResetAddressAttributeResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2ResetEbsDefaultKmsKeyIdResult *> *)resetEbsDefaultKmsKeyId:(AWSEC2ResetEbsDefaultKmsKeyIdRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"ResetEbsDefaultKmsKeyId"
+                   outputClass:[AWSEC2ResetEbsDefaultKmsKeyIdResult class]];
+}
+
+- (void)resetEbsDefaultKmsKeyId:(AWSEC2ResetEbsDefaultKmsKeyIdRequest *)request
+     completionHandler:(void (^)(AWSEC2ResetEbsDefaultKmsKeyIdResult *response, NSError *error))completionHandler {
+    [[self resetEbsDefaultKmsKeyId:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2ResetEbsDefaultKmsKeyIdResult *> * _Nonnull task) {
+        AWSEC2ResetEbsDefaultKmsKeyIdResult *result = task.result;
         NSError *error = task.error;
 
         if (completionHandler) {
@@ -6240,44 +10452,92 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     }];
 }
 
-- (AWSTask *)revokeSecurityGroupEgress:(AWSEC2RevokeSecurityGroupEgressRequest *)request {
+- (AWSTask<AWSEC2RestoreManagedPrefixListVersionResult *> *)restoreManagedPrefixListVersion:(AWSEC2RestoreManagedPrefixListVersionRequest *)request {
     return [self invokeRequest:request
                     HTTPMethod:AWSHTTPMethodPOST
                      URLString:@""
                   targetPrefix:@""
-                 operationName:@"RevokeSecurityGroupEgress"
-                   outputClass:nil];
+                 operationName:@"RestoreManagedPrefixListVersion"
+                   outputClass:[AWSEC2RestoreManagedPrefixListVersionResult class]];
 }
 
-- (void)revokeSecurityGroupEgress:(AWSEC2RevokeSecurityGroupEgressRequest *)request
-     completionHandler:(void (^)(NSError *error))completionHandler {
-    [[self revokeSecurityGroupEgress:request] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
+- (void)restoreManagedPrefixListVersion:(AWSEC2RestoreManagedPrefixListVersionRequest *)request
+     completionHandler:(void (^)(AWSEC2RestoreManagedPrefixListVersionResult *response, NSError *error))completionHandler {
+    [[self restoreManagedPrefixListVersion:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2RestoreManagedPrefixListVersionResult *> * _Nonnull task) {
+        AWSEC2RestoreManagedPrefixListVersionResult *result = task.result;
         NSError *error = task.error;
 
         if (completionHandler) {
-            completionHandler(error);
+            completionHandler(result, error);
         }
 
         return nil;
     }];
 }
 
-- (AWSTask *)revokeSecurityGroupIngress:(AWSEC2RevokeSecurityGroupIngressRequest *)request {
+- (AWSTask<AWSEC2RevokeClientVpnIngressResult *> *)revokeClientVpnIngress:(AWSEC2RevokeClientVpnIngressRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"RevokeClientVpnIngress"
+                   outputClass:[AWSEC2RevokeClientVpnIngressResult class]];
+}
+
+- (void)revokeClientVpnIngress:(AWSEC2RevokeClientVpnIngressRequest *)request
+     completionHandler:(void (^)(AWSEC2RevokeClientVpnIngressResult *response, NSError *error))completionHandler {
+    [[self revokeClientVpnIngress:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2RevokeClientVpnIngressResult *> * _Nonnull task) {
+        AWSEC2RevokeClientVpnIngressResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2RevokeSecurityGroupEgressResult *> *)revokeSecurityGroupEgress:(AWSEC2RevokeSecurityGroupEgressRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"RevokeSecurityGroupEgress"
+                   outputClass:[AWSEC2RevokeSecurityGroupEgressResult class]];
+}
+
+- (void)revokeSecurityGroupEgress:(AWSEC2RevokeSecurityGroupEgressRequest *)request
+     completionHandler:(void (^)(AWSEC2RevokeSecurityGroupEgressResult *response, NSError *error))completionHandler {
+    [[self revokeSecurityGroupEgress:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2RevokeSecurityGroupEgressResult *> * _Nonnull task) {
+        AWSEC2RevokeSecurityGroupEgressResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2RevokeSecurityGroupIngressResult *> *)revokeSecurityGroupIngress:(AWSEC2RevokeSecurityGroupIngressRequest *)request {
     return [self invokeRequest:request
                     HTTPMethod:AWSHTTPMethodPOST
                      URLString:@""
                   targetPrefix:@""
                  operationName:@"RevokeSecurityGroupIngress"
-                   outputClass:nil];
+                   outputClass:[AWSEC2RevokeSecurityGroupIngressResult class]];
 }
 
 - (void)revokeSecurityGroupIngress:(AWSEC2RevokeSecurityGroupIngressRequest *)request
-     completionHandler:(void (^)(NSError *error))completionHandler {
-    [[self revokeSecurityGroupIngress:request] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
+     completionHandler:(void (^)(AWSEC2RevokeSecurityGroupIngressResult *response, NSError *error))completionHandler {
+    [[self revokeSecurityGroupIngress:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2RevokeSecurityGroupIngressResult *> * _Nonnull task) {
+        AWSEC2RevokeSecurityGroupIngressResult *result = task.result;
         NSError *error = task.error;
 
         if (completionHandler) {
-            completionHandler(error);
+            completionHandler(result, error);
         }
 
         return nil;
@@ -6330,6 +10590,97 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     }];
 }
 
+- (AWSTask<AWSEC2SearchLocalGatewayRoutesResult *> *)searchLocalGatewayRoutes:(AWSEC2SearchLocalGatewayRoutesRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"SearchLocalGatewayRoutes"
+                   outputClass:[AWSEC2SearchLocalGatewayRoutesResult class]];
+}
+
+- (void)searchLocalGatewayRoutes:(AWSEC2SearchLocalGatewayRoutesRequest *)request
+     completionHandler:(void (^)(AWSEC2SearchLocalGatewayRoutesResult *response, NSError *error))completionHandler {
+    [[self searchLocalGatewayRoutes:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2SearchLocalGatewayRoutesResult *> * _Nonnull task) {
+        AWSEC2SearchLocalGatewayRoutesResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2SearchTransitGatewayMulticastGroupsResult *> *)searchTransitGatewayMulticastGroups:(AWSEC2SearchTransitGatewayMulticastGroupsRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"SearchTransitGatewayMulticastGroups"
+                   outputClass:[AWSEC2SearchTransitGatewayMulticastGroupsResult class]];
+}
+
+- (void)searchTransitGatewayMulticastGroups:(AWSEC2SearchTransitGatewayMulticastGroupsRequest *)request
+     completionHandler:(void (^)(AWSEC2SearchTransitGatewayMulticastGroupsResult *response, NSError *error))completionHandler {
+    [[self searchTransitGatewayMulticastGroups:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2SearchTransitGatewayMulticastGroupsResult *> * _Nonnull task) {
+        AWSEC2SearchTransitGatewayMulticastGroupsResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2SearchTransitGatewayRoutesResult *> *)searchTransitGatewayRoutes:(AWSEC2SearchTransitGatewayRoutesRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"SearchTransitGatewayRoutes"
+                   outputClass:[AWSEC2SearchTransitGatewayRoutesResult class]];
+}
+
+- (void)searchTransitGatewayRoutes:(AWSEC2SearchTransitGatewayRoutesRequest *)request
+     completionHandler:(void (^)(AWSEC2SearchTransitGatewayRoutesResult *response, NSError *error))completionHandler {
+    [[self searchTransitGatewayRoutes:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2SearchTransitGatewayRoutesResult *> * _Nonnull task) {
+        AWSEC2SearchTransitGatewayRoutesResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask *)sendDiagnosticInterrupt:(AWSEC2SendDiagnosticInterruptRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"SendDiagnosticInterrupt"
+                   outputClass:nil];
+}
+
+- (void)sendDiagnosticInterrupt:(AWSEC2SendDiagnosticInterruptRequest *)request
+     completionHandler:(void (^)(NSError *error))completionHandler {
+    [[self sendDiagnosticInterrupt:request] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(error);
+        }
+
+        return nil;
+    }];
+}
+
 - (AWSTask<AWSEC2StartInstancesResult *> *)startInstances:(AWSEC2StartInstancesRequest *)request {
     return [self invokeRequest:request
                     HTTPMethod:AWSHTTPMethodPOST
@@ -6353,6 +10704,52 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     }];
 }
 
+- (AWSTask<AWSEC2StartNetworkInsightsAnalysisResult *> *)startNetworkInsightsAnalysis:(AWSEC2StartNetworkInsightsAnalysisRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"StartNetworkInsightsAnalysis"
+                   outputClass:[AWSEC2StartNetworkInsightsAnalysisResult class]];
+}
+
+- (void)startNetworkInsightsAnalysis:(AWSEC2StartNetworkInsightsAnalysisRequest *)request
+     completionHandler:(void (^)(AWSEC2StartNetworkInsightsAnalysisResult *response, NSError *error))completionHandler {
+    [[self startNetworkInsightsAnalysis:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2StartNetworkInsightsAnalysisResult *> * _Nonnull task) {
+        AWSEC2StartNetworkInsightsAnalysisResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2StartVpcEndpointServicePrivateDnsVerificationResult *> *)startVpcEndpointServicePrivateDnsVerification:(AWSEC2StartVpcEndpointServicePrivateDnsVerificationRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"StartVpcEndpointServicePrivateDnsVerification"
+                   outputClass:[AWSEC2StartVpcEndpointServicePrivateDnsVerificationResult class]];
+}
+
+- (void)startVpcEndpointServicePrivateDnsVerification:(AWSEC2StartVpcEndpointServicePrivateDnsVerificationRequest *)request
+     completionHandler:(void (^)(AWSEC2StartVpcEndpointServicePrivateDnsVerificationResult *response, NSError *error))completionHandler {
+    [[self startVpcEndpointServicePrivateDnsVerification:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2StartVpcEndpointServicePrivateDnsVerificationResult *> * _Nonnull task) {
+        AWSEC2StartVpcEndpointServicePrivateDnsVerificationResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
 - (AWSTask<AWSEC2StopInstancesResult *> *)stopInstances:(AWSEC2StopInstancesRequest *)request {
     return [self invokeRequest:request
                     HTTPMethod:AWSHTTPMethodPOST
@@ -6366,6 +10763,29 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
      completionHandler:(void (^)(AWSEC2StopInstancesResult *response, NSError *error))completionHandler {
     [[self stopInstances:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2StopInstancesResult *> * _Nonnull task) {
         AWSEC2StopInstancesResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2TerminateClientVpnConnectionsResult *> *)terminateClientVpnConnections:(AWSEC2TerminateClientVpnConnectionsRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"TerminateClientVpnConnections"
+                   outputClass:[AWSEC2TerminateClientVpnConnectionsResult class]];
+}
+
+- (void)terminateClientVpnConnections:(AWSEC2TerminateClientVpnConnectionsRequest *)request
+     completionHandler:(void (^)(AWSEC2TerminateClientVpnConnectionsResult *response, NSError *error))completionHandler {
+    [[self terminateClientVpnConnections:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2TerminateClientVpnConnectionsResult *> * _Nonnull task) {
+        AWSEC2TerminateClientVpnConnectionsResult *result = task.result;
         NSError *error = task.error;
 
         if (completionHandler) {
@@ -6503,6 +10923,29 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
      completionHandler:(void (^)(AWSEC2UpdateSecurityGroupRuleDescriptionsIngressResult *response, NSError *error))completionHandler {
     [[self updateSecurityGroupRuleDescriptionsIngress:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2UpdateSecurityGroupRuleDescriptionsIngressResult *> * _Nonnull task) {
         AWSEC2UpdateSecurityGroupRuleDescriptionsIngressResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2WithdrawByoipCidrResult *> *)withdrawByoipCidr:(AWSEC2WithdrawByoipCidrRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"WithdrawByoipCidr"
+                   outputClass:[AWSEC2WithdrawByoipCidrResult class]];
+}
+
+- (void)withdrawByoipCidr:(AWSEC2WithdrawByoipCidrRequest *)request
+     completionHandler:(void (^)(AWSEC2WithdrawByoipCidrResult *response, NSError *error))completionHandler {
+    [[self withdrawByoipCidr:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2WithdrawByoipCidrResult *> * _Nonnull task) {
+        AWSEC2WithdrawByoipCidrResult *result = task.result;
         NSError *error = task.error;
 
         if (completionHandler) {

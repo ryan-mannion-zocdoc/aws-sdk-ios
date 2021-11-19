@@ -15,28 +15,9 @@
 
 #import "AWSIoTDataService.h"
 #import "AWSIoTService.h"
+#import "AWSIoTMQTTTypes.h"
 
 NS_ASSUME_NONNULL_BEGIN
-
-typedef NS_ENUM(NSInteger, AWSIoTMQTTStatus) {
-    AWSIoTMQTTStatusUnknown,
-    AWSIoTMQTTStatusConnecting,
-    AWSIoTMQTTStatusConnected,
-    AWSIoTMQTTStatusDisconnected,
-    AWSIoTMQTTStatusConnectionRefused,
-    AWSIoTMQTTStatusConnectionError,
-    AWSIoTMQTTStatusProtocolError
-};
-
-typedef NS_ENUM(NSInteger, AWSIoTMQTTQoS) {
-    AWSIoTMQTTQoSMessageDeliveryAttemptedAtMostOnce = 0,
-    AWSIoTMQTTQoSMessageDeliveryAttemptedAtLeastOnce = 1
-};
-
-typedef void(^AWSIoTMQTTNewMessageBlock)(NSData *data);
-typedef void(^AWSIoTMQTTExtendedNewMessageBlock)(NSObject *mqttClient, NSString *topic, NSData *data);
-typedef void(^AWSIoTMQTTAckBlock)(void);
-
 
 #pragma mark - AWSIoTMQTTLastWillAndTestament
 
@@ -59,6 +40,10 @@ typedef void(^AWSIoTMQTTAckBlock)(void);
  */
 @property(nonatomic, assign) AWSIoTMQTTQoS qos;
 
+/**
+ Sets the retain flag for the Will and Testament
+ */
+@property (nonatomic, assign) BOOL willRetain;
 @end
 
 #pragma mark - AWSIoTMQTTConfiguration
@@ -122,6 +107,19 @@ typedef void(^AWSIoTMQTTAckBlock)(void);
  The max number of publish messages to retry per second if the pub-ack is not received within 60 seconds
  **/
 @property(nonatomic, assign, readonly) NSUInteger publishRetryThrottle;
+
+/**
+ MQTT username used to construct the MQTT username field for enhanced custom authentication use case:
+ https://docs.aws.amazon.com/iot/latest/developerguide/enhanced-custom-auth-using.html#enhanced-custom-auth-using-mqtt
+ **/
+@property (nonatomic, copy) NSString *username;
+
+/**
+ MQTT password used for the MQTT password field for enhanced custom authentication use case:
+ https://docs.aws.amazon.com/iot/latest/developerguide/enhanced-custom-auth-using.html#enhanced-custom-auth-using-mqtt
+ **/
+@property (nonatomic, copy) NSString *password;
+
 
 /**
  Create an AWSIoTMQTTConfiguration object and initialize its parameters.
@@ -309,8 +307,6 @@ typedef void(^AWSIoTMQTTAckBlock)(void);
  */
 + (void)registerIoTDataManagerWithConfiguration:(AWSServiceConfiguration *)configuration forKey:(NSString *)key;
 
-
-
 /**
  Creates a service client with the given service configuration and
  AWSIoTMQTTConfiguration and registers it for the key.
@@ -375,7 +371,6 @@ typedef void(^AWSIoTMQTTAckBlock)(void);
                           withMQTTConfiguration:(AWSIoTMQTTConfiguration *)mqttConfig
                                          forKey:(NSString *)key;
 
-
 /**
  Retrieves the service client associated with the key. You need to call `+ registerIoTDataManagerWithConfiguration:forKey:` before invoking this method.
 
@@ -436,6 +431,28 @@ typedef void(^AWSIoTMQTTAckBlock)(void);
 - (void)enableMetricsCollection:(BOOL)enabled;
 
 /**
+ @deprecated This method is deprecated and will be deleted in the next minor version. Please use `updateUserMetaData` instead.
+ Set user-specified dictionary of the additional values to be passed as components of
+ connection username.
+ *Swift*
+ let userMetaData: [String: String] = ["AFRSDK": "ios", "AFRSDKVersion": "1.0.0", "AFRLibVersion":"1.4.1"]
+ iotDataManager.addUserMetaData(userMetaData)
+ @param userMetaData A dictionary of key-value metadata pairs to be appended to the connection username
+ */
+- (void)addUserMetaData:(NSDictionary<NSString *, NSString *> *)userMetaData
+DEPRECATED_MSG_ATTRIBUTE("Use `updateUserMetaData` for updating the user meta data");
+
+/**
+ Set user-specified dictionary of the additional values to be passed as components of
+ connection username.
+ *Swift*
+ let userMetaData: [String: String] = ["AFRSDK": "ios", "AFRSDKVersion": "1.0.0", "AFRLibVersion":"1.4.1"]
+ iotDataManager.addUserMetaData(userMetaData)
+ @param userMetaData A dictionary of key-value metadata pairs to be appended to the connection username
+ */
+- (void)updateUserMetaData:(NSDictionary<NSString *, NSString *> *)userMetaData;
+
+/**
  Initialises the MQTT session and connects to AWS IoT using certificate-based mutual authentication
 
  @return true if initialise finished with success
@@ -455,7 +472,28 @@ typedef void(^AWSIoTMQTTAckBlock)(void);
              statusCallback:(void (^)(AWSIoTMQTTStatus status))callback;
 
 /**
- Initialises the MQTT session and connects to AWS IoT using WebSocket/SigV4 authentication.  IAM
+ Initialises the MQTT session and connects to AWS IoT on port 443 using certificate-based mutual authentication
+ and ALPN (Application Layer Protocol Negotiation)
+ 
+ @return true if initialise finished with success
+ 
+ @param clientId The Client Identifier identifies the Client to the Server.
+ 
+ @param cleanSession specifies if the server should discard previous session information.
+ 
+ @param certificateId contains the ID of the certificate to use in the connection; must be in the keychain
+ 
+ @param callback When new mqtt session status is received callback will be called with new connection status.
+ 
+ */
+- (BOOL)connectUsingALPNWithClientId:(NSString *)clientId
+               cleanSession:(BOOL)cleanSession
+              certificateId:(NSString *)certificateId
+             statusCallback:(void (^)(AWSIoTMQTTStatus status))callback
+             API_AVAILABLE(ios(11), macosx(10.13));
+
+/**
+ Initialises the MQTT session and connects to AWS IoT using WebSocket/SigV4 authentication. IAM
  credentials are taken from the current service configuration.
  
  @return true if initialise finished with success
@@ -470,10 +508,37 @@ typedef void(^AWSIoTMQTTAckBlock)(void);
 - (BOOL)connectUsingWebSocketWithClientId:(NSString *)clientId
                             cleanSession:(BOOL)cleanSession
                           statusCallback:(void (^)(AWSIoTMQTTStatus status))callback;
+    
+/**
+ Initialises the MQTT session and connects to AWS IoT using WebSocket/CustomAuthorizer mechanism.
+ 
+ @param clientId The Client Identifier identifies the Client to the Server.
+ 
+ @param cleanSession specifies if the server should discard previous session information.
+ 
+ @param customAuthorizerName Name of the AWS IoT custom authorizer.
+ 
+ @param tokenKeyName This specifies the key name that your device chooses, which indicates the token in the
+ custom authorization HTTP request header.
+ 
+ @param tokenValue This specifies the custom authorization token to authorize the request to the AWS IoT gateway.
+ 
+ @param tokenSignature This specifies the token signature for the custom authorizer to validate the tokenValue.
+ 
+ @param callback When new mqtt session status is received the callback will be called with new connection status.
+ 
+ @return true if initialise finished with success.
+ */
+- (BOOL)connectUsingWebSocketWithClientId:(NSString *)clientId
+                             cleanSession:(BOOL)cleanSession
+                     customAuthorizerName:(NSString *)customAuthorizerName
+                             tokenKeyName:(NSString *)tokenKeyName
+                               tokenValue:(NSString *)tokenValue
+                           tokenSignature:(NSString *)tokenSignature
+                           statusCallback:(void (^)(AWSIoTMQTTStatus status))callback;
 
 /**
  Disconnect from a mqtt client (close current mqtt session)
-
  */
 - (void)disconnect;
 
@@ -508,15 +573,15 @@ typedef void(^AWSIoTMQTTAckBlock)(void);
  
  @param topic The topic for publish to.
  
- @param the callback for ack if QoS > 0.
+ @param ackCallback the callback for ack if QoS > 0.
  
  @return Boolean value indicating success or failure.
  
  */
-- (BOOL) publishString:(NSString *)string
-               onTopic:(NSString *)topic
-                   QoS:(AWSIoTMQTTQoS)qos
-           ackCallback:(AWSIoTMQTTAckBlock)ackCallback;
+- (BOOL)publishString:(NSString *)string
+              onTopic:(NSString *)topic
+                  QoS:(AWSIoTMQTTQoS)qos
+          ackCallback:(nullable AWSIoTMQTTAckBlock)ackCallback;
 
 /**
  Send MQTT message to specified topic
@@ -530,28 +595,50 @@ typedef void(^AWSIoTMQTTAckBlock)(void);
  @return Boolean value indicating success or failure.
 
  */
-- (BOOL) publishData:(NSData *)data
-             onTopic:(NSString *)topic
-                 QoS:(AWSIoTMQTTQoS)qos;
+- (BOOL)publishData:(NSData *)data
+            onTopic:(NSString *)topic
+                QoS:(AWSIoTMQTTQoS)qos;
 
 /**
  Send MQTT message to specified topic
  
  @param data The message (As NSData) to be sent.
  
+ @param topic The topic for publish to.
+
  @param qos The QoS value to use when publishing (optional, default AWSIoTMQTTQoSAtMostOnce).
  
- @param topic The topic for publish to.
- 
- @param the callback for ack if QoS > 0.
+ @param ackCallback the callback for ack if QoS > 0.
  
  @return Boolean value indicating success or failure.
  
  */
-- (BOOL) publishData:(NSData *)data
-             onTopic:(NSString *)topic
-                 QoS:(AWSIoTMQTTQoS)qos
-         ackCallback:(AWSIoTMQTTAckBlock)ackCallback;
+- (BOOL)publishData:(NSData *)data
+            onTopic:(NSString *)topic
+                QoS:(AWSIoTMQTTQoS)qos
+        ackCallback:(nullable AWSIoTMQTTAckBlock)ackCallback;
+
+/**
+ Send MQTT message to specified topic
+
+ @param data The message (As NSData) to be sent.
+
+ @param topic The topic for publish to.
+
+ @param qos The QoS value to use when publishing (optional, default AWSIoTMQTTQoSAtMostOnce).
+
+ @param retain The retain message flag.
+
+ @param ackCallback the callback for ack if QoS > 0.
+
+ @return Boolean value indicating success or failure.
+
+ */
+- (BOOL)publishData:(NSData *)data
+            onTopic:(NSString *)topic
+                QoS:(AWSIoTMQTTQoS)qos
+             retain:(BOOL)retain
+        ackCallback:(nullable AWSIoTMQTTAckBlock)ackCallback;
 
 /**
  Subscribes to a topic at a specific QoS level
@@ -577,14 +664,16 @@ typedef void(^AWSIoTMQTTAckBlock)(void);
  @param qos Specifies the QoS Level of the subscription: AWSIoTMQTTQoSAtMostOnce or AWSIoTMQTTQoSAtLeastOnce
  
  @param callback Reference to AWSIOTMQTTNewMessageBlock. When new message is received the callback will be invoked.
- 
+
+ @param ackCallback the callback for ack if QoS > 0.
+
  @return Boolean value indicating success or failure.
  
  */
-- (BOOL) subscribeToTopic:(NSString *)topic
-                      QoS:(AWSIoTMQTTQoS)qos
-          messageCallback:(AWSIoTMQTTNewMessageBlock)callback
-              ackCallback:(AWSIoTMQTTAckBlock)ackCallback;
+- (BOOL)subscribeToTopic:(NSString *)topic
+                     QoS:(AWSIoTMQTTQoS)qos
+         messageCallback:(AWSIoTMQTTNewMessageBlock)callback
+             ackCallback:(nullable AWSIoTMQTTAckBlock)ackCallback;
 
 /**
  Subscribes to a topic at a specific QoS level
@@ -611,16 +700,50 @@ typedef void(^AWSIoTMQTTAckBlock)(void);
  
  @param callback Reference to AWSIOTMQTTExtendedNewMessageBlock. When new message is received the callback will be invoked.
  
- @param the callback for ack if QoS > 0.
+ @param ackCallback the callback for ack if QoS > 0.
  
  @return Boolean value indicating success or failure.
  
  */
-- (BOOL) subscribeToTopic:(NSString *)topic
-                      QoS:(AWSIoTMQTTQoS)qos
-         extendedCallback:(AWSIoTMQTTExtendedNewMessageBlock)callback
-              ackCallback:(AWSIoTMQTTAckBlock)ackCallback;
+- (BOOL)subscribeToTopic:(NSString *)topic
+                     QoS:(AWSIoTMQTTQoS)qos
+        extendedCallback:(AWSIoTMQTTExtendedNewMessageBlock)callback
+             ackCallback:(nullable AWSIoTMQTTAckBlock)ackCallback;
 
+/**
+ Subscribes to a topic at a specific QoS level
+
+ @param topic The Topic to subscribe to.
+
+ @param qos Specifies the QoS Level of the subscription: AWSIoTMQTTQoSAtMostOnce or AWSIoTMQTTQoSAtLeastOnce
+
+ @param callback Reference to AWSIoTMQTTFullMessageBlock. When new message is received the callback will be invoked.
+
+ @return Boolean value indicating success or failure.
+
+ */
+- (BOOL)subscribeToTopic:(NSString *)topic
+                     QoS:(AWSIoTMQTTQoS)qos
+            fullCallback:(AWSIoTMQTTFullMessageBlock)callback;
+
+/**
+ Subscribes to a topic at a specific QoS level
+
+ @param topic The Topic to subscribe to.
+
+ @param qos Specifies the QoS Level of the subscription: AWSIoTMQTTQoSAtMostOnce or AWSIoTMQTTQoSAtLeastOnce
+
+ @param callback Reference to AWSIoTMQTTFullMessageBlock. When new message is received the callback will be invoked.
+
+ @param ackCallback the callback for ack if QoS > 0.
+
+ @return Boolean value indicating success or failure.
+
+ */
+- (BOOL)subscribeToTopic:(NSString *)topic
+                     QoS:(AWSIoTMQTTQoS)qos
+            fullCallback:(AWSIoTMQTTFullMessageBlock)callback
+             ackCallback:(nullable AWSIoTMQTTAckBlock)ackCallback;
 
 /**
  Unsubscribes from a topic
@@ -681,11 +804,9 @@ shadowOperationTimeoutSeconds: double, device shadow operation timeout (default 
  @return Boolean value indicating success or failure.
  
  */
-
 - (BOOL) registerWithShadow:(NSString *)name
                     options:(NSDictionary<NSString *, NSNumber *> * _Nullable)options
               eventCallback:(void(^)(NSString *name, AWSIoTShadowOperationType operation, AWSIoTShadowOperationStatusType status, NSString *clientToken, NSData *payload))callback;
-
 
 /**
  Unregister from updates on a device shadow
@@ -776,7 +897,6 @@ shadowOperationTimeoutSeconds: double, device shadow operation timeout (default 
  */
 - (BOOL) deleteShadow:(NSString *)name
           clientToken:(NSString * _Nullable)clientToken;
-
 
 @end
 
