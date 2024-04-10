@@ -608,6 +608,44 @@
 		9AD5842720F63E6700042041 /* family_thumb.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9AD5842520F63E6700042041 /* family_thumb.jpg */; };
 		9AD5842820F63E6700042041 /* singleface.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9AD5842620F63E6700042041 /* singleface.jpg */; };
 		9AD5842A20F63E9B00042041 /* city_thumb.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9AD5842920F63E9B00042041 /* city_thumb.jpg */; };
+		A7FBF86F2BC7393800897D14 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = A7FBF86E2BC7393800897D14 /* PrivacyInfo.xcprivacy */; };
+		A7FBF8712BC7395900897D14 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = A7FBF8702BC7395900897D14 /* PrivacyInfo.xcprivacy */; };
+		A7FBF8742BC7399900897D14 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = A7FBF8732BC7399900897D14 /* PrivacyInfo.xcprivacy */; };
+		A7FBF8762BC739A700897D14 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = A7FBF8752BC739A700897D14 /* PrivacyInfo.xcprivacy */; };
+		A7FBF8782BC739B200897D14 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = A7FBF8772BC739B200897D14 /* PrivacyInfo.xcprivacy */; };
+		A7FBF87A2BC739BE00897D14 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = A7FBF8792BC739BE00897D14 /* PrivacyInfo.xcprivacy */; };
+		A7FBF87C2BC739C800897D14 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = A7FBF87B2BC739C800897D14 /* PrivacyInfo.xcprivacy */; };
+		A7FBF87E2BC739D100897D14 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = A7FBF87D2BC739D100897D14 /* PrivacyInfo.xcprivacy */; };
+		A7FBF8802BC739DB00897D14 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = A7FBF87F2BC739DB00897D14 /* PrivacyInfo.xcprivacy */; };
+		A7FBF8822BC739E600897D14 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = A7FBF8812BC739E600897D14 /* PrivacyInfo.xcprivacy */; };
+		A7FBF8842BC739ED00897D14 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = A7FBF8832BC739ED00897D14 /* PrivacyInfo.xcprivacy */; };
+		A7FBF8862BC73A0900897D14 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = A7FBF8852BC73A0900897D14 /* PrivacyInfo.xcprivacy */; };
+		A7FBF8882BC73A1200897D14 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = A7FBF8872BC73A1200897D14 /* PrivacyInfo.xcprivacy */; };
+		A7FBF88A2BC73A1C00897D14 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = A7FBF8892BC73A1C00897D14 /* PrivacyInfo.xcprivacy */; };
+		A7FBF88C2BC73A2600897D14 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = A7FBF88B2BC73A2600897D14 /* PrivacyInfo.xcprivacy */; };
+		A7FBF88E2BC73A3200897D14 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = A7FBF88D2BC73A3200897D14 /* PrivacyInfo.xcprivacy */; };
+		A7FBF8902BC73A4400897D14 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = A7FBF88F2BC73A4400897D14 /* PrivacyInfo.xcprivacy */; };
+		A7FBF8922BC73A4D00897D14 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = A7FBF8912BC73A4C00897D14 /* PrivacyInfo.xcprivacy */; };
+		A7FBF8942BC73A5600897D14 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = A7FBF8932BC73A5600897D14 /* PrivacyInfo.xcprivacy */; };
+		A7FBF8962BC73A6600897D14 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = A7FBF8952BC73A6600897D14 /* PrivacyInfo.xcprivacy */; };
+		A7FBF8982BC73A6D00897D14 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = A7FBF8972BC73A6D00897D14 /* PrivacyInfo.xcprivacy */; };
+		A7FBF89A2BC73A7900897D14 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = A7FBF8992BC73A7900897D14 /* PrivacyInfo.xcprivacy */; };
+		A7FBF89C2BC73A8400897D14 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = A7FBF89B2BC73A8400897D14 /* PrivacyInfo.xcprivacy */; };
+		A7FBF89E2BC73A8E00897D14 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = A7FBF89D2BC73A8E00897D14 /* PrivacyInfo.xcprivacy */; };
+		A7FBF8A02BC73A9600897D14 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = A7FBF89F2BC73A9600897D14 /* PrivacyInfo.xcprivacy */; };
+		A7FBF8A22BC73A9E00897D14 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = A7FBF8A12BC73A9E00897D14 /* PrivacyInfo.xcprivacy */; };
+		A7FBF8A42BC73AA800897D14 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = A7FBF8A32BC73AA800897D14 /* PrivacyInfo.xcprivacy */; };
+		A7FBF8A62BC73AB000897D14 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = A7FBF8A52BC73AB000897D14 /* PrivacyInfo.xcprivacy */; };
+		A7FBF8A82BC73AB800897D14 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = A7FBF8A72BC73AB700897D14 /* PrivacyInfo.xcprivacy */; };
+		A7FBF8AA2BC73ABF00897D14 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = A7FBF8A92BC73ABF00897D14 /* PrivacyInfo.xcprivacy */; };
+		A7FBF8AC2BC73ACA00897D14 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = A7FBF8AB2BC73ACA00897D14 /* PrivacyInfo.xcprivacy */; };
+		A7FBF8AE2BC73AD300897D14 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = A7FBF8AD2BC73AD300897D14 /* PrivacyInfo.xcprivacy */; };
+		A7FBF8B02BC73ADB00897D14 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = A7FBF8AF2BC73ADB00897D14 /* PrivacyInfo.xcprivacy */; };
+		A7FBF8B22BC73AE100897D14 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = A7FBF8B12BC73AE100897D14 /* PrivacyInfo.xcprivacy */; };
+		A7FBF8B42BC73AEF00897D14 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = A7FBF8B32BC73AEF00897D14 /* PrivacyInfo.xcprivacy */; };
+		A7FBF8B62BC73AF800897D14 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = A7FBF8B52BC73AF800897D14 /* PrivacyInfo.xcprivacy */; };
+		A7FBF8B82BC73B0000897D14 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = A7FBF8B72BC73B0000897D14 /* PrivacyInfo.xcprivacy */; };
+		A7FBF8BA2BC73B1000897D14 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = A7FBF8B92BC73B1000897D14 /* PrivacyInfo.xcprivacy */; };
 		B434294122F0FA0E00567E83 /* AWSTextract.h in Headers */ = {isa = PBXBuildFile; fileRef = B434294022F0FA0D00567E83 /* AWSTextract.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B44FBC4823F4B27D008EA8D2 /* AWSSignatureNullabilityTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B44FBC4723F4B27D008EA8D2 /* AWSSignatureNullabilityTests.m */; };
 		B47FAF4322C577CE00014548 /* AWSS3TransferUtilityUnitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B47FAF4222C577CE00014548 /* AWSS3TransferUtilityUnitTests.m */; };
@@ -3126,6 +3164,45 @@
 		9AD5842520F63E6700042041 /* family_thumb.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = family_thumb.jpg; sourceTree = "<group>"; };
 		9AD5842620F63E6700042041 /* singleface.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = singleface.jpg; sourceTree = "<group>"; };
 		9AD5842920F63E9B00042041 /* city_thumb.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = city_thumb.jpg; sourceTree = "<group>"; };
+		A7FBF86E2BC7393800897D14 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		A7FBF8702BC7395900897D14 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		A7FBF8722BC7397B00897D14 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		A7FBF8732BC7399900897D14 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		A7FBF8752BC739A700897D14 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		A7FBF8772BC739B200897D14 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		A7FBF8792BC739BE00897D14 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		A7FBF87B2BC739C800897D14 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		A7FBF87D2BC739D100897D14 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		A7FBF87F2BC739DB00897D14 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		A7FBF8812BC739E600897D14 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		A7FBF8832BC739ED00897D14 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		A7FBF8852BC73A0900897D14 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		A7FBF8872BC73A1200897D14 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		A7FBF8892BC73A1C00897D14 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		A7FBF88B2BC73A2600897D14 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		A7FBF88D2BC73A3200897D14 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		A7FBF88F2BC73A4400897D14 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		A7FBF8912BC73A4C00897D14 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		A7FBF8932BC73A5600897D14 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		A7FBF8952BC73A6600897D14 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		A7FBF8972BC73A6D00897D14 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		A7FBF8992BC73A7900897D14 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		A7FBF89B2BC73A8400897D14 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		A7FBF89D2BC73A8E00897D14 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		A7FBF89F2BC73A9600897D14 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		A7FBF8A12BC73A9E00897D14 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		A7FBF8A32BC73AA800897D14 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		A7FBF8A52BC73AB000897D14 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		A7FBF8A72BC73AB700897D14 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		A7FBF8A92BC73ABF00897D14 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		A7FBF8AB2BC73ACA00897D14 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		A7FBF8AD2BC73AD300897D14 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		A7FBF8AF2BC73ADB00897D14 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		A7FBF8B12BC73AE100897D14 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		A7FBF8B32BC73AEF00897D14 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		A7FBF8B52BC73AF800897D14 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		A7FBF8B72BC73B0000897D14 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		A7FBF8B92BC73B1000897D14 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		B434294022F0FA0D00567E83 /* AWSTextract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AWSTextract.h; sourceTree = "<group>"; };
 		B44FBC4723F4B27D008EA8D2 /* AWSSignatureNullabilityTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AWSSignatureNullabilityTests.m; sourceTree = "<group>"; };
 		B47FAF4222C577CE00014548 /* AWSS3TransferUtilityUnitTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AWSS3TransferUtilityUnitTests.m; sourceTree = "<group>"; };
@@ -5089,6 +5166,7 @@
 		1778554420F9A72800D083BB /* AWSKinesisVideo */ = {
 			isa = PBXGroup;
 			children = (
+				A7FBF88F2BC73A4400897D14 /* PrivacyInfo.xcprivacy */,
 				177855A620F9A90900D083BB /* AWSKinesisVideoModel.h */,
 				177855A920F9A90900D083BB /* AWSKinesisVideoModel.m */,
 				177855AA20F9A90A00D083BB /* AWSKinesisVideoResources.h */,
@@ -5104,6 +5182,7 @@
 		1778556920F9A7CE00D083BB /* AWSKinesisVideoArchivedMedia */ = {
 			isa = PBXGroup;
 			children = (
+				A7FBF8912BC73A4C00897D14 /* PrivacyInfo.xcprivacy */,
 				177855B620F9A91A00D083BB /* AWSKinesisVideoArchivedMediaModel.h */,
 				177855B520F9A91A00D083BB /* AWSKinesisVideoArchivedMediaModel.m */,
 				177855B720F9A91A00D083BB /* AWSKinesisVideoArchivedMediaResources.h */,
@@ -5159,6 +5238,7 @@
 		178A800D22AF7DA600B167D6 /* AWSTranscribeStreaming */ = {
 			isa = PBXGroup;
 			children = (
+				A7FBF8B72BC73B0000897D14 /* PrivacyInfo.xcprivacy */,
 				FA53332222D40A3300BD88AF /* Internal */,
 				178A800E22AF7DA600B167D6 /* AWSTranscribeStreaming.h */,
 				FA09EEA322D63786007EA360 /* AWSTranscribeStreamingClientDelegate.h */,
@@ -5200,6 +5280,7 @@
 		17E6B437209BB7A80079B286 /* AWSTranscribe */ = {
 			isa = PBXGroup;
 			children = (
+				A7FBF8B52BC73AF800897D14 /* PrivacyInfo.xcprivacy */,
 				17E6B438209BB7A80079B286 /* AWSTranscribe.h */,
 				17E6B472209BBCB60079B286 /* AWSTranscribeModel.h */,
 				17E6B46D209BBCB50079B286 /* AWSTranscribeModel.m */,
@@ -5259,6 +5340,7 @@
 		181270C21E8EB53A00174785 /* AWSLogs */ = {
 			isa = PBXGroup;
 			children = (
+				A7FBF89D2BC73A8E00897D14 /* PrivacyInfo.xcprivacy */,
 				181270C31E8EB53A00174785 /* AWSLogs.h */,
 				181270DF1E8EB78900174785 /* AWSLogsModel.h */,
 				181270E01E8EB78900174785 /* AWSLogsModel.m */,
@@ -5332,6 +5414,7 @@
 		185111CC1D78F03B0009F5C3 /* AWSLex */ = {
 			isa = PBXGroup;
 			children = (
+				A7FBF8992BC73A7900897D14 /* PrivacyInfo.xcprivacy */,
 				B52FBE911F17414A000F0C00 /* Media.xcassets */,
 				18F938B11DE5148E00034221 /* AWSLex.h */,
 				18F938B21DE5148E00034221 /* AWSLexInteractionKit.h */,
@@ -5388,6 +5471,7 @@
 		18798F7F1DEF9EA900BC419B /* AWSPinpoint */ = {
 			isa = PBXGroup;
 			children = (
+				A7FBF8A12BC73A9E00897D14 /* PrivacyInfo.xcprivacy */,
 				18798FA41DEF9F2B00BC419B /* AWSPinpoint.h */,
 				18798FAD1DEF9F2B00BC419B /* AWSPinpointAnalyticsClient.h */,
 				18798FAE1DEF9F2B00BC419B /* AWSPinpointAnalyticsClient.m */,
@@ -5475,6 +5559,7 @@
 		188321031DFF11B8003FBE9F /* AWSRekognition */ = {
 			isa = PBXGroup;
 			children = (
+				A7FBF8A52BC73AB000897D14 /* PrivacyInfo.xcprivacy */,
 				188321191DFF1FD5003FBE9F /* AWSRekognition.h */,
 				1883211A1DFF1FD5003FBE9F /* AWSRekognitionModel.h */,
 				1883211B1DFF1FD5003FBE9F /* AWSRekognitionModel.m */,
@@ -5500,6 +5585,7 @@
 		18E2F5621DED307500BD4608 /* AWSPolly */ = {
 			isa = PBXGroup;
 			children = (
+				A7FBF8A32BC73AA800897D14 /* PrivacyInfo.xcprivacy */,
 				18E2F5781DED30C500BD4608 /* AWSPolly.h */,
 				18E2F5791DED30C500BD4608 /* AWSPollyModel.h */,
 				18E2F57A1DED30C500BD4608 /* AWSPollyModel.m */,
@@ -5548,6 +5634,7 @@
 		2109E2BA254745210057043C /* AWSLocation */ = {
 			isa = PBXGroup;
 			children = (
+				A7FBF89B2BC73A8400897D14 /* PrivacyInfo.xcprivacy */,
 				2109E4C2254754E00057043C /* AWSLocation.h */,
 				2109E4C6254754E10057043C /* AWSLocationModel.h */,
 				2109E4C4254754E00057043C /* AWSLocationModel.m */,
@@ -5586,6 +5673,7 @@
 		211166F72399C24900902FC1 /* AWSKinesisVideoSignaling */ = {
 			isa = PBXGroup;
 			children = (
+				A7FBF8932BC73A5600897D14 /* PrivacyInfo.xcprivacy */,
 				211167162399C5BB00902FC1 /* AWSKinesisVideoSignaling.h */,
 				211167182399C5BC00902FC1 /* AWSKinesisVideoSignalingModel.h */,
 				2111671A2399C5BC00902FC1 /* AWSKinesisVideoSignalingModel.m */,
@@ -5621,6 +5709,7 @@
 		211FFC7E26C2FBAD00F0DB75 /* AWSChimeSDKIdentity */ = {
 			isa = PBXGroup;
 			children = (
+				A7FBF8732BC7399900897D14 /* PrivacyInfo.xcprivacy */,
 				211FFCBE26C3017400F0DB75 /* AWSChimeSDKIdentityModel.h */,
 				211FFCC326C3017500F0DB75 /* AWSChimeSDKIdentityModel.m */,
 				211FFCC026C3017400F0DB75 /* AWSChimeSDKIdentityResources.h */,
@@ -5646,6 +5735,7 @@
 		211FFCA026C2FF4600F0DB75 /* AWSChimeSDKMessaging */ = {
 			isa = PBXGroup;
 			children = (
+				A7FBF8752BC739A700897D14 /* PrivacyInfo.xcprivacy */,
 				211FFCA126C2FF4600F0DB75 /* AWSChimeSDKMessaging.h */,
 				211FFCCF26C3022500F0DB75 /* AWSChimeSDKMessagingModel.h */,
 				211FFCCE26C3022500F0DB75 /* AWSChimeSDKMessagingModel.m */,
@@ -5791,6 +5881,7 @@
 		9A7ACC2120B0E85000DDBEC1 /* AWSTranslate */ = {
 			isa = PBXGroup;
 			children = (
+				A7FBF8B92BC73B1000897D14 /* PrivacyInfo.xcprivacy */,
 				9A7ACC6420B10DCB00DDBEC1 /* AWSTranslate.h */,
 				9A7ACC4320B0E9EF00DDBEC1 /* AWSTranslateModel.h */,
 				9A7ACC3E20B0E9EE00DDBEC1 /* AWSTranslateModel.m */,
@@ -5816,6 +5907,7 @@
 		9A7ACC6C20B110DE00DDBEC1 /* AWSComprehend */ = {
 			isa = PBXGroup;
 			children = (
+				A7FBF87F2BC739DB00897D14 /* PrivacyInfo.xcprivacy */,
 				9A7ACC8C20B1113F00DDBEC1 /* AWSComprehend.h */,
 				9A7ACC8E20B1113F00DDBEC1 /* AWSComprehendModel.h */,
 				9A7ACC8B20B1113F00DDBEC1 /* AWSComprehendModel.m */,
@@ -5873,6 +5965,7 @@
 		B4A4DFF622B4201400379396 /* AWSSageMakerRuntime */ = {
 			isa = PBXGroup;
 			children = (
+				A7FBF8A92BC73ABF00897D14 /* PrivacyInfo.xcprivacy */,
 				B4A4E02122B4229200379396 /* AWSSageMakerRuntime.h */,
 				B4A4E01622B4212A00379396 /* AWSSageMakerRuntimeModel.h */,
 				B4A4E01922B4212A00379396 /* AWSSageMakerRuntimeModel.m */,
@@ -5906,6 +5999,7 @@
 		B4D61CB023285D16007E7A12 /* AWSConnectParticipant */ = {
 			isa = PBXGroup;
 			children = (
+				A7FBF8832BC739ED00897D14 /* PrivacyInfo.xcprivacy */,
 				B4D61CCD23285DF3007E7A12 /* AWSConnectParticipant.h */,
 				B4D61CCF23285DF4007E7A12 /* AWSConnectParticipantModel.h */,
 				B4D61CD323285DF5007E7A12 /* AWSConnectParticipantModel.m */,
@@ -5950,6 +6044,7 @@
 		B5C01AF522EB7EFE000F2877 /* AWSTextract */ = {
 			isa = PBXGroup;
 			children = (
+				A7FBF8B32BC73AEF00897D14 /* PrivacyInfo.xcprivacy */,
 				B434294022F0FA0D00567E83 /* AWSTextract.h */,
 				B5C01B1622EB7F74000F2877 /* AWSTextractModel.h */,
 				B5C01B1422EB7F72000F2877 /* AWSTextractModel.m */,
@@ -5976,6 +6071,7 @@
 		B5DD450522C9B17C003871AE /* AWSConnect */ = {
 			isa = PBXGroup;
 			children = (
+				A7FBF8812BC739E600897D14 /* PrivacyInfo.xcprivacy */,
 				B5DD452322C9B1B7003871AE /* AWSConnectModel.h */,
 				B5DD452422C9B1B7003871AE /* AWSConnectModel.m */,
 				B5DD452522C9B1B7003871AE /* AWSConnectResources.h */,
@@ -6266,6 +6362,7 @@
 		CE0D416E1C6A66E5006B91B5 /* AWSCore */ = {
 			isa = PBXGroup;
 			children = (
+				A7FBF86E2BC7393800897D14 /* PrivacyInfo.xcprivacy */,
 				CE0D416F1C6A66E5006B91B5 /* AWSCore.h */,
 				CE0D41711C6A66E5006B91B5 /* Info.plist */,
 				CE0D41841C6A673E006B91B5 /* Authentication */,
@@ -6764,6 +6861,7 @@
 		CE9DE5351C6A72960060793F /* AWSAutoScaling */ = {
 			isa = PBXGroup;
 			children = (
+				A7FBF8722BC7397B00897D14 /* PrivacyInfo.xcprivacy */,
 				CE9DE5361C6A72960060793F /* AWSAutoScaling.h */,
 				CE9DE54B1C6A72FE0060793F /* AWSAutoScalingModel.h */,
 				CE9DE54C1C6A72FE0060793F /* AWSAutoScalingModel.m */,
@@ -6788,6 +6886,7 @@
 		CE9DE5711C6A763E0060793F /* AWSDynamoDB */ = {
 			isa = PBXGroup;
 			children = (
+				A7FBF8852BC73A0900897D14 /* PrivacyInfo.xcprivacy */,
 				CE9DE5721C6A763E0060793F /* AWSDynamoDB.h */,
 				CE9DE58A1C6A76E70060793F /* AWSDynamoDBModel.h */,
 				CE9DE58B1C6A76E70060793F /* AWSDynamoDBModel.m */,
@@ -6821,6 +6920,7 @@
 		CE9DE5AD1C6A77880060793F /* AWSEC2 */ = {
 			isa = PBXGroup;
 			children = (
+				A7FBF8872BC73A1200897D14 /* PrivacyInfo.xcprivacy */,
 				CE9DE5AE1C6A77880060793F /* AWSEC2.h */,
 				CE9DE5C41C6A77CD0060793F /* AWSEC2Model.h */,
 				CE9DE5C51C6A77CD0060793F /* AWSEC2Model.m */,
@@ -6847,6 +6947,7 @@
 		CE9DE5DD1C6A78200060793F /* AWSElasticLoadBalancing */ = {
 			isa = PBXGroup;
 			children = (
+				A7FBF8892BC73A1C00897D14 /* PrivacyInfo.xcprivacy */,
 				CE9DE5DE1C6A78200060793F /* AWSElasticLoadBalancing.h */,
 				CE9DE5F41C6A78500060793F /* AWSElasticLoadBalancingModel.h */,
 				CE9DE5F51C6A78500060793F /* AWSElasticLoadBalancingModel.m */,
@@ -6871,6 +6972,7 @@
 		CE9DE60D1C6A78A60060793F /* AWSIoT */ = {
 			isa = PBXGroup;
 			children = (
+				A7FBF88B2BC73A2600897D14 /* PrivacyInfo.xcprivacy */,
 				CE9DE60E1C6A78A60060793F /* AWSIoT.h */,
 				CE9DE6241C6A78D70060793F /* AWSIoTData.h */,
 				CE9DE6251C6A78D70060793F /* AWSIoTDataManager.h */,
@@ -6966,6 +7068,7 @@
 		CE9DE6881C6A79460060793F /* AWSKinesis */ = {
 			isa = PBXGroup;
 			children = (
+				A7FBF88D2BC73A3200897D14 /* PrivacyInfo.xcprivacy */,
 				CE9DE69F1C6A79990060793F /* AWSAbstractKinesisRecorder.h */,
 				CE9DE6A01C6A79990060793F /* AWSAbstractKinesisRecorder.m */,
 				CE9DE6A11C6A79990060793F /* AWSFirehose.h */,
@@ -7009,6 +7112,7 @@
 		CE9DE6DA1C6A79DF0060793F /* AWSLambda */ = {
 			isa = PBXGroup;
 			children = (
+				A7FBF8972BC73A6D00897D14 /* PrivacyInfo.xcprivacy */,
 				CE9DE6DB1C6A79DF0060793F /* AWSLambda.h */,
 				CE9DE6F11C6A7A260060793F /* AWSLambdaInvoker.h */,
 				CE9DE6F21C6A7A260060793F /* AWSLambdaInvoker.m */,
@@ -7038,6 +7142,7 @@
 		CE9DE7101C6A7A680060793F /* AWSMachineLearning */ = {
 			isa = PBXGroup;
 			children = (
+				A7FBF89F2BC73A9600897D14 /* PrivacyInfo.xcprivacy */,
 				CE9DE7111C6A7A680060793F /* AWSMachineLearning.h */,
 				CE9DE7261C6A7A9E0060793F /* AWSMachineLearningModel.h */,
 				CE9DE7271C6A7A9E0060793F /* AWSMachineLearningModel.m */,
@@ -7053,6 +7158,7 @@
 		CE9DE9BE1C6A7C2D0060793F /* AWSS3 */ = {
 			isa = PBXGroup;
 			children = (
+				A7FBF8A72BC73AB700897D14 /* PrivacyInfo.xcprivacy */,
 				CE9DE9BF1C6A7C2D0060793F /* AWSS3.h */,
 				03B83FB42729C3AE004D5426 /* AWSS3TransferUtility_private.h */,
 				03D33F2526C5E492006DDCEB /* AWSS3CreateMultipartUploadRequest+RequestHeaders.h */,
@@ -7106,6 +7212,7 @@
 		CE9DE9FE1C6A7DFF0060793F /* AWSSES */ = {
 			isa = PBXGroup;
 			children = (
+				A7FBF8AB2BC73ACA00897D14 /* PrivacyInfo.xcprivacy */,
 				CE9DE9FF1C6A7DFF0060793F /* AWSSES.h */,
 				CE9DEA151C6A7E330060793F /* AWSSESModel.h */,
 				CE9DEA161C6A7E330060793F /* AWSSESModel.m */,
@@ -7130,6 +7237,7 @@
 		CE9DEA2E1C6A7E710060793F /* AWSSimpleDB */ = {
 			isa = PBXGroup;
 			children = (
+				A7FBF8AD2BC73AD300897D14 /* PrivacyInfo.xcprivacy */,
 				CE9DEA2F1C6A7E710060793F /* AWSSimpleDB.h */,
 				CE9DEA451C6A7EA20060793F /* AWSSimpleDBModel.h */,
 				CE9DEA461C6A7EA20060793F /* AWSSimpleDBModel.m */,
@@ -7154,6 +7262,7 @@
 		CE9DEA5E1C6A7EE30060793F /* AWSSNS */ = {
 			isa = PBXGroup;
 			children = (
+				A7FBF8AF2BC73ADB00897D14 /* PrivacyInfo.xcprivacy */,
 				CE9DEA5F1C6A7EE30060793F /* AWSSNS.h */,
 				CE9DEA751C6A7F110060793F /* AWSSNSModel.h */,
 				CE9DEA761C6A7F110060793F /* AWSSNSModel.m */,
@@ -7178,6 +7287,7 @@
 		CE9DEA8E1C6A7F460060793F /* AWSSQS */ = {
 			isa = PBXGroup;
 			children = (
+				A7FBF8B12BC73AE100897D14 /* PrivacyInfo.xcprivacy */,
 				CE9DEA8F1C6A7F460060793F /* AWSSQS.h */,
 				CE9DEAA51C6A7F810060793F /* AWSSQSModel.h */,
 				CE9DEAA61C6A7F810060793F /* AWSSQSModel.m */,
@@ -7202,6 +7312,7 @@
 		CE9DEB1F1C6A81160060793F /* AWSAPIGateway */ = {
 			isa = PBXGroup;
 			children = (
+				A7FBF8702BC7395900897D14 /* PrivacyInfo.xcprivacy */,
 				CE9DEB201C6A81160060793F /* AWSAPIGateway.h */,
 				175C92571D8904B4001A145F /* AWSAPIGatewayModel.h */,
 				175C92551D89049F001A145F /* AWSAPIGatewayModel.m */,
@@ -7229,6 +7340,7 @@
 		CE9DEB611C6A9F3D0060793F /* AWSCloudWatch */ = {
 			isa = PBXGroup;
 			children = (
+				A7FBF8772BC739B200897D14 /* PrivacyInfo.xcprivacy */,
 				CE9DEB621C6A9F3D0060793F /* AWSCloudWatch.h */,
 				CE9DEB781C6A9F8A0060793F /* AWSCloudWatchModel.h */,
 				CE9DEB791C6A9F8A0060793F /* AWSCloudWatchModel.m */,
@@ -7253,6 +7365,7 @@
 		CEA316991C93A0EA002A9F58 /* AWSCognitoIdentityProvider */ = {
 			isa = PBXGroup;
 			children = (
+				A7FBF87B2BC739C800897D14 /* PrivacyInfo.xcprivacy */,
 				EF1D80031CBC924D007AC243 /* AWSCognitoIdentityProvider.h */,
 				EFDF14BF1C9929AE002CCFE2 /* AWSCognitoIdentityUser.h */,
 				EFDF147A1C98A79C002CCFE2 /* AWSCognitoIdentityUserPool.h */,
@@ -7326,6 +7439,7 @@
 		E4E1DA1F1E5F4E690080F769 /* AWSKMS */ = {
 			isa = PBXGroup;
 			children = (
+				A7FBF8952BC73A6600897D14 /* PrivacyInfo.xcprivacy */,
 				E4E1DA201E5F4E690080F769 /* AWSKMS.h */,
 				E4E1DA351E5F4EF40080F769 /* AWSKMSModel.h */,
 				E4E1DA361E5F4EF40080F769 /* AWSKMSResources.h */,
@@ -7406,6 +7520,7 @@
 		EFDE85AE1ED203D9008841EC /* AWSCognitoAuth */ = {
 			isa = PBXGroup;
 			children = (
+				A7FBF8792BC739BE00897D14 /* PrivacyInfo.xcprivacy */,
 				EFDE85AF1ED203D9008841EC /* AWSCognitoAuth.h */,
 				EFDE85B01ED203D9008841EC /* AWSCognitoAuth.m */,
 				EFDE85B11ED203D9008841EC /* Info.plist */,
@@ -7426,6 +7541,7 @@
 		EFDE85B91FC5DC8C00D281A2 /* AWSCognitoIdentityProviderASF */ = {
 			isa = PBXGroup;
 			children = (
+				A7FBF87D2BC739D100897D14 /* PrivacyInfo.xcprivacy */,
 				EFDE85FF1FC656F900D281A2 /* Internal */,
 				EFDE85E81FC5E7F000D281A2 /* AWSCognitoIdentityProviderASF.h */,
 				EFDE85FD1FC6535E00D281A2 /* AWSCognitoIdentityProviderASF.m */,
@@ -11047,6 +11163,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A7FBF8902BC73A4400897D14 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -11054,6 +11171,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A7FBF8922BC73A4D00897D14 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -11089,6 +11207,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A7FBF8B82BC73B0000897D14 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -11112,6 +11231,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A7FBF8B62BC73AF800897D14 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -11136,6 +11256,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A7FBF89E2BC73A8E00897D14 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -11150,6 +11271,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A7FBF89A2BC73A7900897D14 /* PrivacyInfo.xcprivacy in Resources */,
 				B4B8C61325ACC1270054E723 /* AWSLexConfig.xcconfig in Resources */,
 				B52FBE921F17414A000F0C00 /* Media.xcassets in Resources */,
 			);
@@ -11166,6 +11288,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A7FBF8A22BC73A9E00897D14 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -11187,6 +11310,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A7FBF8A62BC73AB000897D14 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -11201,6 +11325,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A7FBF8A42BC73AA800897D14 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -11229,6 +11354,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A7FBF89C2BC73A8400897D14 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -11250,6 +11376,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A7FBF8942BC73A5600897D14 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -11271,6 +11398,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A7FBF8742BC7399900897D14 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -11285,6 +11413,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A7FBF8762BC739A700897D14 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -11320,6 +11449,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A7FBF8BA2BC73B1000897D14 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -11334,6 +11464,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A7FBF8802BC739DB00897D14 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -11373,6 +11504,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A7FBF8AA2BC73ABF00897D14 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -11387,6 +11519,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A7FBF8842BC739ED00897D14 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -11415,6 +11548,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A7FBF8B42BC73AEF00897D14 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -11430,6 +11564,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A7FBF8822BC739E600897D14 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -11451,6 +11586,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A7FBF86F2BC7393800897D14 /* PrivacyInfo.xcprivacy in Resources */,
 				EFE40B801CC5BDEF0045D710 /* strip-frameworks.sh in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -11604,6 +11740,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A7FBF8862BC73A0900897D14 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -11618,6 +11755,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A7FBF8882BC73A1200897D14 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -11634,6 +11772,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A7FBF88A2BC73A1C00897D14 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -11648,6 +11787,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A7FBF88C2BC73A2600897D14 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -11663,6 +11803,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A7FBF88E2BC73A3200897D14 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -11677,6 +11818,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A7FBF8982BC73A6D00897D14 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -11691,6 +11833,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A7FBF8A02BC73A9600897D14 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -11698,6 +11841,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A7FBF8A82BC73AB800897D14 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -11712,6 +11856,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A7FBF8AC2BC73ACA00897D14 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -11726,6 +11871,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A7FBF8AE2BC73AD300897D14 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -11740,6 +11886,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A7FBF8B02BC73ADB00897D14 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -11754,6 +11901,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A7FBF8B22BC73AE100897D14 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -11768,6 +11916,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A7FBF8712BC7395900897D14 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -11782,6 +11931,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A7FBF8782BC739B200897D14 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -11796,6 +11946,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A7FBF87C2BC739C800897D14 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -11817,6 +11968,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A7FBF8962BC73A6600897D14 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -11838,6 +11990,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A7FBF87E2BC739D100897D14 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -11845,6 +11998,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A7FBF87A2BC739BE00897D14 /* PrivacyInfo.xcprivacy in Resources */,
 				EF22118A1ED75A0400F432F7 /* LICENSE in Resources */,
 				EF22118B1ED75A0400F432F7 /* README.md in Resources */,
 			);
@@ -17053,7 +17207,6 @@
 				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
 				INFOPLIST_FILE = AWSCore/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.amazonaws.sdk.ios.AWSCore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -17071,7 +17224,6 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = AWSCore/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.amazonaws.sdk.ios.AWSCore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
